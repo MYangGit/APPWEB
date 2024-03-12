@@ -1,0 +1,22 @@
+<template>
+    <div class="attr-list">
+        <CommonAttr> </CommonAttr>
+    </div>
+</template>
+
+<script>
+import CommonAttr from '@/custom-component/common/CommonAttr.vue'
+import { rootStore } from '@/stores/rootStore';
+
+export default {
+    components: { CommonAttr },
+    computed: {
+        curComponent() {
+            return rootStore.dataCenter.curComponent;
+        },
+    },
+};
+</script>
+
+<style lang="less" scoped>
+</style>

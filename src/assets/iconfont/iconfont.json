@@ -1,0 +1,289 @@
+{
+  "id": "3786082",
+  "name": "app-designer",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "36337864",
+      "name": "面板",
+      "font_class": "VPanel",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "36330243",
+      "name": "文本域",
+      "font_class": "VTextArea",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "36330244",
+      "name": "滑块",
+      "font_class": "VSlide",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "36330245",
+      "name": "多选选中_o",
+      "font_class": "VCheckBox",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "36330246",
+      "name": "日期_o",
+      "font_class": "VDate",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "36330247",
+      "name": "单选",
+      "font_class": "VRadio",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "36330248",
+      "name": "数字输入",
+      "font_class": "VInputNumber",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "36330249",
+      "name": "html",
+      "font_class": "VHtml",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "36154873",
+      "name": "3D",
+      "font_class": "a-3D",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "35691763",
+      "name": "modelInput",
+      "font_class": "modelInput",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "35691764",
+      "name": "modelOutput",
+      "font_class": "modelOutput",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "35676300",
+      "name": "tx-fill",
+      "font_class": "tx-fill",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "35670739",
+      "name": "lamp",
+      "font_class": "lamp",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "35662206",
+      "name": "input",
+      "font_class": "input",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "35662207",
+      "name": "select",
+      "font_class": "select",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "33687955",
+      "name": "常用_时间",
+      "font_class": "changyong_shijian",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "33687956",
+      "name": "名称",
+      "font_class": "mingcheng",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "33633624",
+      "name": "结构",
+      "font_class": "jiegou",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "33633625",
+      "name": "组件",
+      "font_class": "zujian",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "33624426",
+      "name": "文档",
+      "font_class": "wendang",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "33624427",
+      "name": "公开 结果",
+      "font_class": "a-gongkaijieguo",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "33586517",
+      "name": "字体标题",
+      "font_class": "zitibiaoti",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "33586518",
+      "name": "段落",
+      "font_class": "duanla",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "33586519",
+      "name": "自定义章节",
+      "font_class": "zidingyizhangjie",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "33454248",
+      "name": "雷达图",
+      "font_class": "leidatu",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "33454249",
+      "name": "仪表盘",
+      "font_class": "yibiaopan",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "33454250",
+      "name": "407饼图",
+      "font_class": "bingtu",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "33376962",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "33349197",
+      "name": "tree",
+      "font_class": "tree",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "33337801",
+      "name": "params",
+      "font_class": "yewucanshu",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "33337792",
+      "name": "属性",
+      "font_class": "shuxing",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "33337762",
+      "name": "model",
+      "font_class": "model",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "33186844",
+      "name": "chart-line",
+      "font_class": "chart-line",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "33169939",
+      "name": "旋转",
+      "font_class": "xuanzhuan",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "33031831",
+      "name": "grid",
+      "font_class": "grid",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "33031832",
+      "name": "table",
+      "font_class": "table",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "33007150",
+      "name": "text",
+      "font_class": "wenben",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "33007151",
+      "name": "image",
+      "font_class": "tupian",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "33007152",
+      "name": "按钮",
+      "font_class": "button",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "33007153",
+      "name": "bootstrap_tabs",
+      "font_class": "tabs",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    }
+  ]
+}

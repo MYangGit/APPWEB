@@ -1,0 +1,16 @@
+/* 第三方组件主题色变量 */
+$--color-primary: #FF7200;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+$--input-border-radius: 0 !default;
+$--input-mini-height: 28px !default;
+$--input-small-height: 32px !default;
+$--button-small-font-size: 13px !default;
+$--button-border-radius: 0;
+// 字体
+$--font-size-small: 12px;
+$--font-size-base: 14px;
+$--font-size-large: 16px;
+@import '~element-ui/packages/theme-chalk/src/index';

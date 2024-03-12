@@ -1,0 +1,175 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3786082 */
+  src: url('iconfont.woff2?t=1688699389511') format('woff2'),
+       url('iconfont.woff?t=1688699389511') format('woff'),
+       url('iconfont.ttf?t=1688699389511') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-VPanel:before {
+  content: "\e640";
+}
+
+.icon-VTextArea:before {
+  content: "\e639";
+}
+
+.icon-VSlide:before {
+  content: "\e63a";
+}
+
+.icon-VCheckBox:before {
+  content: "\e63b";
+}
+
+.icon-VDate:before {
+  content: "\e63c";
+}
+
+.icon-VRadio:before {
+  content: "\e63d";
+}
+
+.icon-VInputNumber:before {
+  content: "\e63e";
+}
+
+.icon-VHtml:before {
+  content: "\e63f";
+}
+
+.icon-a-3D:before {
+  content: "\e638";
+}
+
+.icon-modelInput:before {
+  content: "\e636";
+}
+
+.icon-modelOutput:before {
+  content: "\e637";
+}
+
+.icon-tx-fill:before {
+  content: "\e635";
+}
+
+.icon-lamp:before {
+  content: "\e634";
+}
+
+.icon-input:before {
+  content: "\e632";
+}
+
+.icon-select:before {
+  content: "\e633";
+}
+
+.icon-changyong_shijian:before {
+  content: "\e630";
+}
+
+.icon-mingcheng:before {
+  content: "\e631";
+}
+
+.icon-jiegou:before {
+  content: "\e62e";
+}
+
+.icon-zujian:before {
+  content: "\e62f";
+}
+
+.icon-wendang:before {
+  content: "\e62c";
+}
+
+.icon-a-gongkaijieguo:before {
+  content: "\e62d";
+}
+
+.icon-zitibiaoti:before {
+  content: "\e629";
+}
+
+.icon-duanla:before {
+  content: "\e62a";
+}
+
+.icon-zidingyizhangjie:before {
+  content: "\e62b";
+}
+
+.icon-leidatu:before {
+  content: "\e626";
+}
+
+.icon-yibiaopan:before {
+  content: "\e627";
+}
+
+.icon-bingtu:before {
+  content: "\e628";
+}
+
+.icon-shanchu:before {
+  content: "\e625";
+}
+
+.icon-tree:before {
+  content: "\e624";
+}
+
+.icon-yewucanshu:before {
+  content: "\e623";
+}
+
+.icon-shuxing:before {
+  content: "\e622";
+}
+
+.icon-model:before {
+  content: "\e621";
+}
+
+.icon-chart-line:before {
+  content: "\e620";
+}
+
+.icon-xuanzhuan:before {
+  content: "\e61f";
+}
+
+.icon-grid:before {
+  content: "\e61d";
+}
+
+.icon-table:before {
+  content: "\e61e";
+}
+
+.icon-wenben:before {
+  content: "\e619";
+}
+
+.icon-tupian:before {
+  content: "\e61a";
+}
+
+.icon-button:before {
+  content: "\e61b";
+}
+
+.icon-tabs:before {
+  content: "\e61c";
+}
+
