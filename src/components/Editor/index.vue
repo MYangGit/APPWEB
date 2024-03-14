@@ -85,11 +85,7 @@ import Area from './Area.vue';
 import eventBus from '@/utils/eventBus';
 import Grid from './Grid.vue';
 import { changeStyleWithScale } from '@/utils/translate';
-import { useDataCenterStore } from '@/stores/dataCenter';
-import { usePageStore } from '@/stores/page';
-import { useComposeStore } from '@/stores/compose';
-
-const composeStore = useComposeStore();
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     components: {
@@ -122,13 +118,13 @@ export default {
         };
     },
     computed: {
-        ...mapState(useDataCenterStore, ['componentData', 'curComponent']),
-        ...mapState(usePageStore, ['canvasStyleData']),
-        ...mapState(useComposeStore, ['editor']),
+        ...mapState(rootStore.useDataCenterStore, ['componentData', 'curComponent']),
+        ...mapState(rootStore.usePageStore, ['canvasStyleData']),
+        ...mapState(rootStore.useComposeStore, ['editor']),
     },
     mounted() {
         // 获取编辑器元素
-        composeStore.getEditor()
+        rootStore.compose.getEditor()
 
         eventBus.$on('hideArea', () => {
             this.hideArea();
@@ -151,7 +147,7 @@ export default {
         getCanvasStyle,
         changeStyleWithScale,
         handleClick() {
-            composeStore.setActiveContainer(null)
+            rootStore.compose.setActiveContainer(null)
         },
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
@@ -162,7 +158,6 @@ export default {
             this.hideArea();
 
             // 获取编辑器的位移信息，每次点击时都需要获取一次。主要是为了方便开发时调试用。
-            console.log(111,this.editor)
             const rectInfo = this.editor.getBoundingClientRect();
             this.editorX = rectInfo.x;
             this.editorY = rectInfo.y;
@@ -206,7 +201,7 @@ export default {
             this.isShowArea = 0;
             this.width = 0;
             this.height = 0;
-            composeStore.setAreaData({
+            rootStore.compose.setAreaData({
                 style: {
                     left: 0,
                     top: 0,
@@ -262,7 +257,7 @@ export default {
             this.height = bottom - top;
 
             // 设置选中区域位移大小信息和区域内的组件数据
-            this.$store.commit('setAreaData', {
+            rootStore.compose.setAreaData({
                 style: {
                     left,
                     top,
@@ -270,7 +265,7 @@ export default {
                     height: this.height,
                 },
                 components: areaData,
-            });
+            })
         },
 
         getSelectArea() {
@@ -309,8 +304,7 @@ export default {
             //     top += target.offsetTop
             //     target = target.parentNode
             // }
-
-            this.$store.commit('showContextMenu', { top, left });
+            rootStore.contextmenu.showContextMenu({ top, left })
         },
 
         getComponentStyle(style) {
@@ -323,9 +317,9 @@ export default {
 
         handleInput(element, value) {
             // 根据文本组件高度调整 shape 高度
-            this.$store.commit('setShapeStyle', {
+            rootStore.setShapeStyle.setShapeStyle({
                 height: this.getTextareaHeight(element, value),
-            });
+            })
         },
 
         getTextareaHeight(element, text) {
@@ -341,7 +335,7 @@ export default {
 };
 </script>
 
-<style lang=less scoped>
+<style lang="less" scoped>
 .editor {
     position: relative;
     background: #fff;

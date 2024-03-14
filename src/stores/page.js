@@ -16,11 +16,17 @@ export const usePageStore = defineStore('page', () => {
     simulationTaskId: null,
     metaData: {},
   })
+  const projectData = ref({})
   const setCanvasStyle = (style) => {
     canvasStyleData.value = style;
   }
+  const setProjectData = (projectData) => {
+    projectData.value = projectData;
+  }
   return {
     canvasStyleData,
-    setCanvasStyle
+    projectData,
+    setCanvasStyle,
+    setProjectData
   }
 })

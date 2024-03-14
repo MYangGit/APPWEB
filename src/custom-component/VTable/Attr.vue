@@ -17,6 +17,7 @@
 <script>
 import CommonAttr from '@/custom-component/common/CommonAttr'
 import EditTable from './EditTable'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     components: { EditTable, CommonAttr },

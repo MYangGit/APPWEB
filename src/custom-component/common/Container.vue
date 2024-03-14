@@ -61,11 +61,12 @@
 
 <script>
 import { deepCopy } from '@/utils/utils';
-import { mapState } from 'vuex';
+import { mapState } from 'pinia';
 import generateID from '@/utils/generateID';
 import componentList from '@/custom-component/component-list'; // 左侧列表数据
 import { getStyle, getShapeStyle, getSVGStyle, getCanvasStyle } from '@/utils/style';
 import Shape from '../../components/Editor/Shape';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     name: 'Container',
@@ -96,7 +97,9 @@ export default {
         };
     },
     computed: {
-        ...mapState(['curComponent', 'isActiveContainer', 'canvasStyleData', 'componentData']),
+        ...mapState(rootStore.useDataCenterStore, ['curComponent', 'componentData']),
+        ...mapState(rootStore.useComposeStore, ['isActiveContainer']),
+        ...mapState(rootStore.usePageStore, ['canvasStyleData']),
     },
     methods: {
         getShapeStyle,
@@ -104,11 +107,11 @@ export default {
         handleClick(e) {
             e.preventDefault();
             e.stopPropagation();
-            this.$store.commit('setActiveContainer', this.name);
+            rootStore.compose.setActiveContainer(this.name);
             const rectInfo = document.getElementById(this.name).getBoundingClientRect();
             const top = e.clientY - rectInfo.y;
             const left = e.clientX - rectInfo.x;
-            this.$store.commit('setPosition', { top, left });
+            rootStore.contextmenu.setPosition({ top, left });
         },
         // 组件拖拽的动作
         handleDrop(e) {
@@ -144,33 +147,33 @@ export default {
                 if (this.componentData.filter(i => i.component === component.component).length) {
                     component.label += this.componentData.filter(i => i.component === component.component).length;
                 }
-                this.$store.commit('addComponent', { component });
-                this.$store.commit('recordSnapshot');
+                rootStore.dataCenter.addComponent({ component })
+                rootStore.snapshot.recordSnapshot()
             }
         },
 
         handleDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'copy';
-            this.$store.commit('setActiveContainer', this.name);
+            rootStore.compose.setActiveContainer(this.name);
         },
 
         handleMouseDown(e) {
             e.stopPropagation();
-            this.$store.commit('setClickComponentStatus', false);
-            this.$store.commit('setInEditorStatus', true);
+            rootStore.editor.setClickComponentStatus(false)
+            rootStore.editor.setInEditorStatus(true)
         },
         deselectCurComponent(e) {
             if (!this.isClickComponent) {
-                this.$store.commit('setCurComponent', {
+                rootStore.dataCenter.setCurComponent({
                     component: null,
                     index: null,
-                });
+                })
             }
 
             // 0 左击 1 滚轮 2 右击
             if (e.button != 2) {
-                this.$store.commit('hideContextMenu');
+                rootStore.contextmenu.hideContextMenu()
             }
         },
         getComponentStyle(style) {
@@ -183,9 +186,9 @@ export default {
 
         handleInput(element, value) {
             // 根据文本组件高度调整 shape 高度
-            this.$store.commit('setShapeStyle', {
+            rootStore.dataCenter.setShapeStyle({
                 height: this.getTextareaHeight(element, value),
-            });
+            })
         },
 
         getTextareaHeight(element, text) {

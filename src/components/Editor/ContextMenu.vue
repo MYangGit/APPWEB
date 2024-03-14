@@ -22,9 +22,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useContextMenuStore } from '@/stores/contextmenu'
-import { useDataCenterStore } from '@/stores/dataCenter'
-
+import { rootStore } from '@/stores/rootStore';
 export default {
     data() {
         return {
@@ -32,65 +30,65 @@ export default {
         }
     },
     computed: {
-        ...mapState(useContextMenuStore, ['menuTop', 'menuLeft', 'menuShow']),
-        ...mapState(useDataCenterStore, ['curComponent']),
+        ...mapState(rootStore.useContextMenuStore, ['menuTop', 'menuLeft', 'menuShow']),
+        ...mapState(rootStore.useDataCenterStore, ['curComponent']),
     },
     methods: {
         lock() {
-            this.$store.commit('lock')
+            rootStore.dataCenter.lock()
         },
 
         unlock() {
-            this.$store.commit('unlock')
+            rootStore.dataCenter.unlock()
         },
 
         // 点击菜单时不取消当前组件的选中状态
         handleMouseUp() {
-            this.$store.commit('setClickComponentStatus', true)
+            rootStore.editor.setClickComponentStatus(true)
         },
 
         cut() {
-            this.$store.commit('cut')
+            rootStore.copy.cut()
         },
 
         copy() {
-            this.$store.commit('copy')
+            rootStore.copy.copy()
         },
 
         paste() {
-            this.$store.commit('paste', true)
-            this.$store.commit('recordSnapshot')
+            rootStore.copy.paste(true)
+            rootStore.snapshot.recordSnapshot()
         },
 
         deleteComponent() {
-            this.$store.commit('deleteComponent')
-            this.$store.commit('recordSnapshot')
+            rootStore.dataCenter.deleteComponent()
+            rootStore.snapshot.recordSnapshot()
         },
 
         upComponent() {
-            this.$store.commit('upComponent')
-            this.$store.commit('recordSnapshot')
+            rootStore.dataCenter.upComponent()
+            rootStore.snapshot.recordSnapshot()
         },
 
         downComponent() {
-            this.$store.commit('downComponent')
-            this.$store.commit('recordSnapshot')
+            rootStore.dataCenter.downComponent()
+            rootStore.snapshot.recordSnapshot()
         },
 
         topComponent() {
-            this.$store.commit('topComponent')
-            this.$store.commit('recordSnapshot')
+            rootStore.dataCenter.topComponent()
+            rootStore.snapshot.recordSnapshot()
         },
 
         bottomComponent() {
-            this.$store.commit('bottomComponent')
-            this.$store.commit('recordSnapshot')
+            rootStore.dataCenter.bottomComponent()
+            rootStore.snapshot.recordSnapshot()
         },
     },
 }
 </script>
 
-<style lang=less scoped>
+<style lang="less" scoped>
 .contextmenu {
     position: absolute;
     z-index: 1000;

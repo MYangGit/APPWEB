@@ -2,7 +2,7 @@
 <template>
   <div class="toolbar-wrap">
     <div class="toolbar">
-      <div class="tool-item" v-for="item in actions" :key="item.title" @click="item.action">
+      <div class="tool-item" v-for="item in actions" :key="item.title" @click="handleAction(item)">
         <img :src="item.icon" class="item-icon" />
         <p class="item-title">{{ item.title }}</p>
       </div>
@@ -11,13 +11,70 @@
 </template>
 
 <script setup>
-  // import generateID from '@/utils/generateID';
-  // import toast from '@/utils/toast';
-  // import localforage from 'localforage';
-  // import { deepCopy, $, generatePassword, reg, exportJson, getQueryVariable } from '@/utils/utils';
-  // import { divide, multiply } from 'mathjs';
-
+  import localforage from 'localforage';
+  import { exportJson } from '@/utils/utils';
   import { actions } from '@/config/toolbar'
+  import { rootStore } from '@/stores/rootStore';
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
+
+  const handleAction = (item) => {
+    if (item.key === 'import') importFile()
+    if (item.key === 'export') exportFile()
+    if (item.key === 'canceldo') undo()
+    if (item.key === 'redo') redo()
+    if (item.key === 'preview') preview()
+    if (item.key === 'clear') clearCanvas()
+  }
+
+  const importFile = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.id = 'fileId';
+    input.click();
+    input.onchange = () => {
+      const files = input.files;
+      const reader = new FileReader(); // 新建一个FileReader
+      reader.readAsText(files[0], 'UTF-8'); // 读取文件
+      reader.onload = (evt) => {
+        // 读取完文件之后会回来这里 这是个异步
+        const fileString = evt.target.result; // 读取文件内容
+        const data = JSON.parse(fileString);
+        rootStore.page.setCanvasStyle(data.canvasStyleData);
+        rootStore.dataCenter.setComponentData(data.componentData);
+      };
+    }
+  }
+  const exportFile = () => {
+    exportJson(
+      this.appRequest.name ? (this.appRequest.name + '.tyapp') : 'test.tyapp',
+      JSON.stringify({
+        canvasStyleData: rootStore.page.canvasStyleData,
+        componentData: rootStore.dataCenter.componentData,
+      }),
+    );
+  }
+  const undo = () => {
+    rootStore.snapshot.undo()
+  }
+  const redo = () => {
+    rootStore.snapshot.redo()
+  }
+  const preview = () => {
+    localforage.setItem('canvasData', JSON.stringify(rootStore.dataCenter.componentData));
+    localforage.setItem('canvasStyle', JSON.stringify(rootStore.page.canvasStyleData), (err) => {
+      const route = router.resolve({
+        name: 'preview',
+      });
+      window.open(route.href, '_blank');
+    });
+  }
+  const clearCanvas = () => {
+    rootStore.dataCenter.setCurComponent({ component: null, index: null })
+    rootStore.dataCenter.setComponentData([]);
+    rootStore.snapshot.recordSnapshot()
+  }
 </script>
 
 <style lang="less" scoped>

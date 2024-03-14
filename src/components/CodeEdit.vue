@@ -13,17 +13,18 @@
 </template>
 <script setup>
 import { Codemirror } from 'vue-codemirror'
-import { useDataCenterStore } from '@/stores/dataCenter'
 import { computed } from 'vue';
-
-const dataCenterStore = useDataCenterStore()
-const extensions = []
+import { rootStore } from '@/stores/rootStore';
+import { noctisLilac } from 'thememirror'
+import { json } from "@codemirror/lang-json"
+const extensions = [noctisLilac, json()]
 const code = computed({
     get() {
-        return JSON.stringify(dataCenterStore.componentData.value, null, '\t')
+        console.log(rootStore.dataCenter.componentData)
+        return JSON.stringify(rootStore.dataCenter.componentData, null, '\t')
     },
     set(newValue) {
-        dataCenterStore.setComponentData(JSON.parse(newValue || '[]'))
+        rootStore.dataCenter.setComponentData(JSON.parse(newValue || '[]'))
     }
 })
 </script>
@@ -37,5 +38,6 @@ const code = computed({
 .exercise,
 .cm-editor {
     height: 100%;
+    background-color: #ffffff;
 }
 </style>

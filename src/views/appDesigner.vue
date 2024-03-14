@@ -9,19 +9,11 @@ import ComponentList from '@/components/ComponentList.vue';
 import RealTimeComponentList from '@/components/RealTimeComponentList.vue';
 import Editor from '@/components/Editor/index.vue';
 import CodeEdit from '@/components/CodeEdit.vue';
-import { useDataCenterStore } from '@/stores/dataCenter';
-import { useComposeStore } from '@/stores/compose';
-import { usePageStore } from '@/stores/page';
-import { useSnapShotStore } from '@/stores/snapshot';
-import { useEditorStore } from '@/stores/editor';
-import { useContextMenuStore } from '@/stores/contextmenu';
+import DataCenter from '@/components/DataCenter.vue';
+import AnimationList from '@/components/AnimationList';
+import EventList from '@/components/EventList.vue';
 
-const dataCenterStore = useDataCenterStore();
-const composeStore = useComposeStore()
-const pageStore = usePageStore()
-const snapShotStore = useSnapShotStore()
-const editorStore = useEditorStore()
-const contextMenuStore = useContextMenuStore()
+import { rootStore } from '@/stores/rootStore';
 
 const mode = ref('design')
 const activeName = ref('attr')
@@ -31,7 +23,7 @@ const handleDrop = (e) => {
   e.preventDefault();
   e.stopPropagation();
   const index = e.dataTransfer.getData('index');
-  const rectInfo = composeStore.editor.getBoundingClientRect();
+  const rectInfo = rootStore.compose.editor.getBoundingClientRect();
   if (index) {
     const component = deepCopy(componentList[index]);
     component.style.top = e.clientY - rectInfo.y;
@@ -53,13 +45,13 @@ const handleDrop = (e) => {
     }
     if (component.style.width.toString().includes('%')) {
       component.style.width =
-        (Number(pageStore.canvasStyleData.width) * parseFloat(component.style.width)) / 100;
+        (Number(rootStore.page.canvasStyleData.width) * parseFloat(component.style.width)) / 100;
     }
-    if (dataCenterStore.componentData.filter(i => i.component === component.component).length) {
-      component.label += dataCenterStore.componentData.filter(i => i.component === component.component).length;
+    if (rootStore.dataCenter.componentData.filter(i => i.component === component.component).length) {
+      component.label += rootStore.dataCenter.componentData.filter(i => i.component === component.component).length;
     }
-    dataCenterStore.addComponent({ component })
-    snapShotStore.recordSnapshot()
+    rootStore.dataCenter.addComponent({ component })
+    rootStore.snapshot.recordSnapshot()
   }
 }
 
@@ -70,13 +62,13 @@ const handleDragOver = (e) => {
 
 const handleMouseDown = (e) => {
   e.stopPropagation();
-  editorStore.setClickComponentStatus(false)
-  editorStore.setInEditorStatus(true)
+  rootStore.editor.setClickComponentStatus(false)
+  rootStore.editor.setInEditorStatus(true)
 }
 
 const deselectCurComponent = (e) => {
-  if (!editorStore.isClickComponent) {
-    dataCenterStore.setCurComponent({
+  if (!rootStore.editor.isClickComponent) {
+    rootStore.dataCenter.setCurComponent({
       component: null,
       index: null,
     })
@@ -84,7 +76,7 @@ const deselectCurComponent = (e) => {
 
   // 0 左击 1 滚轮 2 右击
   if (e.button != 2) {
-    contextMenuStore.hideContextMenu()
+    rootStore.contextmenu.hideContextMenu()
   }
 }
 
@@ -111,6 +103,7 @@ const deselectCurComponent = (e) => {
           <el-radio-group v-model="mode" size="small">
             <el-radio-button value="design">设计视图</el-radio-button>
             <el-radio-button value="code">代码视图</el-radio-button>
+            <el-radio-button value="dataCenter">数据中心</el-radio-button>
           </el-radio-group>
         </div>
         <div
@@ -123,21 +116,25 @@ const deselectCurComponent = (e) => {
         >
           <Editor />
         </div>
-        <div v-else class="content">
+        <div
+          v-if="mode === 'code'"
+          class="content"
+        >
           <CodeEdit />
         </div>
+        <DataCenter v-if="mode === 'dataCenter'" />
       </section>
       <!-- 右侧属性列表 -->
       <section class="right">
-        <el-tabs v-if="dataCenterStore.curComponent" v-model="activeName" class="no-padding sidebar" type="border-card" tab-position="right">
+        <el-tabs v-if="rootStore.dataCenter.curComponent" v-model="activeName" class="no-padding sidebar" type="border-card" tab-position="right">
           <el-tab-pane label="属性" name="attr">
-            <component :is="dataCenterStore.curComponent.component + 'Attr'" />
+            <component :is="rootStore.dataCenter.curComponent.component + 'Attr'" />
           </el-tab-pane>
           <el-tab-pane label="动画" name="animation" style="padding-top: 20px">
-            <!-- <AnimationList /> -->
+            <AnimationList />
           </el-tab-pane>
           <el-tab-pane label="事件" name="events" style="padding-top: 20px">
-            <!-- <EventList /> -->
+            <EventList />
           </el-tab-pane>
         </el-tabs>
         <!-- <CanvasAttr v-show="!curComponent"></CanvasAttr> -->

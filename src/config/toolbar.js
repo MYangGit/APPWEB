@@ -35,11 +35,6 @@ export const actions = ref([
     key: 'preview'
   },
   {
-    icon: saveIcon,
-    title: '保存',
-    key: 'save'
-  },
-  {
     icon: clearIcon,
     title: '清空',
     key: 'clear'

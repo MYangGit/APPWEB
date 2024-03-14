@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { rootStore } from '@/stores/rootStore';
 export default {
     directives: {
         focus: {

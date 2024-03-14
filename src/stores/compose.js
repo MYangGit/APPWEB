@@ -107,6 +107,7 @@ export const useComposeStore = defineStore('compose', () => {
         })
     }
     return {
+        isActiveContainer,
         areaData,
         editor,
         getEditor,

@@ -18,12 +18,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'pinia';
 import { keycodes } from '@/utils/shortcutKey.js';
 import eventBus from '@/utils/eventBus';
 import Container from '../common/Container.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
 import OnEvent from '../common/OnEvent';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     components: {
@@ -55,7 +56,8 @@ export default {
         };
     },
     computed: {
-        ...mapState(['editMode', 'componentData']),
+        ...mapState(rootStore.useEditorStore, ['editMode']),
+        ...mapState(rootStore.useDataCenterStore, ['componentData']),
         childs() {
             return this.componentData.filter((i) => i.pid === this.element.id);
         },

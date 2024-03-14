@@ -93,6 +93,37 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     }
   }
 
+  const lock = () => {
+    curComponent.value.isLock = true
+  }
+
+  const unlock = () => {
+    curComponent.value.isLock = false
+  }
+
+  const addAnimation = (animation) => {
+    curComponent.value.animations.push(animation)
+  }
+
+  const removeAnimation = (index) => {
+    curComponent.value.animations.splice(index, 1)
+  }
+
+  const alterAnimation = ({ index, data = {} }) => {
+    if (typeof index === 'number') {
+      const original = curComponent.value.animations[index]
+      curComponent.value.animations[index] = { ...original, ...data }
+    }
+  }
+
+  const addEvent = ({ event, param, label }) => {
+    curComponent.value.events[event] = { param, label }
+  }
+
+  const removeEvent = (event) => {
+    delete curComponent.value.events[event]
+  }
+
   return {
     componentData,
     curComponent,
@@ -106,6 +137,13 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     upComponent,
     downComponent,
     topComponent,
-    bottomComponent
+    bottomComponent,
+    lock,
+    unlock,
+    addAnimation,
+    removeAnimation,
+    alterAnimation,
+    addEvent,
+    removeEvent,
   }
 })

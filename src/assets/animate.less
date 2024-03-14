@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-@import './variable.scss';
+@import './variable.less';
 
 /*!
  * animate.css -https://daneden.github.io/animate.css/
@@ -3575,8 +3575,8 @@
 }
 
 .animated {
-    -webkit-animation-duration: $animation-time;
-    animation-duration: $animation-time;
+    -webkit-animation-duration: @animation-time;
+    animation-duration: @animation-time;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }

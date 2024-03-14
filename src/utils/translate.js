@@ -128,6 +128,7 @@ export function mod360(deg) {
 }
 
 export function changeStyleWithScale(value) {
+    if (!value) return
     return multiply(value, divide(parseInt(pageStore.canvasStyleData.scale), 100))
 }
 

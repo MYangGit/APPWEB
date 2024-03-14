@@ -15,8 +15,7 @@
 import eventBus from '@/utils/eventBus'
 import { mapState } from 'pinia'
 import { getComponentRotatedStyle } from '@/utils/style'
-
-import { useDataCenterStore } from '@/stores/dataCenter';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     data() {
@@ -33,7 +32,7 @@ export default {
             },
         }
     },
-    computed: mapState(useDataCenterStore, ['curComponent', 'componentData']),
+    computed: mapState(rootStore.useDataCenterStore, ['curComponent', 'componentData']),
     mounted() {
         // 监听元素移动和不移动的事件
         eventBus.$on('move', (isDownward, isRightward, element) => {
@@ -152,7 +151,7 @@ export default {
                     conditions[key].forEach((condition) => {
                         if (!condition.isNearly) return
                         // 修改当前组件位移
-                        this.$store.commit('setShapeSingleStyle', {
+                        rootStore.dataCenter.setShapeSingleStyle({
                             key,
                             value: rotate != 0 ? this.translatecurComponentShift(key, condition, curComponentStyle, element) : condition.dragShift,
                         })
@@ -227,7 +226,7 @@ export default {
 }
 </script>
 
-<style lang=less scoped>
+<style lang="less" scoped>
 .mark-line {
     height: 100%;
 }

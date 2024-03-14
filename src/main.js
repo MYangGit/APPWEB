@@ -2,6 +2,7 @@ import './assets/main.css'
 import './styles/reset.css';
 import './styles/global.less'
 import './assets/iconfont/iconfont.css';
+import './assets/animate.less'
 
 import { createApp } from 'vue'
 import pinia from './stores';
