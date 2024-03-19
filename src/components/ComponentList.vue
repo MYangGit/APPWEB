@@ -7,14 +7,6 @@ const types = ref([
   {
     type: 'common',
     label: '基础组件',
-  },
-  {
-    type: 'box',
-    label: '容器组件',
-  },
-  {
-    type: 'Ty',
-    label: '同元组件库',
   }
 ])
 

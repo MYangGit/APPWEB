@@ -7,20 +7,12 @@ export const useDataConfigStore = defineStore('dataConfig', () => {
     form: {
       name: 'Tom',
       age: 10,
-      cat: {
-        name: 'TomCat',
-        age: 10
-      },
-      dog: {
-        name: 'TomDog',
-        age: 10
-      }
     },
     tip: 'hello world'
   })
   const actionSet = ref({
     submit: `(dataCenter, globalUtils) => {
-  //Todo
+  console.log(dataCenter, globalUtils)
 }`
   })
 

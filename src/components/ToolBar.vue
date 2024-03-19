@@ -26,6 +26,7 @@
     if (item.key === 'redo') redo()
     if (item.key === 'preview') preview()
     if (item.key === 'clear') clearCanvas()
+    if (item.key === 'generate') generateJson()
   }
 
   const importFile = () => {
@@ -74,6 +75,31 @@
     rootStore.dataCenter.setCurComponent({ component: null, index: null })
     rootStore.dataCenter.setComponentData([]);
     rootStore.snapshot.recordSnapshot()
+  }
+  const generateJson = () => {
+    // 创建一个包含JSON数据的对象
+    var jsonData = {
+      components: rootStore.dataCenter.componentData,
+      dataCenter: rootStore.dataConfig.stateSet,
+      actionCenter: rootStore.dataConfig.actionSet
+    };
+    // 将JSON对象转换为字符串
+    var jsonString = JSON.stringify(jsonData);
+    // 创建一个Blob对象
+    var blob = new Blob([jsonString], { type: "application/json" });
+    // 创建一个链接
+    var url = URL.createObjectURL(blob);
+    // 创建一个<a>元素
+    var a = document.createElement('a');
+    a.download = 'app.json'; // 设置文件名
+    a.href = url;
+    // 将<a>元素添加到文档中
+    document.body.appendChild(a);
+    // 模拟点击链接以触发下载
+    a.click();
+    // 清理链接和对象URL以释放内存
+    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 </script>
 

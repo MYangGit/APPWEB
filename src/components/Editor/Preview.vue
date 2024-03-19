@@ -45,7 +45,6 @@ export default {
     created() {
         localforage.getItem('canvasData').then((data) => {
             this.copyData = JSON.parse(data) || []
-            console.log(111, this.copyData)
         });
         localforage.getItem('canvasStyle').then((data) => {
             this.canvasStyleData = JSON.parse(data);
@@ -81,21 +80,14 @@ export default {
 .bg {
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
     position: fixed;
     background: rgb(0, 0, 0, 0.5);
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: auto;
-    padding: 20px;
 
     .canvas-container {
-        // width: calc(100% - 40px);
-        // height: calc(100% - 40px);
-        // overflow: auto;
 
         .canvas {
             background: #fff;

@@ -1,7 +1,7 @@
 <template>
     <div class="input-wrap">
         <label v-show="label">{{ label }}：</label>
-        <el-select v-model="propValue.value" placeholder="请选择">
+        <el-select v-model="value" size="small" placeholder="请选择">
             <el-option
                 v-for="item, index in options"
                 :key="index"
@@ -41,6 +41,14 @@ export default {
             },
             set(val) {
                 getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
         options: {

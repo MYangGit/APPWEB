@@ -35,6 +35,11 @@ export const actions = ref([
     key: 'preview'
   },
   {
+    icon: saveIcon,
+    title: '出码',
+    key: 'generate'
+  },
+  {
     icon: clearIcon,
     title: '清空',
     key: 'clear'

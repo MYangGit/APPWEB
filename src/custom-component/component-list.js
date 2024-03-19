@@ -8,6 +8,7 @@ export const commonAttr = {
     animations: [],
     events: {},
     dataBinds: {},
+    actionBinds: {},
     groupStyle: {}, // 当一个组件成为 Group 的子组件时使用
     isLock: false, // 是否锁定组件
     collapseName: '', // 编辑组件时记录当前使用的是哪个折叠面板，再次回来时恢复上次打开的折叠面板，优化用户体验
@@ -133,52 +134,6 @@ const list = [
             value: [],
         },
         icon: 'VCheckBox',
-        type: 'common',
-        style: {
-            width: 200,
-            height: 34,
-            fontSize: '',
-            fontWeight: 400,
-            lineHeight: '',
-            letterSpacing: 0,
-            textAlign: '',
-            color: '',
-            backgroundColor: '',
-        },
-        eventOptions: [{ label: '数据改变', value: 'updateValue' }],
-    },
-    // 下拉框
-    {
-        component: 'VSelect',
-        label: '下拉框',
-        propValue: {
-            options: [],
-            label: '字段名',
-        },
-        icon: 'select',
-        type: 'common',
-        style: {
-            width: 200,
-            height: 34,
-            fontSize: '',
-            fontWeight: 400,
-            lineHeight: '',
-            letterSpacing: 0,
-            textAlign: '',
-            color: '',
-            backgroundColor: '',
-        },
-        eventOptions: [{ label: '数据改变', value: 'updateValue' }],
-    },
-    // 输入框
-    {
-        component: 'VInput',
-        label: '输入框',
-        propValue: {
-            value: '',
-            label: '字段名',
-        },
-        icon: 'input',
         type: 'common',
         style: {
             width: 200,
@@ -1298,11 +1253,132 @@ const list = [
     },
 ];
 
+// 编辑器左侧组件列表
+const newList = [
+    // HTML
+    {
+        component: 'VHtml',
+        label: 'HTML',
+        propValue: {
+            value: ''
+        },
+        icon: 'VHtml',
+        type: 'common',
+        style: {
+            width: 300,
+            height: 300,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: '',
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+            backgroundColor: '',
+        },
+    },
+    // 文字
+    {
+        component: 'VText',
+        label: '文字',
+        propValue: {
+            value: '文字'
+        },
+        icon: 'wenben',
+        type: 'common',
+        style: {
+            width: 200,
+            height: 28,
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+        },
+    },
+    // 按钮
+    {
+        component: 'VButton',
+        label: '按钮',
+        propValue: {
+            value: '按钮'
+        },
+        icon: 'button',
+        type: 'common',
+        style: {
+            width: 100,
+            height: 34,
+            borderWidth: 1,
+            borderColor: '',
+            borderRadius: '',
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+            backgroundColor: '',
+        },
+        actionBinds: {
+            click: ''
+        }
+    },
+    // 输入框
+    {
+        component: 'VInput',
+        label: '输入框',
+        propValue: {
+            value: '',
+            label: '字段名',
+        },
+        icon: 'input',
+        type: 'common',
+        style: {
+            width: 200,
+            height: 34,
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+            backgroundColor: '',
+        },
+        eventOptions: [{ label: '数据改变', value: 'updateValue' }],
+    },
+    // 下拉框
+    {
+        component: 'VSelect',
+        label: '下拉框',
+        propValue: {
+            options: [],
+            value: '',
+            label: '字段名',
+        },
+        icon: 'select',
+        type: 'common',
+        style: {
+            width: 200,
+            height: 34,
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+            backgroundColor: '',
+        }
+    },
+];
+
 // 把组件数据重新分配定义
-for (let i = 0, len = list.length; i < len; i++) {
-    const item = list[i];
+for (let i = 0, len = newList.length; i < len; i++) {
+    const item = newList[i];
     item.style = { ...commonStyle, ...item.style };
-    list[i] = { ...commonAttr, ...item };
+    newList[i] = { ...commonAttr, ...item };
 }
 
-export default list;
+export default newList;

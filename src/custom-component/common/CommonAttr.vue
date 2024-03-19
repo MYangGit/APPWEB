@@ -46,13 +46,37 @@
                     </div>
                 </div>
             </el-collapse-item>
+            <el-collapse-item title="动作绑定" v-if="getKeys(curComponent.actionBinds).length > 0" name="actionbind">
+                <div class="v-common-design">
+                    <div class="data-bind-item" v-for="key in getKeys(curComponent.actionBinds)">
+                        <div class="label">{{ key }}</div>
+                        <div>
+                            <el-button v-if="!curComponent.actionBinds[key]" size="small" @click="bindActionData(key)">绑定动作</el-button>
+                            <el-tag closable @close="unbindActionData(key)" v-else>{{ curComponent.actionBinds[key] }}</el-tag>
+                        </div>
+                    </div>
+                </div>
+            </el-collapse-item>
         </el-collapse>
         <el-dialog v-model="dataConfigShow" title="数据绑定" width="800">
-            <el-cascader v-model="form.bindKeys" :options="getOptions(rootStore.dataConfig.stateSet)" />
+            <el-cascader v-model="form.bindKeys" :options="getOptions()" />
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="dataConfigShow = false">Cancel</el-button>
                     <el-button type="primary" @click="handleConfirm">
+                    Confirm
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
+        <el-dialog v-model="actionConfigShow" title="动作绑定" width="800">
+            <el-select v-model="actionForm.bindKey">
+                <el-option v-for="item in getActionOptions()" :key="item" :label="item" :value="item"></el-option>
+            </el-select>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="actionConfigShow = false">Cancel</el-button>
+                    <el-button type="primary" @click="handleActionConfirm">
                     Confirm
                     </el-button>
                 </div>
@@ -108,6 +132,11 @@ export default {
                 bindKeys: ''
             },
             dataConfigShow: false,
+            actionConfigShow: false,
+            actionForm: {
+                key: '',
+                bindKey: ''
+            },
             rootStore,
         };
     },
@@ -143,16 +172,31 @@ export default {
             this.form.key = key
             this.dataConfigShow = true
         },
+        bindActionData (key) {
+            this.actionForm.bindKey = ''
+            this.actionForm.key = key
+            this.actionConfigShow = true
+        },
         handleConfirm () {
             rootStore.dataCenter.curComponent.dataBinds[this.form.key] = this.form.bindKeys
             this.dataConfigShow = false
         },
+        handleActionConfirm () {
+            rootStore.dataCenter.curComponent.actionBinds[this.actionForm.key] = this.actionForm.bindKey
+            this.actionConfigShow = false
+        },
         unbindData(key) {
             delete rootStore.dataCenter.curComponent.dataBinds[key]
+        },
+        unbindActionData (key) {
+            delete rootStore.dataCenter.curComponent.actionBinds[key]
         },
         getOptions () {
             let options = extractKeys(rootStore.dataConfig.stateSet);
             return options;
+        },
+        getActionOptions () {
+            return Object.keys(rootStore.dataConfig.actionSet)
         },
         getKeys (obj) {
             if (typeof obj === 'object') {

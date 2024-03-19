@@ -18,10 +18,10 @@
             v-else
             ref="component"
             class="component"
+            @click="handleActionClick"
             :style="getStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
-            :request="config.request"
             :linkage="config.linkage"
             @hook:mounted="childMounted"
         />
@@ -33,6 +33,7 @@ import { getStyle, getSVGStyle } from '@/utils/style';
 import runAnimation from '@/utils/runAnimation';
 import { mixins } from '@/utils/events';
 import eventBus from '@/utils/eventBus';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     mixins: [mixins],
@@ -43,16 +44,18 @@ export default {
             default: () => {},
         },
     },
-    mounted() {
-        // 对于懒加载的组件不生效
-        // if (this.$refs.component) {
-        //     runAnimation(this.$refs.component.$el, this.config.animations);
-        // }
-    },
     methods: {
         getStyle,
         getSVGStyle,
-
+        handleActionClick () {
+            let { click } = this.config.actionBinds;
+            let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
+            fn(rootStore.dataConfig.stateSet, {
+                post: (data) => {
+                    console.log('post', data)
+                }
+            })
+        },
         onClick() {
             const events = this.config.events;
             Object.keys(events).forEach((event) => {
