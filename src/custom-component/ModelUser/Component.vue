@@ -134,16 +134,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-::v-deep .el-tree-node__content {
+:deep(.el-tree-node__content) {
     height: 30px;
 }
-::v-deep .target {
+:deep(.target) {
     overflow: hidden;
     flex: 1;
     display: flex;
     align-items: center;
 }
-::v-deep .tree-label {
+:deep(.tree-label) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -153,14 +153,14 @@ export default {
         color: #333;
     }
 }
-::v-deep .tree-img {
+:deep(.tree-img) {
     height: 22px;
     width: 22px;
     object-fit: cover;
     margin-right: 5px;
 }
 
-::v-deep .tree-img1 {
+:deep(.tree-img1) {
     height: 22px;
     width: 0;
     object-fit: cover;

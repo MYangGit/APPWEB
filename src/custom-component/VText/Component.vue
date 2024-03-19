@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
     <div v-if="editMode == 'edit'" class="v-text" @keydown="handleKeydown" @keyup="handleKeyup">
-        <!-- tabindex >= 0 使得双击时聚焦该元素 -->
         <div
             ref="text"
             :contenteditable="canEdit"
@@ -13,32 +12,27 @@
             @mousedown="handleMousedown"
             @blur="handleBlur"
             @input="handleInput"
-            v-html="element.propValue"
+            v-html="value"
         ></div>
     </div>
     <div v-else class="v-text preview">
-        <div :style="{ verticalAlign: element.style.verticalAlign }" v-html="element.propValue"></div>
+        <div :style="{ verticalAlign: element.style.verticalAlign }" v-html="value"></div>
     </div>
 </template>
 
 <script>
 import { mapState } from 'pinia';
 import { keycodes } from '@/utils/shortcutKey.js';
-import request from '@/utils/request';
 import OnEvent from '../common/OnEvent.vue';
-import { useEditorStore } from '@/stores/editor';
+import { getComputedGet, getComputedSet } from '@/utils/utils.js';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
     props: {
         propValue: {
-            type: String,
-            required: true,
-            default: '',
-        },
-        request: {
             type: Object,
-            default: () => {},
+            default: () =>{},
         },
         element: {
             type: Object,
@@ -58,19 +52,15 @@ export default {
         };
     },
     computed: {
-        ...mapState(useEditorStore, ['editMode']),
-    },
-    created() {
-        // 注意，修改时接口属性时不会发数据，在预览时才会发
-        // 如果要在修改接口属性的同时发请求，需要 watch 一下 request 的属性
-        // if (this.request) {
-        //     // 第二个参数是要修改数据的父对象，第三个参数是修改数据的 key，第四个数据修改数据的类型
-        //     this.cancelRequest = request(this.request, this.element, 'propValue', 'string');
-        // }
-    },
-    beforeDestroy() {
-        // 组件销毁时取消请求
-        // this.request && this.cancelRequest();
+        ...mapState(rootStore.useEditorStore, ['editMode']),
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
     },
     methods: {
         handleInput(e) {

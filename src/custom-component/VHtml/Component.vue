@@ -4,13 +4,15 @@
 
 <script>
 import OnEvent from '../common/OnEvent'
+import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
     props: {
         propValue: {
-            type: String,
-            default: '',
+            type: Object,
+            default: () => {},
         },
         element: {
             type: Object,
@@ -22,17 +24,27 @@ export default {
             shadow: null,
         }
     },
-    watch: {
-        propValue: {
-            handler(val) {
-                this.shadow.innerHTML = val;
+    computed: {
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+    },
+    watch: {
+        'value': {
+            handler(val) {
+                this.shadow.innerHTML = this.value;
+            }
         },
     },
     mounted() {
         this.shadow = this.$refs.htmlhost.attachShadow({ mode: 'open' });
         if (this.propValue) {
-            this.shadow.innerHTML = this.propValue;
+            this.shadow.innerHTML = this.value;
         }
     },
 }

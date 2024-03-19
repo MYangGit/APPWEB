@@ -7,6 +7,7 @@ export const commonStyle = {
 export const commonAttr = {
     animations: [],
     events: {},
+    dataBinds: {},
     groupStyle: {}, // 当一个组件成为 Group 的子组件时使用
     isLock: false, // 是否锁定组件
     collapseName: '', // 编辑组件时记录当前使用的是哪个折叠面板，再次回来时恢复上次打开的折叠面板，优化用户体验
@@ -31,7 +32,9 @@ const list = [
     {
         component: 'VHtml',
         label: 'HTML',
-        propValue: '',
+        propValue: {
+            value: ''
+        },
         icon: 'VHtml',
         type: 'common',
         style: {
@@ -53,18 +56,11 @@ const list = [
     {
         component: 'VText',
         label: '文字',
-        propValue: '双击编辑文字',
+        propValue: {
+            value: '文字'
+        },
         icon: 'wenben',
         type: 'common',
-        request: {
-            method: 'GET',
-            data: [],
-            url: '',
-            series: false, // 是否定时发送请求
-            time: 1000, // 定时更新时间
-            paramType: '', // string object array
-            requestCount: 0, // 请求次数限制，0 为无限
-        },
         style: {
             width: 200,
             height: 28,
@@ -80,7 +76,9 @@ const list = [
     {
         component: 'VButton',
         label: '按钮',
-        propValue: '按钮',
+        propValue: {
+            value: '按钮'
+        },
         icon: 'button',
         type: 'common',
         style: {
@@ -154,7 +152,6 @@ const list = [
         component: 'VSelect',
         label: '下拉框',
         propValue: {
-            key: '',
             options: [],
             label: '字段名',
         },
@@ -178,8 +175,7 @@ const list = [
         component: 'VInput',
         label: '输入框',
         propValue: {
-            key: '',
-            options: [],
+            value: '',
             label: '字段名',
         },
         icon: 'input',

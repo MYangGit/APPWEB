@@ -114,3 +114,48 @@ export const fileToBase64 = file => {
     };
   })
 };
+
+function getValueByDotKey(obj, dotKey) {
+  const keys = dotKey.split('.');
+  let value = obj;
+  for (let key of keys) {
+    if (value.hasOwnProperty(key)) {
+      value = value[key];
+    } else {
+      return undefined; // 如果键不存在，返回 undefined
+    }
+  }
+  return value;
+}
+
+function setValueByDotKey(obj, dotKey, value) {
+  const keys = dotKey.split('.');
+  const lastKey = keys.pop();
+  let currentObj = obj;
+  for (let key of keys) {
+    if (!currentObj.hasOwnProperty(key) || typeof currentObj[key] !== 'object') {
+      currentObj[key] = {};
+    }
+    currentObj = currentObj[key];
+  }
+  currentObj[lastKey] = value;
+}
+
+export const getComputedGet = (key, dataBinds, stateSet, propValue) => {
+  let keys = dataBinds[key]
+  if (keys) {
+    let data = getValueByDotKey(stateSet, keys.join('.'))
+    return data
+  } else {
+    return propValue[key];
+  }
+};
+
+export const getComputedSet = (key, dataBinds, stateSet, propValue, val) => {
+  let keys = dataBinds[key]
+  if (keys) {
+    setValueByDotKey(stateSet, keys.join('.'), val)
+  } else {
+    propValue[key] = val;
+  }
+};

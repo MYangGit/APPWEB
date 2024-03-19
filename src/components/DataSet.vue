@@ -1,33 +1,46 @@
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { noctisLilac } from 'thememirror'
 import { json } from "@codemirror/lang-json"
 import { rootStore } from '@/stores/rootStore'
 
 const extensions = [json(), noctisLilac]
-const activeName = ref('')
 
-activeName.value = rootStore.dataConfig.stateList[0].name
+const code = computed({
+  get() {
+    return JSON.stringify(rootStore.dataConfig.stateSet, null, '\t')
+  },
+  set(value) {
+    let state = ''
+    try {
+      state = JSON.parse(value)
+    } catch (error) {
+      console.error('json格式异常，当前变更无法同步')
+    }
+    if (state) {
+      rootStore.dataConfig.stateSet = state
+      console.log('已同步')
+    }
+  }
+})
+
 </script>
 
 <template>
-  <el-tabs tab-position="left" v-model="activeName">
-    <el-tab-pane :name="state.name" :label="state.name" v-for="state in rootStore.dataConfig.stateList" :key="state.name">
-      <codemirror
-        v-model="state.value"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="2"
-        :extensions="extensions"
-      />
-      <div class="btns-wrapper">
-        <el-button type="primary">删除</el-button>
-      </div>
-    </el-tab-pane>
-  </el-tabs>
+  <div class="data-set-wrapper">
+    <codemirror
+      v-model="code"
+      :autofocus="false"
+      :indent-with-tab="true"
+      :tab-size="2"
+      :extensions="extensions"
+    />
+  </div>
 </template>
 <style lang="less" scoped>
-
+.data-set-wrapper {
+  height: 100%;
+}
 </style>

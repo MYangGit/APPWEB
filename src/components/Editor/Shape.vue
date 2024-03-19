@@ -401,7 +401,7 @@ export default {
         cursor: move;
     }
 
-    ::v-deep svg {
+    :deep(svg)  {
         pointer-events: none;
     }
 }

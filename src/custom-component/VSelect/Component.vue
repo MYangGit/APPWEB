@@ -1,9 +1,9 @@
 <template>
     <div class="input-wrap">
-        <label v-show="propValue.label">{{ propValue.label }}：</label>
+        <label v-show="label">{{ label }}：</label>
         <el-select v-model="propValue.value" placeholder="请选择">
             <el-option
-                v-for="item, index in propValue.options"
+                v-for="item, index in options"
                 :key="index"
                 :label="item.label"
                 :value="item.value"
@@ -16,6 +16,8 @@
 <script>
 import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
+import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
@@ -23,7 +25,6 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
-                key: '',
                 value: '',
                 options: [],
             }),
@@ -31,6 +32,24 @@ export default {
         element: {
             type: Object,
             default: () => {},
+        },
+    },
+    computed: {
+        label: {
+            get() {
+                return getComputedGet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        options: {
+            get() {
+                return getComputedGet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
         },
     },
     watch: {

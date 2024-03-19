@@ -4,7 +4,7 @@
         <codemirror
             v-model="code"
             :style="{ height: '400px' }"
-            :autofocus="true"
+            :autofocus="false"
             :indent-with-tab="true"
             :tab-size="2"
             :extensions="extensions"

@@ -1,14 +1,15 @@
 <template>
     <div class="input-wrap">
-        <label v-show="propValue.label">{{ propValue.label }}：</label>
-        <el-input v-model="propValue.value" size="small" />
+        <label v-show="label">{{ label }}：</label>
+        <el-input v-model="value" size="small" />
     </div>
 </template>
 
 <script>
 import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
-
+import { rootStore } from '@/stores/rootStore';
+import { getComputedGet, getComputedSet } from '@/utils/utils';
 export default {
     extends: OnEvent,
     props: {
@@ -16,7 +17,6 @@ export default {
             type: Object,
             default: () => ({
                 label: '',
-                key: '',
                 value: '',
             }),
         },
@@ -24,6 +24,24 @@ export default {
             type: Object,
             default: () => {},
         },
+    },
+    computed: {
+        label: {
+            get() {
+                return getComputedGet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        }
     },
     watch: {
         propValue: {

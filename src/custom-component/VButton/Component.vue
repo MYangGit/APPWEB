@@ -1,22 +1,36 @@
 <template>
-    <button class="v-button">{{ propValue }}</button>
+    <button class="v-button">{{ value }}</button>
 </template>
 
 <script>
 import OnEvent from '../common/OnEvent'
+import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
     props: {
         propValue: {
-            type: String,
-            default: '',
+            type: Object,
+            default: () => {
+                value: ''
+            },
         },
         element: {
             type: Object,
             default: () => {},
         },
     },
+    computed: {
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+    }
 }
 </script>
 

@@ -29,14 +29,35 @@
                     </el-form-item>
                 </el-form>
             </el-collapse-item>
-            <Request v-if="curComponent.request"></Request>
             <Linkage v-if="curComponent.linkage"></Linkage>
             <el-collapse-item title="定制属性" name="design">
                 <div class="v-common-design">
                     <slot></slot>
                 </div>
             </el-collapse-item>
+            <el-collapse-item title="数据绑定" name="databind">
+                <div class="v-common-design">
+                    <div class="data-bind-item" v-for="key in getKeys(curComponent.propValue)">
+                        <div class="label">{{ key }}</div>
+                        <div>
+                            <el-button v-if="!curComponent.dataBinds[key]" size="small" @click="bindData(key)">绑定数据</el-button>
+                            <el-tag closable @close="unbindData(key)" v-else>{{ curComponent.dataBinds[key].join('.') }}</el-tag>
+                        </div>
+                    </div>
+                </div>
+            </el-collapse-item>
         </el-collapse>
+        <el-dialog v-model="dataConfigShow" title="数据绑定" width="800">
+            <el-cascader v-model="form.bindKeys" :options="getOptions(rootStore.dataConfig.stateSet)" />
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="dataConfigShow = false">Cancel</el-button>
+                    <el-button type="primary" @click="handleConfirm">
+                    Confirm
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
@@ -49,12 +70,30 @@ import {
     selectKey,
     optionMap,
 } from '@/utils/attr';
-import Request from './Request.vue';
 import Linkage from './Linkage.vue';
 import { rootStore } from '@/stores/rootStore';
 
+const extractKeys = (obj) => {
+    let result = [];
+    for (let key in obj) {
+        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+            result.push({
+                label: key,
+                value: key,
+                children: extractKeys(obj[key])
+            });
+        } else {
+            result.push({
+                label: key,
+                value: key
+            });
+        }
+    }
+    return result;
+}
+
 export default {
-    components: { Request, Linkage },
+    components: { Linkage },
     data() {
         return {
             optionMap,
@@ -64,6 +103,12 @@ export default {
             verticalAlignOptions,
             selectKey,
             activeName: '',
+            form: {
+                key: '',
+                bindKeys: ''
+            },
+            dataConfigShow: false,
+            rootStore,
         };
     },
     computed: {
@@ -93,6 +138,29 @@ export default {
         isString(str) {
             return ['width'].includes(str.toLowerCase());
         },
+        bindData (key) {
+            this.form.bindKeys = ''
+            this.form.key = key
+            this.dataConfigShow = true
+        },
+        handleConfirm () {
+            rootStore.dataCenter.curComponent.dataBinds[this.form.key] = this.form.bindKeys
+            this.dataConfigShow = false
+        },
+        unbindData(key) {
+            delete rootStore.dataCenter.curComponent.dataBinds[key]
+        },
+        getOptions () {
+            let options = extractKeys(rootStore.dataConfig.stateSet);
+            return options;
+        },
+        getKeys (obj) {
+            if (typeof obj === 'object') {
+                return Object.keys(obj);
+            } else {
+                return ['value'];
+            }
+        }
     },
 };
 </script>
@@ -110,5 +178,13 @@ export default {
 .el-collapse-item__header {
     padding: 0 10px;
     margin: 0 0;
+}
+
+.data-bind-item {
+    display: flex;
+    margin-bottom: 5px;
+    .label {
+        width: 70px;
+    }
 }
 </style>

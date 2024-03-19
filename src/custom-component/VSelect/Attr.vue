@@ -5,9 +5,6 @@
                 <el-form-item label="label">
                     <el-input v-model="curComponent.propValue.label" size="small" />
                 </el-form-item>
-                <el-form-item label="key">
-                    <el-input v-model="curComponent.propValue.key" size="small" />
-                </el-form-item>
                 <el-form-item label="下拉列表">
                     <el-button size="small" @click="add">+</el-button>
                     <el-form v-for="item, index in options" :key="index" :inline="true" label-width="40px" size="small" style="padding: 10px 0">

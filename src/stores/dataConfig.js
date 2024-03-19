@@ -3,33 +3,46 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useDataConfigStore = defineStore('dataConfig', () => {
-  const stateList = ref([
-    {
-      name: 'form',
-      value: JSON.stringify({
+  const stateSet = ref({
+    form: {
       name: 'Tom',
-      age: 10
-      }, null, '\t'),
-      type: 'object'
+      age: 10,
+      cat: {
+        name: 'TomCat',
+        age: 10
+      },
+      dog: {
+        name: 'TomDog',
+        age: 10
+      }
     },
-    {
-      name: 'tip',
-      value: 'hello world',
-      type: 'string'
-    }
-  ])
-  const actionList = ref([])
+    tip: 'hello world'
+  })
+  const actionSet = ref({
+    submit: `(dataCenter, globalUtils) => {
+  //Todo
+}`
+  })
 
-  const addState = (state) => {
-    stateList.value.push(state)
+  const addState = (key, value) => {
+    stateSet.value[key] = value
   }
-  const deleteState = (index) => {
-    stateList.value.splice(index, 1)
+  const deleteState = (key) => {
+    delete stateSet.value[key]
+  }
+
+  const addAction = (key, value) => {
+    actionSet.value[key] = value
+  }
+  const deleteAction = (key) => {
+    delete actionSet.value[key]
   }
   return {
-    stateList,
-    actionList,
+    stateSet,
+    actionSet,
     addState,
-    deleteState
+    deleteState,
+    addAction,
+    deleteAction
   }
 })

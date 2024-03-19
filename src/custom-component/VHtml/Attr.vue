@@ -3,7 +3,7 @@
         <CommonAttr>
             <el-form>
                 <el-form-item label="HTML内容">
-                    <el-input v-model="curComponent.propValue" type="textarea" :rows="3" />
+                    <el-input v-model="curComponent.propValue.value" type="textarea" :rows="3" />
                 </el-form-item>
             </el-form>
         </CommonAttr>
