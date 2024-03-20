@@ -21,7 +21,7 @@
 
   const handleAction = (item) => {
     if (item.key === 'import') importFile()
-    if (item.key === 'export') exportFile()
+    if (item.key === 'export') generateJson()
     if (item.key === 'canceldo') undo()
     if (item.key === 'redo') redo()
     if (item.key === 'preview') preview()
@@ -42,19 +42,11 @@
         // 读取完文件之后会回来这里 这是个异步
         const fileString = evt.target.result; // 读取文件内容
         const data = JSON.parse(fileString);
-        rootStore.page.setCanvasStyle(data.canvasStyleData);
-        rootStore.dataCenter.setComponentData(data.componentData);
+        rootStore.dataConfig.stateSet = data.dataCenter
+        rootStore.dataConfig.actionSet = data.actionCenter
+        rootStore.dataCenter.setComponentData(data.components)
       };
     }
-  }
-  const exportFile = () => {
-    exportJson(
-      this.appRequest.name ? (this.appRequest.name + '.tyapp') : 'test.tyapp',
-      JSON.stringify({
-        canvasStyleData: rootStore.page.canvasStyleData,
-        componentData: rootStore.dataCenter.componentData,
-      }),
-    );
   }
   const undo = () => {
     rootStore.snapshot.undo()
@@ -75,6 +67,8 @@
     rootStore.dataCenter.setCurComponent({ component: null, index: null })
     rootStore.dataCenter.setComponentData([]);
     rootStore.snapshot.recordSnapshot()
+    rootStore.dataConfig.stateSet = {}
+    rootStore.dataConfig.actionSet = {}
   }
   const generateJson = () => {
     // 创建一个包含JSON数据的对象
@@ -91,7 +85,19 @@
     var url = URL.createObjectURL(blob);
     // 创建一个<a>元素
     var a = document.createElement('a');
-    a.download = 'app.json'; // 设置文件名
+    // 获取当前时间
+    const now = new Date();
+
+    // 获取时分秒的字符串，并转换为12_12_12格式
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}_${minutes}_${seconds}`;
+
+    // 构建文件名
+    const fileName = `file_${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${timeString}.json`;
+
+    a.download = fileName; // 设置文件名
     a.href = url;
     // 将<a>元素添加到文档中
     document.body.appendChild(a);

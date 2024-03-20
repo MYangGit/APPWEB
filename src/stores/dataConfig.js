@@ -1,19 +1,32 @@
 
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
+import localforage from 'localforage';
 
 export const useDataConfigStore = defineStore('dataConfig', () => {
-  const stateSet = ref({
-    form: {
-      name: 'Tom',
-      age: 10,
-    },
-    tip: 'hello world'
+  const stateSet = ref({})
+  const actionSet = ref({})
+
+  localforage.getItem('stateSet').then(cp => {
+    if (!cp) return
+    stateSet.value = JSON.parse(cp)
   })
-  const actionSet = ref({
-    submit: `(dataCenter, globalUtils) => {
-  console.log(dataCenter, globalUtils)
-}`
+
+  watch(stateSet, () => {
+    localforage.setItem('stateSet', JSON.stringify(stateSet.value))
+  }, {
+    deep: true
+  })
+
+  localforage.getItem('actionSet').then(cp => {
+    if (!cp) return
+    actionSet.value = JSON.parse(cp)
+  })
+
+  watch(actionSet, () => {
+    localforage.setItem('actionSet', JSON.stringify(actionSet.value))
+  }, {
+    deep: true
   })
 
   const addState = (key, value) => {

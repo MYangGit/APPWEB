@@ -49,6 +49,7 @@ export default {
         getSVGStyle,
         handleActionClick () {
             let { click } = this.config.actionBinds;
+            if (!click) return
             let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
             fn(rootStore.dataConfig.stateSet, {
                 post: (data) => {

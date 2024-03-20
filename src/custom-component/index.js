@@ -51,6 +51,7 @@ const components = [
     'VDate',
     'VSlide',
     'VPanel',
+    'VPlot'
 ];
 
 export const install = function (app) {

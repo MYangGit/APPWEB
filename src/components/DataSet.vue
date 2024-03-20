@@ -8,6 +8,8 @@ import { rootStore } from '@/stores/rootStore'
 
 const extensions = [json(), noctisLilac]
 
+const editor = ref()
+
 const code = computed({
   get() {
     return JSON.stringify(rootStore.dataConfig.stateSet, null, '\t')
@@ -31,6 +33,7 @@ const code = computed({
 <template>
   <div class="data-set-wrapper">
     <codemirror
+      ref="editor"
       v-model="code"
       :autofocus="false"
       :indent-with-tab="true"

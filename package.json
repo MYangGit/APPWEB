@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "mathjs": "^12.4.0",
     "pinia": "^2.1.7",
+    "plotly.js-dist-min": "^2.30.1",
     "thememirror": "^2.0.1",
     "vue": "^3.4.15",
     "vue-codemirror": "^6.1.1",

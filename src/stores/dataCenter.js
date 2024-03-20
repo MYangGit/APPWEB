@@ -1,12 +1,25 @@
-import { ref, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { swap } from '@/utils/utils'
 import toast from '@/utils/toast'
+import localforage from 'localforage';
+
 
 export const useDataCenterStore = defineStore('DataCenter', () => {
   const componentData = ref([])
   const curComponent = ref(null)
   const curComponentIndex = ref(null)
+
+  localforage.getItem('componentData').then(cp => {
+    if (!cp) return
+    componentData.value = JSON.parse(cp)
+  })
+
+  watch(componentData, () => {
+    localforage.setItem('componentData', JSON.stringify(componentData.value))
+  }, {
+    deep: true
+  })
 
   const setComponentData = (data) => {
     componentData.value = data

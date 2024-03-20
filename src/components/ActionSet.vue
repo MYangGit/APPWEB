@@ -37,10 +37,10 @@ const handleDelete = (name) => {
 }
 
 const handleAdd = () => {
-  ElMessageBox.prompt('请输入动作名称(英文和数字组合)', '新增动作', {
+  ElMessageBox.prompt('请输入动作名称(英文和数字组合), 以init_开始的命名在页面初始化，会自动执行一次', '新增动作', {
     confirmButtonText: '提交',
     cancelButtonText: '取消',
-    inputPattern: /^[a-zA-Z][a-zA-Z0-9]*$/,
+    inputPattern: /^[a-zA-Z][_a-zA-Z0-9]*$/,
     inputErrorMessage: '无效的动作命名',
   })
   .then(({ value }) => {
@@ -84,7 +84,7 @@ const handleAdd = () => {
   height: 100%;
   display: flex;
   .action-list {
-    width: 120px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     margin-right: 10px;

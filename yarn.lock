@@ -677,6 +677,11 @@
     "@vue/devtools-api" "^6.5.0"
     "vue-demi" ">=0.14.5"
 
+"plotly.js-dist-min@^2.30.1":
+  "integrity" "sha512-xWLni6EpBDwG/EdjCBTu+GK1Asuqswgh+YC77t0UAxa5OFFgpjYkVuvozZmkWqT9TKpvzjxkK4LLGv5Rn+yo7Q=="
+  "resolved" "https://registry.npmmirror.com/plotly.js-dist-min/-/plotly.js-dist-min-2.30.1.tgz"
+  "version" "2.30.1"
+
 "postcss@^8.4.35":
   "integrity" "sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA=="
   "resolved" "https://registry.npmmirror.com/postcss/-/postcss-8.4.35.tgz"

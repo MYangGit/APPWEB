@@ -1297,6 +1297,7 @@ const newList = [
             letterSpacing: 0,
             textAlign: '',
             color: '',
+            backgroundColor: '',
         },
     },
     // 按钮
@@ -1370,6 +1371,26 @@ const newList = [
             textAlign: '',
             color: '',
             backgroundColor: '',
+        }
+    },
+    {
+        component: 'VPlot',
+        label: '曲线图',
+        propValue: {
+            lineDatas: [],
+        },
+        icon: 'select',
+        type: 'common',
+        style: {
+            width: 300,
+            height: 200,
+            fontSize: '',
+            fontWeight: 400,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: '',
+            color: '',
+            backgroundColor: '#ffffff',
         }
     },
 ];

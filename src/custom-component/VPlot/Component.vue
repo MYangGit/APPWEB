@@ -1,0 +1,121 @@
+<template>
+    <div>
+        <div style="width: 100%;height: 100%;" id="chart"></div>
+    </div>
+</template>
+
+<script>
+import eventBus from '@/utils/eventBus';
+import OnEvent from '../common/OnEvent'
+import { getComputedGet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
+import Plotly from 'plotly.js-dist-min';
+
+export default {
+    extends: OnEvent,
+    props: {
+        propValue: {
+            type: Object,
+            default: () => ({
+                value: '',
+                options: [],
+            }),
+        },
+        element: {
+            type: Object,
+            default: () => {},
+        },
+    },
+    computed: {
+        lineDatas: {
+            get() {
+                return getComputedGet('lineDatas', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue) || []
+            }
+        },
+    },
+    methods: {
+        getLineData() {
+            let lineList = []
+            this.lineDatas.forEach((item) => {
+                lineList.push({
+                    name: item.name,
+                    x: item.x,
+                    y: item.y,
+                    hoverinfo: 'x+y',
+                    type: 'scatter',
+                    line: {
+                        width: 0.5
+                    }
+                })
+            })
+            return lineList
+        },
+        renderChart() {
+            let dom = document.querySelector('#chart')
+            if (!dom) return
+            dom.innerHTML = ''
+            let width = dom.offsetWidth
+            let height = dom.offsetHeight
+            let data = this.getLineData()
+            let layout = {
+                width,
+                height,
+                xaxis: {
+                    zeroline: false,
+                    showline: true,
+                    mirror: true
+                },
+                yaxis: {
+                    gridcolor: 'rgba(0,0,0,0.1)', // 设置网格线颜色
+                    gridwidth: 1, // 设置网格线宽度
+                    griddash: 'dot',
+                    type: 'log',
+                    exponentformat: 'power',
+                    tickfont: {
+                        size: 9
+                    },
+                    zeroline: false,
+                    showline: true,
+                    mirror: true
+                },
+                legend: {
+                    xanchor: 'right',
+                    x: 0.99,
+                    y: 0.98,
+                    bgcolor: '#ffffff',
+                    bordercolor: '#cccccc',
+                    borderwidth: 1,
+                    traceorder: 'normal'
+                },
+                margin: {
+                    l: 20,
+                    r: 20,
+                    b: 20,
+                    t: 30
+                },
+                showlegend: true,
+                showline: true
+            };
+            Plotly.newPlot('chart', data, layout);
+        }
+    },
+    mounted() {
+        this.renderChart();
+    },
+    watch: {
+        propValue: {
+            handler(val) {
+                const linkageEvents = this.element.linkage.data.filter((i) => i.event === 'updateValue');
+                if (linkageEvents.length) {
+                    eventBus.$emit('updateValue', linkageEvents, { ...val });
+                }
+            },
+            deep: true,
+            immediate: true,
+        },
+    },
+}
+</script>
+
+<style lang="less" scoped>
+</style>
