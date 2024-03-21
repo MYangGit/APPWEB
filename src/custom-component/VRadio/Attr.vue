@@ -5,9 +5,6 @@
                 <el-form-item label="label">
                     <el-input v-model="curComponent.propValue.label" size="small" />
                 </el-form-item>
-                <el-form-item label="key">
-                    <el-input v-model="curComponent.propValue.key" size="small" />
-                </el-form-item>
                 <el-form-item label="单选项列表">
                     <el-button size="small" @click="add">+</el-button>
                     <el-form v-for="item, index in options" :key="index" :inline="true" label-width="40px" size="small" style="padding: 10px 0">
@@ -21,12 +18,6 @@
                             <el-button @click="deleteRow(index)">-</el-button>
                         </el-form-item>
                     </el-form>
-                </el-form-item>
-                <el-form-item label="样式">
-                    <div style="clear: both">
-                        <el-radio v-model="curComponent.propValue.isBtn" :value="false">默认</el-radio>
-                        <el-radio v-model="curComponent.propValue.isBtn" :value="true">按钮</el-radio>
-                    </div>
                 </el-form-item>
             </el-form>
         </CommonAttr>

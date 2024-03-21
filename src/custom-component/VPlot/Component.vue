@@ -26,6 +26,11 @@ export default {
             default: () => {},
         },
     },
+    data () {
+        return {
+            resizeTimer: null
+        }
+    },
     computed: {
         lineDatas: {
             get() {
@@ -101,7 +106,14 @@ export default {
         }
     },
     mounted() {
-        this.renderChart();
+        const targetDiv = document.getElementById('chart');
+        const observer = new ResizeObserver(entries => {
+            clearTimeout(this.resizeTimer);
+            this.resizeTimer = setTimeout(() => {
+                this.renderChart()
+            }, 200);
+        });
+        observer.observe(targetDiv);
     },
     watch: {
         lineDatas: {

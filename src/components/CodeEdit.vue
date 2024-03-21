@@ -20,7 +20,6 @@ import { json } from "@codemirror/lang-json"
 const extensions = [noctisLilac, json()]
 const code = computed({
     get() {
-        console.log(rootStore.dataCenter.componentData)
         return JSON.stringify(rootStore.dataCenter.componentData, null, '\t')
     },
     set(newValue) {

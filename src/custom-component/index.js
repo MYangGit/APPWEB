@@ -1,70 +1,43 @@
-import { defineAsyncComponent } from "vue";
-
-const components = [
-    'CircleShape',
-    'Picture',
-    'VText',
-    'VButton',
-    'VSelect',
-    'VInput',
-    'Group',
-    'RectShape',
-    'LineShape',
-    'VTable',
-    'TreeList',
-    'Tabs',
-    'GridLayout',
-    'TyCharts',
-    'SvgViewer',
-    'ModelAttributes',
-    'TyModelParams',
-    'ModelUser',
-    'Gauge',
-    'Radar',
-    'Pie',
-    'RTitle',
-    'Section',
-    'Paragraph',
-    'ModelList',
-    'ModelName',
-    'ModelSnapshot',
-    'ModelDocument',
-    'ModelParameterTable',
-    'SimulationList',
-    'SimulationParameter',
-    'SimulationSettings',
-    'SimulationResult',
-    'SimulationVariable',
-    'SimulationVariablePlot',
-    'SimulationTime',
-    'SelectModel',
-    'Lamp',
-    'Tube',
-    'ModelInput',
-    'ModelOutput',
-    'Animation',
-    'VHtml',
-    'VRadio',
-    'VCheckBox',
-    'VInputNumber',
-    'VTextArea',
-    'VDate',
-    'VSlide',
-    'VPanel',
-    'VPlot'
-];
+import VText from './VText/Component.vue'
+import VTextAttr from './VText/Attr.vue'
+import VButton from './VButton/Component.vue'
+import VButtonAttr from './VButton/Attr.vue'
+import VSelect from './VSelect/Component.vue'
+import VSelectAttr from './VSelect/Attr.vue'
+import VInput from './VInput/Component.vue'
+import VInputAttr from './VInput/Attr.vue'
+import VPlot from './VPlot/Component.vue'
+import VPlotAttr from './VPlot/Attr.vue'
+import VCheckBox from './VCheckBox/Component.vue'
+import VCheckBoxAttr from './VCheckBox/Attr.vue'
+import VRadio from './VRadio/Component.vue'
+import VRadioAttr from './VRadio/Attr.vue'
+import VTextArea from './VTextArea/Component.vue'
+import VTextAreaAttr from './VTextArea/Attr.vue'
+const components = {
+    VText,
+    VButton,
+    VSelect,
+    VInput,
+    VPlot,
+    VCheckBox,
+    VRadio,
+    VTextArea
+};
+const attrs = {
+    VTextAttr,
+    VButtonAttr,
+    VSelectAttr,
+    VInputAttr,
+    VPlotAttr,
+    VCheckBoxAttr,
+    VRadioAttr,
+    VTextAreaAttr
+};
 
 export const install = function (app) {
-    // forEach边历子组件 并使用懒加载模式注册给vue
-    components.forEach((key) => {
-        app.component(key, defineAsyncComponent(() => import(`@/custom-component/${key}/Component.vue`)));
-        app.component(key + 'Attr', defineAsyncComponent(() => import(`@/custom-component/${key}/Attr.vue`)));
-    });
-
-    const svgs = ['SVGStar', 'SVGTriangle'];
-
-    svgs.forEach((key) => {
-        app.component(key, () => import(`@/custom-component/svgs/${key}/Component.vue`));
-        app.component(key + 'Attr', () => import(`@/custom-component/svgs/${key}/Attr.vue`));
+    Object.keys(components).forEach((key) => {
+        app.component(key, components[key]);
+        app.component(key + 'Attr', attrs[key + 'Attr']);
     });
 };

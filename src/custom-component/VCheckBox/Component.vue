@@ -1,23 +1,13 @@
 <template>
     <div class="input-wrap">
-        <label v-show="propValue.label">{{ propValue.label }}：</label>
-        <el-checkbox-group v-if="propValue.isBtn" v-model="propValue.value">
-            <el-checkbox-button
-                v-for="item, index in propValue.options"
-                :key="index"
-                :label="item.value"
-            >
-                {{ item.label }}
-            </el-checkbox-button>
-        </el-checkbox-group>
-        <el-checkbox-group v-if="!propValue.isBtn" v-model="propValue.value">
+        <label v-show="label">{{ label }}：</label>
+        <el-checkbox-group  v-model="value">
             <el-checkbox 
-                v-for="item, index in propValue.options"
+                v-for="item, index in options"
                 :key="index"
-                :label="item.value"
-            >
-                {{ item.label }}
-            </el-checkbox>
+                :value="item.value"
+                :label="item.label"
+            ></el-checkbox>
         </el-checkbox-group>
     </div>
 </template>
@@ -25,6 +15,8 @@
 <script>
 import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
+import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
@@ -32,15 +24,41 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
-                key: '',
+                label: '',
                 value: [],
                 options: [],
-                isBtn: false,
             }),
         },
         element: {
             type: Object,
             default: () => {},
+        },
+    },
+    computed: {
+        label: {
+            get() {
+                return getComputedGet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                console.log(111, val)
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        options: {
+            get() {
+                return getComputedGet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
         },
     },
     watch: {

@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div v-if="editMode == 'edit'" class="v-text" @keydown="handleKeydown" @keyup="handleKeyup">
+    <div class="v-text" @keydown="handleKeydown" @keyup="handleKeyup">
         <div
             ref="text"
             :contenteditable="canEdit"
@@ -14,9 +14,6 @@
             @input="handleInput"
             v-html="value"
         ></div>
-    </div>
-    <div v-else class="v-text preview">
-        <div :style="{ verticalAlign: element.style.verticalAlign }" v-html="value"></div>
     </div>
 </template>
 
@@ -52,7 +49,6 @@ export default {
         };
     },
     computed: {
-        ...mapState(rootStore.useEditorStore, ['editMode']),
         value: {
             get() {
                 return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)

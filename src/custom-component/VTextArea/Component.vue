@@ -1,13 +1,14 @@
 <template>
     <div class="input-wrap">
-        <label v-show="propValue.label">{{ propValue.label }}：</label>
-        <el-input v-model="propValue.value" size="small" type="textarea" />
+        <el-input class="input-textarea" v-model="value" size="small" type="textarea" />
     </div>
 </template>
 
 <script>
 import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
+import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     extends: OnEvent,
@@ -15,8 +16,6 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
-                label: '',
-                key: '',
                 value: '',
             }),
         },
@@ -24,6 +23,16 @@ export default {
             type: Object,
             default: () => {},
         },
+    },
+    computed: {
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        }
     },
     watch: {
         propValue: {
@@ -44,9 +53,9 @@ export default {
 .input-wrap {
     display: inline-flex;
     align-items: baseline;
-    label {
-        word-break: keep-all;
-        white-space: nowrap;
+    .input-textarea {
+        width: 100%;
+        height: 100%;
     }
 }
 </style>
