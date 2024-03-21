@@ -69,8 +69,6 @@ export default {
                     gridcolor: 'rgba(0,0,0,0.1)', // 设置网格线颜色
                     gridwidth: 1, // 设置网格线宽度
                     griddash: 'dot',
-                    type: 'log',
-                    exponentformat: 'power',
                     tickfont: {
                         size: 9
                     },
@@ -96,13 +94,22 @@ export default {
                 showlegend: true,
                 showline: true
             };
-            Plotly.newPlot('chart', data, layout);
+            Plotly.newPlot('chart', data, layout, {
+                responsive: true,
+                scrollZoom: true,
+            });
         }
     },
     mounted() {
         this.renderChart();
     },
     watch: {
+        lineDatas: {
+            handler() {
+                this.renderChart()
+            },
+            deep: true,
+        },
         propValue: {
             handler(val) {
                 const linkageEvents = this.element.linkage.data.filter((i) => i.event === 'updateValue');

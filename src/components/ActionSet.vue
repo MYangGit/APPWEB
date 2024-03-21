@@ -32,7 +32,7 @@ const autoActive = () => {
 }
 
 const handleDelete = (name) => {
-  delete rootStore.dataConfig.deleteAction[name]
+  delete rootStore.dataConfig.actionSet[name]
   autoActive()
 }
 
