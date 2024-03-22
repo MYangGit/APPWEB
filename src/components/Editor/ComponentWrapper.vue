@@ -10,7 +10,6 @@
             :element="config"
             :request="config.request"
             :linkage="config.linkage"
-            @hook:mounted="childMounted"
         />
 
         <component
@@ -23,7 +22,6 @@
             :prop-value="config.propValue"
             :element="config"
             :linkage="config.linkage"
-            @hook:mounted="childMounted"
         />
     </div>
 </template>
@@ -43,6 +41,9 @@ export default {
             required: true,
             default: () => {},
         },
+    },
+    mounted() {
+        this.childMounted()
     },
     methods: {
         getStyle,
@@ -75,6 +76,7 @@ export default {
             }
         },
         childMounted() {
+            console.log(1111, this.$refs.component)
             if (this.$refs.component) {
                 runAnimation(this.$refs.component.$el, this.config.animations);
             }
