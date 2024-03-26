@@ -11,9 +11,6 @@
                 <el-form-item label="value">
                     <el-input v-model="curComponent.propValue.value" size="small" />
                 </el-form-item>
-                <el-form-item label="type">
-                    <el-input v-model="curComponent.propValue.type" size="small" />
-                </el-form-item>
                 <el-form-item label="Placeholder">
                     <el-input v-model="curComponent.propValue.Placeholder" size="small" />
                 </el-form-item>

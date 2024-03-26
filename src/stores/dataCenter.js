@@ -57,13 +57,19 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     if (index === undefined) {
       index = curComponentIndex.value;
     }
-
     if (index == curComponentIndex.value) {
+      componentData.value = componentData.value.filter((item) => {
+        return item.pid !== curComponent.value.id;
+      })
       curComponentIndex.value = null;
       curComponent.value = null;
     }
 
     if (/\d/.test(index)) {
+      let component = componentData.value[index];
+      componentData.value = componentData.value.filter((item) => {
+        return item.pid !== component.id;
+      })
       componentData.value.splice(index, 1);
     }
   }

@@ -65,6 +65,7 @@ export default {
     label {
         word-break: keep-all;
         white-space: nowrap;
+        margin-bottom: 0;
     }
 }
 </style>

@@ -25,6 +25,7 @@ import localforage from 'localforage';
 import ComponentWrapper from './ComponentWrapper';
 import { changeStyleWithScale } from '@/utils/translate';
 import { toPng } from 'html-to-image';
+import { rootStore } from '@/stores/rootStore';
 
 export default {
     components: { ComponentWrapper },
@@ -49,6 +50,7 @@ export default {
         localforage.getItem('canvasStyle').then((data) => {
             this.canvasStyleData = JSON.parse(data);
         });
+        rootStore.editor.setEditMode('preview')
     },
     methods: {
         getStyle,

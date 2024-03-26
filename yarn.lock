@@ -426,6 +426,14 @@
   "resolved" "https://registry.npmmirror.com/entities/-/entities-4.5.0.tgz"
   "version" "4.5.0"
 
+"errantia@^0.0.18":
+  "integrity" "sha512-fvRqz5EEcObIFfcE1I61HXTBOV0+s5yPR3becW7NQPNcsUWglL0xQohtd6g6ivjQYveagCaCBVpO1HzmjolIaA=="
+  "resolved" "https://registry.npmmirror.com/errantia/-/errantia-0.0.18.tgz"
+  "version" "0.0.18"
+  dependencies:
+    "plotly.js-dist-min" "^2.28.0"
+    "vue" "^3.4.15"
+
 "errno@^0.1.1":
   "integrity" "sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A=="
   "resolved" "https://registry.npmmirror.com/errno/-/errno-0.1.8.tgz"
@@ -677,7 +685,7 @@
     "@vue/devtools-api" "^6.5.0"
     "vue-demi" ">=0.14.5"
 
-"plotly.js-dist-min@^2.30.1":
+"plotly.js-dist-min@^2.28.0", "plotly.js-dist-min@^2.30.1":
   "integrity" "sha512-xWLni6EpBDwG/EdjCBTu+GK1Asuqswgh+YC77t0UAxa5OFFgpjYkVuvozZmkWqT9TKpvzjxkK4LLGv5Rn+yo7Q=="
   "resolved" "https://registry.npmmirror.com/plotly.js-dist-min/-/plotly.js-dist-min-2.30.1.tgz"
   "version" "2.30.1"

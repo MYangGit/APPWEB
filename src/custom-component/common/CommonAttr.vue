@@ -57,9 +57,20 @@
                     </div>
                 </div>
             </el-collapse-item>
+            <el-collapse-item title="显示状态绑定" name="visiablebind">
+                <div class="v-common-design">
+                    <div class="data-bind-item">
+                        <el-button v-if="!curComponent.visiable.key" size="small" @click="bindData('key', 'visiable')">绑定数据</el-button>
+                        <el-tag closable @close="unbindData('key', 'visiable')" v-else>{{ curComponent.visiable.key.join('.') }}</el-tag>
+                    </div>
+                    <div class="data-bind-item">
+                        <el-input type="text" v-model="curComponent.visiable.value" />
+                    </div>
+                </div>
+            </el-collapse-item>
         </el-collapse>
         <el-dialog v-model="dataConfigShow" title="数据绑定" width="800">
-            <el-cascader v-model="form.bindKeys" :options="getOptions()" />
+            <el-cascader v-model="form.bindKeys" :props="{checkStrictly: true}" :options="getOptions()" />
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="dataConfigShow = false">Cancel</el-button>
@@ -129,7 +140,8 @@ export default {
             activeName: '',
             form: {
                 key: '',
-                bindKeys: ''
+                bindKeys: '',
+                type: 'normal'
             },
             dataConfigShow: false,
             actionConfigShow: false,
@@ -167,9 +179,10 @@ export default {
         isString(str) {
             return ['width'].includes(str.toLowerCase());
         },
-        bindData (key) {
+        bindData (key, type) {
             this.form.bindKeys = ''
             this.form.key = key
+            if (type) this.form.type = type
             this.dataConfigShow = true
         },
         bindActionData (key) {
@@ -178,15 +191,25 @@ export default {
             this.actionConfigShow = true
         },
         handleConfirm () {
-            rootStore.dataCenter.curComponent.dataBinds[this.form.key] = this.form.bindKeys
+            if (this.form.type === 'visiable') {
+                rootStore.dataCenter.curComponent.visiable[this.form.key] = this.form.bindKeys
+            }
+            if (this.form.type === 'normal') {
+                rootStore.dataCenter.curComponent.dataBinds[this.form.key] = this.form.bindKeys
+            }
             this.dataConfigShow = false
         },
         handleActionConfirm () {
             rootStore.dataCenter.curComponent.actionBinds[this.actionForm.key] = this.actionForm.bindKey
             this.actionConfigShow = false
         },
-        unbindData(key) {
-            delete rootStore.dataCenter.curComponent.dataBinds[key]
+        unbindData(key, type = 'normal') {
+            if (type === 'visiable') {
+                rootStore.dataCenter.curComponent.visiable[this.form.key] = ''
+            }
+            if (type === 'normal') {
+                delete rootStore.dataCenter.curComponent.dataBinds[key]
+            }
         },
         unbindActionData (key) {
             delete rootStore.dataCenter.curComponent.actionBinds[key]

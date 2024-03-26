@@ -14,10 +14,16 @@ import VRadio from './VRadio/Component.vue'
 import VRadioAttr from './VRadio/Attr.vue'
 import VTextArea from './VTextArea/Component.vue'
 import VTextAreaAttr from './VTextArea/Attr.vue'
+import VPanel from './VPanel/Component.vue'
+import VPanelAttr from './VPanel/Attr.vue'
+import ErPlot from './errantia/Plot/Component.vue'
+import ErPlotAttr from './errantia/Plot/Attr.vue'
 import ErTable from './errantia/Table/Component.vue'
 import ErTableAttr from './errantia/Table/Attr.vue'
 import ErInput from './errantia/Input/Component.vue'
 import ErInputAttr from './errantia/Input/Attr.vue'
+import ErStatusBar from './errantia/StatusBar/Component.vue'
+import ErStatusBarAttr from './errantia/StatusBar/Attr.vue'
 const components = {
     VText,
     VButton,
@@ -29,6 +35,9 @@ const components = {
     VTextArea,
     ErTable,
     ErInput,
+    VPanel,
+    ErPlot,
+    ErStatusBar
 };
 const attrs = {
     VTextAttr,
@@ -41,6 +50,9 @@ const attrs = {
     VTextAreaAttr,
     ErTableAttr,
     ErInputAttr,
+    VPanelAttr,
+    ErPlotAttr,
+    ErStatusBarAttr
 };
 
 export const install = function (app) {

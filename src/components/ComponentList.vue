@@ -9,6 +9,10 @@ const types = ref([
     label: '基础组件',
   },
   {
+    type: 'box',
+    label: '容器组件',
+  },
+  {
     type: 'errantia',
     label: 'Errantia组件',
   }
@@ -85,6 +89,7 @@ const handleDragStart = (e, item) => {
     }
     label {
       cursor: grab;
+      margin-bottom: 0;
     }
 
     .iconfont {

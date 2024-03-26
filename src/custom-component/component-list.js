@@ -7,8 +7,11 @@ import VSelect from './VSelect/meta';
 import VCheckBox from './VCheckBox/meta';
 import VRadio from './VRadio/meta';
 import VTextArea from './VTextArea/meta';
+import VPanel from './VPanel/meta';
+import ErPlot from './errantia/Plot/meta';
 import ErTable from './errantia/Table/meta';
 import ErInput from './errantia/Input/meta';
+import ErStatusBar from './errantia/StatusBar/meta';
 
 // 编辑器左侧组件列表
 const componentList = [
@@ -23,6 +26,9 @@ const componentList = [
     VTextArea,
     ErTable,
     ErInput,
+    VPanel,
+    ErPlot,
+    ErStatusBar
 ];
 
 export const commonStyle = {
@@ -31,6 +37,10 @@ export const commonStyle = {
 };
 
 export const commonAttr = {
+    visiable: {
+        key: '',
+        value: ''
+    },
     animations: [],
     dataBinds: {},
     actionBinds: {},

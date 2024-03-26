@@ -1,23 +1,11 @@
 <template>
-    <div @click="onClick" @mouseenter="onMouseEnter">
+    <div @mouseenter="onMouseEnter">
         <component
             :is="config.component"
-            v-if="config.component.startsWith('SVG')"
-            ref="component"
-            class="component"
-            :style="getSVGStyle(config.style)"
-            :prop-value="config.propValue"
-            :element="config"
-            :request="config.request"
-            :linkage="config.linkage"
-        />
-
-        <component
-            :is="config.component"
-            v-else
             ref="component"
             class="component"
             @click="handleActionClick"
+            v-if="getShowState(config)"
             :style="getStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
@@ -27,10 +15,11 @@
 </template>
 
 <script>
-import { getStyle, getSVGStyle } from '@/utils/style';
+import { getStyle } from '@/utils/style';
 import runAnimation from '@/utils/runAnimation';
 import { mixins } from '@/utils/events';
 import eventBus from '@/utils/eventBus';
+import { getValueByDotKey } from '@/utils/utils'
 import { rootStore } from '@/stores/rootStore';
 
 export default {
@@ -47,7 +36,12 @@ export default {
     },
     methods: {
         getStyle,
-        getSVGStyle,
+        getShowState (config) {
+            console.log(config.visiable)
+            if (!config.visiable.key) return true
+            let value = getValueByDotKey(rootStore.dataConfig.stateSet, config.visiable.key.join('.'))
+            return value === config.visiable.value
+        },
         handleActionClick () {
             let { click } = this.config.actionBinds;
             if (!click) return
@@ -57,16 +51,6 @@ export default {
                     console.log('post', data)
                 }
             })
-        },
-        onClick() {
-            const events = this.config.events;
-            Object.keys(events).forEach((event) => {
-                this[event](events[event]);
-            });
-            const linkageEvents = this.config.linkage.data.filter((i) => i.event === 'v-click');
-            if (linkageEvents.length) {
-                eventBus.$emit('v-click', linkageEvents);
-            }
         },
 
         onMouseEnter() {

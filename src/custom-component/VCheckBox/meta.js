@@ -4,7 +4,12 @@ export default {
   propValue: {
     value: [],
     label: '字段名',
-    options: []
+    options: [
+      {
+        label: 'Label',
+        value: 'value'
+      }
+    ]
   },
   icon: 'input',
   type: 'common',

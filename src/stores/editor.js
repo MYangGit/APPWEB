@@ -15,6 +15,7 @@ export const useEditorStore = defineStore('editor', () => {
     editMode.value = mode;
   }
   return {
+    editMode,
     isInEdiotr,
     isClickComponent,
     setClickComponentStatus,

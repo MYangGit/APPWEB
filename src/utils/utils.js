@@ -115,7 +115,7 @@ export const fileToBase64 = file => {
   })
 };
 
-function getValueByDotKey(obj, dotKey) {
+export function getValueByDotKey(obj, dotKey) {
   const keys = dotKey.split('.');
   let value = obj;
   for (let key of keys) {
