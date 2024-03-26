@@ -129,14 +129,6 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     }
   }
 
-  const addEvent = ({ event, param, label }) => {
-    curComponent.value.events[event] = { param, label }
-  }
-
-  const removeEvent = (event) => {
-    delete curComponent.value.events[event]
-  }
-
   return {
     componentData,
     curComponent,
@@ -155,8 +147,6 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     unlock,
     addAnimation,
     removeAnimation,
-    alterAnimation,
-    addEvent,
-    removeEvent,
+    alterAnimation
   }
 })

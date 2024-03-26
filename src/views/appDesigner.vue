@@ -11,7 +11,6 @@ import Editor from '@/components/Editor/index.vue';
 import CodeEdit from '@/components/CodeEdit.vue';
 import DataCenter from '@/components/DataCenter.vue';
 import AnimationList from '@/components/AnimationList';
-import EventList from '@/components/EventList.vue';
 
 import { rootStore } from '@/stores/rootStore';
 
@@ -133,11 +132,7 @@ const deselectCurComponent = (e) => {
           <el-tab-pane label="动画" name="animation" style="padding-top: 20px">
             <AnimationList />
           </el-tab-pane>
-          <el-tab-pane label="事件" name="events" style="padding-top: 20px">
-            <EventList />
-          </el-tab-pane>
         </el-tabs>
-        <!-- <CanvasAttr v-show="!curComponent"></CanvasAttr> -->
       </section>
     </main>
   </div>
