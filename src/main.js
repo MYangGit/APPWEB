@@ -7,6 +7,7 @@ import './assets/animate.less'
 import { createApp } from 'vue'
 import pinia from './stores';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import '../node_modules/errantia/dist/style.css'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'

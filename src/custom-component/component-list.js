@@ -7,6 +7,9 @@ import VSelect from './VSelect/meta';
 import VCheckBox from './VCheckBox/meta';
 import VRadio from './VRadio/meta';
 import VTextArea from './VTextArea/meta';
+import ErTable from './errantia/Table/meta';
+import ErInput from './errantia/Input/meta';
+
 // 编辑器左侧组件列表
 const componentList = [
     VButton,
@@ -17,7 +20,9 @@ const componentList = [
     VSelect,
     VCheckBox,
     VRadio,
-    VTextArea
+    VTextArea,
+    ErTable,
+    ErInput,
 ];
 
 export const commonStyle = {

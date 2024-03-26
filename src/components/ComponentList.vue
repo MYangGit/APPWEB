@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from 'vue'
 import componentList from '@/custom-component/component-list'; // 导入子组件数据
-const activeNames = ref(['common', 'box', 'Ty', 'report'])
+const activeNames = ref(['common', 'box', 'Ty', 'report', 'errantia'])
 
 const types = ref([
   {
     type: 'common',
     label: '基础组件',
+  },
+  {
+    type: 'errantia',
+    label: 'Errantia组件',
   }
 ])
 

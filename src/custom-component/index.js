@@ -14,6 +14,10 @@ import VRadio from './VRadio/Component.vue'
 import VRadioAttr from './VRadio/Attr.vue'
 import VTextArea from './VTextArea/Component.vue'
 import VTextAreaAttr from './VTextArea/Attr.vue'
+import ErTable from './errantia/Table/Component.vue'
+import ErTableAttr from './errantia/Table/Attr.vue'
+import ErInput from './errantia/Input/Component.vue'
+import ErInputAttr from './errantia/Input/Attr.vue'
 const components = {
     VText,
     VButton,
@@ -22,7 +26,9 @@ const components = {
     VPlot,
     VCheckBox,
     VRadio,
-    VTextArea
+    VTextArea,
+    ErTable,
+    ErInput,
 };
 const attrs = {
     VTextAttr,
@@ -32,7 +38,9 @@ const attrs = {
     VPlotAttr,
     VCheckBoxAttr,
     VRadioAttr,
-    VTextAreaAttr
+    VTextAreaAttr,
+    ErTableAttr,
+    ErInputAttr,
 };
 
 export const install = function (app) {
