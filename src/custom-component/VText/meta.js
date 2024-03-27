@@ -15,5 +15,6 @@ export default {
     letterSpacing: 0,
     textAlign: '',
     color: '',
+    backgroundColor: '',
   }
 }
