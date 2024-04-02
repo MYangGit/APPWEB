@@ -8,6 +8,7 @@ import VCheckBox from './VCheckBox/meta';
 import VRadio from './VRadio/meta';
 import VTextArea from './VTextArea/meta';
 import VPanel from './VPanel/meta';
+import VTabs from './VTabs/meta';
 import ErPlot from './errantia/Plot/meta';
 import ErTable from './errantia/Table/meta';
 import ErInput from './errantia/Input/meta';
@@ -27,6 +28,7 @@ const componentList = [
     ErTable,
     ErInput,
     VPanel,
+    VTabs,
     ErPlot,
     ErStatusBar
 ];

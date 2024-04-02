@@ -16,6 +16,8 @@ import VTextArea from './VTextArea/Component.vue'
 import VTextAreaAttr from './VTextArea/Attr.vue'
 import VPanel from './VPanel/Component.vue'
 import VPanelAttr from './VPanel/Attr.vue'
+import VTabs from './VTabs/Component.vue'
+import VTabsAttr from './VTabs/Attr.vue'
 import ErPlot from './errantia/Plot/Component.vue'
 import ErPlotAttr from './errantia/Plot/Attr.vue'
 import ErTable from './errantia/Table/Component.vue'
@@ -36,6 +38,7 @@ const components = {
     ErTable,
     ErInput,
     VPanel,
+    VTabs,
     ErPlot,
     ErStatusBar
 };
@@ -51,6 +54,7 @@ const attrs = {
     ErTableAttr,
     ErInputAttr,
     VPanelAttr,
+    VTabsAttr,
     ErPlotAttr,
     ErStatusBarAttr
 };
