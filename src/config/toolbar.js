@@ -36,7 +36,7 @@ export const actions = ref([
   },
   {
     icon: saveIcon,
-    title: '出码',
+    title: '构建',
     key: 'generate'
   },
   {
