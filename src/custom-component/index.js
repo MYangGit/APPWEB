@@ -6,6 +6,8 @@ import VSelect from './VSelect/Component.vue'
 import VSelectAttr from './VSelect/Attr.vue'
 import VInput from './VInput/Component.vue'
 import VInputAttr from './VInput/Attr.vue'
+import VHtml from './VHtml/Component.vue'
+import VHtmlAttr from './VHtml/Attr.vue'
 import VPlot from './VPlot/Component.vue'
 import VPlotAttr from './VPlot/Attr.vue'
 import VCheckBox from './VCheckBox/Component.vue'
@@ -31,6 +33,7 @@ const components = {
     VButton,
     VSelect,
     VInput,
+    VHtml,
     VPlot,
     VCheckBox,
     VRadio,
@@ -47,6 +50,7 @@ const attrs = {
     VButtonAttr,
     VSelectAttr,
     VInputAttr,
+    VHtmlAttr,
     VPlotAttr,
     VCheckBoxAttr,
     VRadioAttr,
