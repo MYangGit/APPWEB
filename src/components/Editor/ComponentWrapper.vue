@@ -37,7 +37,7 @@ export default {
     methods: {
         getStyle,
         getShowState (config) {
-            console.log(config.visiable)
+            if (!config.visiable) return true
             if (!config.visiable.key) return true
             let value = getValueByDotKey(rootStore.dataConfig.stateSet, config.visiable.key.join('.'))
             return value === config.visiable.value
