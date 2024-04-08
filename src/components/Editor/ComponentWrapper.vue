@@ -55,7 +55,6 @@ export default {
             }
         },
         childMounted() {
-            console.log(1111, this.$refs.component)
             if (this.$refs.component) {
                 runAnimation(this.$refs.component.$el, this.config.animations);
             }

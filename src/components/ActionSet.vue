@@ -55,7 +55,7 @@ const handleAdd = () => {
 
 <template>
   <div class="btns-wrapper">
-    <el-button type="primary" size="small" style="position: relative;top: -4px;" @click="handleAdd">新增动作</el-button>
+    <el-button type="primary" plain class="add-btn" style="width: 100%" @click="handleAdd">新增动作</el-button>
   </div>
   <div class="data-set-wrapper">
     <div class="action-list">
@@ -78,7 +78,6 @@ const handleAdd = () => {
 </template>
 <style lang="less" scoped>
 .btns-wrapper {
-  margin-top: 10px;
 }
 .data-set-wrapper {
   height: 100%;

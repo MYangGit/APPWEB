@@ -26,6 +26,8 @@ import ComponentWrapper from './ComponentWrapper';
 import { changeStyleWithScale } from '@/utils/translate';
 import { toPng } from 'html-to-image';
 import { rootStore } from '@/stores/rootStore';
+import { watch } from 'vue';
+import { getValueByDotKey } from '@/utils/utils'
 
 export default {
     components: { ComponentWrapper },
@@ -51,6 +53,9 @@ export default {
             this.canvasStyleData = JSON.parse(data);
         });
         rootStore.editor.setEditMode('preview')
+        setTimeout(() => {
+            this.initWatch()
+        }, 100)
     },
     methods: {
         getStyle,
@@ -73,6 +78,23 @@ export default {
                     console.error('oops, something went wrong!', error);
                 })
                 .finally(this.close);
+        },
+        initWatch () {
+            rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
+                let fn = new Function(`return ${rootStore.dataConfig.actionSet[action]}`)()
+                watch(() => {
+                    return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
+                }, (value) => {
+                    fn(rootStore.dataConfig.stateSet, {
+                        globalUtils: {},
+                        eventParams: {
+                            value
+                        }
+                    })
+                }, { deep: true });
+           })
+
+            
         }
     },
 };

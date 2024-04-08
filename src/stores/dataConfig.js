@@ -6,6 +6,7 @@ import localforage from 'localforage';
 export const useDataConfigStore = defineStore('dataConfig', () => {
   const stateSet = ref({})
   const actionSet = ref({})
+  const watchRegisters = ref([])
 
   localforage.getItem('stateSet').then(cp => {
     if (!cp) return
@@ -29,6 +30,17 @@ export const useDataConfigStore = defineStore('dataConfig', () => {
     deep: true
   })
 
+  localforage.getItem('watchRegisters').then(cp => {
+    if (!cp) return
+    watchRegisters.value = JSON.parse(cp)
+  })
+
+  watch(watchRegisters, () => {
+    localforage.setItem('watchRegisters', JSON.stringify(watchRegisters.value))
+  }, {
+    deep: true
+  })
+
   const addState = (key, value) => {
     stateSet.value[key] = value
   }
@@ -45,6 +57,7 @@ export const useDataConfigStore = defineStore('dataConfig', () => {
   return {
     stateSet,
     actionSet,
+    watchRegisters,
     addState,
     deleteState,
     addAction,
