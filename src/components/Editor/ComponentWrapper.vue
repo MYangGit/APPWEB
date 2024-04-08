@@ -21,7 +21,9 @@ import { mixins } from '@/utils/events';
 import eventBus from '@/utils/eventBus';
 import { getValueByDotKey } from '@/utils/utils'
 import { rootStore } from '@/stores/rootStore';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { onClick } = useEventCentre();
 export default {
     mixins: [mixins],
     props: {
@@ -43,14 +45,7 @@ export default {
             return value === config.visiable.value
         },
         handleActionClick () {
-            let { click } = this.config.actionBinds;
-            if (!click) return
-            let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
-            fn(rootStore.dataConfig.stateSet, {
-                post: (data) => {
-                    console.log('post', data)
-                }
-            })
+            onClick({element: this.config})
         },
 
         onMouseEnter() {

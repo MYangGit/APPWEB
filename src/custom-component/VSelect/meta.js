@@ -20,4 +20,7 @@ export default {
     backgroundColor: '',
   },
   eventOptions: [{ label: '数据改变', value: 'updateValue' }],
+  actionBinds: {
+    change: ''
+  }
 }

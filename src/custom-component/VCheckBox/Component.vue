@@ -1,7 +1,10 @@
 <template>
     <div class="input-wrap">
         <label v-show="label">{{ label }}：</label>
-        <el-checkbox-group  v-model="value">
+        <el-checkbox-group  
+          v-model="value"
+          @change="handleValueChange"
+        >
             <el-checkbox 
                 v-for="item, index in options"
                 :key="index"
@@ -17,7 +20,9 @@ import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
 import { getComputedGet, getComputedSet } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { onChange } = useEventCentre();
 export default {
     extends: OnEvent,
     props: {
@@ -34,6 +39,11 @@ export default {
             default: () => {},
         },
     },
+    methods: {
+        handleValueChange(newVal) {
+            onChange({element: this.element, newValue: newVal})
+        },
+    },
     computed: {
         label: {
             get() {
@@ -48,7 +58,6 @@ export default {
                 return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
             set(val) {
-                console.log(111, val)
                 getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },

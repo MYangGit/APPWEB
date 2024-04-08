@@ -5,8 +5,9 @@
                 :placeholder="Placeholder"
                 :disabled="disabled"
                 :type="type" 
-                :val="value" 
-                @onChangeValue="val = $event"
+                :val="value"
+                @onChangeValue="value = $event"
+                @change="handleValueChange"
             />
         </erFormItem>
     </div>
@@ -18,7 +19,9 @@ import OnEvent from '../../common/OnEvent'
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { erFormItem, erInput } from 'errantia';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { onChange } = useEventCentre();
 export default {
     extends: OnEvent,
     components: {
@@ -39,6 +42,11 @@ export default {
         element: {
             type: Object,
             default: () => {},
+        },
+    },
+    methods: {
+        handleValueChange() {
+            onChange({element: this.element, newValue: this.value})
         },
     },
     computed: {
