@@ -44,7 +44,7 @@ const handleAdd = () => {
     inputErrorMessage: '无效的动作命名',
   })
   .then(({ value }) => {
-    rootStore.dataConfig.addAction(value, `(dataCenter, globalUtils) => { 
+    rootStore.dataConfig.addAction(value, `(dataCenter, eventParams) => { 
   // TODO: 你的代码
 }`)
     autoActive()
