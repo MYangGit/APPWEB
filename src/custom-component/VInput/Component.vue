@@ -1,7 +1,11 @@
 <template>
     <div class="input-wrap">
         <label v-show="label">{{ label }}：</label>
-        <el-input v-model="value" size="small" />
+        <el-input 
+            v-model="value" 
+            size="small" 
+            @change="handleValueChange"
+        />
     </div>
 </template>
 
@@ -10,6 +14,9 @@ import eventBus from '@/utils/eventBus';
 import OnEvent from '../common/OnEvent'
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
+import { useEventCentre } from '@/hooks/useEventCentre';
+
+const { onChange } = useEventCentre();
 export default {
     extends: OnEvent,
     props: {
@@ -23,6 +30,11 @@ export default {
         element: {
             type: Object,
             default: () => {},
+        },
+    },
+    methods: {
+        handleValueChange(newVal) {
+          onChange({element: this.element, newValue: newVal})
         },
     },
     computed: {

@@ -18,5 +18,8 @@ export default {
     textAlign: '',
     color: '',
     backgroundColor: '',
+  },
+  actionBinds: {
+    change: ''
   }
 }

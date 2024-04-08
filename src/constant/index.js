@@ -1,0 +1,33 @@
+const cOMPONENT_TYPE_DATA = [
+  {
+    visiable: {
+      key: "",
+      value: "",
+    },
+    animations: [],
+    dataBinds: {},
+    actionBinds: {},
+    isLock: false,
+    collapseName: "style",
+    component: "VPanel",
+    label: "面板",
+    icon: "VPanel",
+    type: "box",
+    propValue: {},
+    style: {
+      rotate: 0,
+      opacity: 1,
+      width: 393,
+      height: 605,
+      backgroundColor: "rgba(240, 240, 240, 1)",
+      display: "block",
+      borderWidth: 1,
+      borderColor: "rgba(217, 217, 217, 1)",
+      borderStyle: "solid",
+      top: 34,
+      left: 1,
+    },
+    position: "top",
+    id: "3_GEH4rYa3InbFtS5F71P",
+  },
+];
