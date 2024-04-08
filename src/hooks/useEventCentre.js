@@ -7,14 +7,12 @@ import { rootStore } from '@/stores/rootStore';
 export const useEventCentre = () => {
 
    // 事件触发
-   const onChange = ({ element, newValue, oldValue }) => {
+   const onChange = ({ element, newValue }) => {
       let { change } = element.actionBinds;
       if (!change) return
       let fn = new Function(`return ${rootStore.dataConfig.actionSet[change]}`)()
-      fn(rootStore.dataConfig.stateSet, {
-            globalUtils: {},
-            newValue: newValue, 
-            oldValue: oldValue 
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {
+            newValue: newValue
       })
    }
 
@@ -23,9 +21,7 @@ export const useEventCentre = () => {
       let { click } = element.actionBinds;
       if (!click) return
       let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
-      fn(rootStore.dataConfig.stateSet, {
-         globalUtils: {},
-      })
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {})
    }
    
    return {
