@@ -1,21 +1,6 @@
 <template>
     <div ref="container" class="bg preview">
-        <!-- <el-button v-if="!isScreenshot" class="close" @click="close">关闭</el-button> -->
-        <el-button v-if="isScreenshot" class="close" @click="htmlToImage">确定</el-button>
-        <div class="canvas-container">
-            <div
-                v-loading="loading"
-                class="canvas"
-                :style="{
-                    ...getCanvasStyle(canvasStyleData),
-                    width: changeStyleWithScale(canvasStyleData.width) + 'px',
-                    height: changeStyleWithScale(canvasStyleData.height) + 'px',
-                }"
-            >
-                <ComponentWrapper v-for="(item, index) in copyData.filter((i) => !i.pid)" :key="index" :config="item" />
-            </div>
-            
-        </div>
+        <ComponentWrapper v-for="(item, index) in copyData.filter((i) => !i.pid)" :key="index" :config="item" />
     </div>
 </template>
 
@@ -105,7 +90,6 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: rgb(0, 0, 0, 0.5);
     z-index: 10;
     display: flex;
     align-items: center;
