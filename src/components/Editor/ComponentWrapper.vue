@@ -3,7 +3,7 @@
         <component
             :is="config.component"
             ref="component"
-            class="component"
+            :class="layoutType === 'flex' ? 'flex-component' : 'component'"
             @click="handleActionClick"
             v-if="getShowState(config)"
             :style="getStyle(config.style)"
@@ -27,6 +27,10 @@ const { onClick } = useEventCentre();
 export default {
     mixins: [mixins],
     props: {
+        layoutType: {
+            type: String,
+            default: 'normal',
+        },
         config: {
             type: Object,
             required: true,

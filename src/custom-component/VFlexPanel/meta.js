@@ -1,0 +1,23 @@
+export default {
+  component: 'VFlexPanel',
+  label: 'Flex面板',
+  icon: 'VPanel',
+  type: 'box',
+  propValue: {
+    direction: 'row',
+    horAlign: 'start',
+    verAlign: 'start',
+    wrapType: 'wrap',
+  },
+  style: {
+    width: 400,
+    height: 400,
+    backgroundColor: '#fff',
+    display: 'block',
+    borderWidth: 0,
+    borderColor: '#ffffff',
+    borderStyle: 'solid',
+  },
+  childs: [],
+  position: 'top',
+}

@@ -1,6 +1,10 @@
 <template>
-    <div :id="name" class="content">
-        <ComponentWrapper v-for="(item, index) in childs" :key="index" :config="item" />
+    <div 
+        :id="name" 
+        class="content"
+        :style="getFlexStyle()"
+    >
+        <ComponentWrapper :layoutType="layoutType" v-for="(item, index) in childs" :key="index" :config="item" />
     </div>
 </template>
 
@@ -13,6 +17,14 @@ export default {
         ComponentWrapper,
     },
     props: {
+        layoutType: {
+            type: String,
+            default: 'normal',
+        },
+        flexOptions: {
+            type: Object,
+            default: () => {}
+        },
         propValue: {
             type: Array,
             default: () => [],
@@ -33,7 +45,18 @@ export default {
     data() {
         return {};
     },
-    methods: {},
+    methods: {
+        getFlexStyle () {
+            let { direction, horAlign, verAlign, wrapType} = this.flexOptions;
+            let styles = {}
+            styles.display = 'flex';
+            styles['flex-direction'] = direction
+            styles['justify-content'] = horAlign
+            styles['align-items'] = verAlign
+            styles['flex-wrap'] = wrapType
+            return styles
+        }
+    },
 };
 </script>
 
