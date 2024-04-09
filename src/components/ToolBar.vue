@@ -12,7 +12,6 @@
 
 <script setup>
   import localforage from 'localforage';
-  import { exportJson } from '@/utils/utils';
   import { actions } from '@/config/toolbar'
   import { rootStore } from '@/stores/rootStore';
   import { useRouter } from 'vue-router'
@@ -69,6 +68,7 @@
     rootStore.snapshot.recordSnapshot()
     rootStore.dataConfig.stateSet = {}
     rootStore.dataConfig.actionSet = {}
+    rootStore.dataConfig.watchRegisters = []
   }
   const generateJson = () => {
     // 创建一个包含JSON数据的对象
