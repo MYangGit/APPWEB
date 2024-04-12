@@ -30,6 +30,7 @@ const handleDrop = (e) => {
     if (component.type === 'report') {
       component.style.left = 0;
     }
+   
     component.id = generateID();
     if (component.component === 'Tabs') {
       component.tabs = new Array(3).fill(1).map((i, j) => ({
@@ -41,10 +42,41 @@ const handleDrop = (e) => {
         name: generateID(),
         label: `Grid${j + 1}`,
       }));
+    } 
+    if(component.component === 'ErLayout') {
+      component.style.top = 0;
+      component.style.left = 0;
     }
+    if(component.component === 'ErLayout') {
+      const itemFlag = [
+        { name: 'header', label: '页眉' },
+        { name: 'leftSidebar', label: '左边栏' },
+        { name: 'main', label: '主界面' },
+        { name: 'rightSidebar', label: '右边栏' },
+        { name: 'footer', label: '页脚' },
+      ]
+      component.items = new Array(5).fill(1).map((i, j) => ({
+        name: generateID(),
+        label: `ErLayout${itemFlag[j].name}`,
+      }));
+    }
+    if(component.component === 'ErCollapse') {
+        const itemFlag = [
+            { name: 'only', label: '剩余空间' },
+            { name: '1', label: '第一个cord' },
+        ]
+        component.items = new Array(itemFlag.length).fill(1).map((i, j) => ({
+            name: generateID(),
+            label:  `ErCollapse${itemFlag[j].name}`,
+        }));
+    }
+    // 这里做的转换
     if (component.style.width.toString().includes('%')) {
       component.style.width =
         (Number(rootStore.page.canvasStyleData.width) * parseFloat(component.style.width)) / 100;
+    }
+    if (component.style.height.toString().includes('%')) {
+      component.style.height = Number(rootStore.page.canvasStyleData.height);
     }
     if (rootStore.dataCenter.componentData.filter(i => i.component === component.component).length) {
       component.label += rootStore.dataCenter.componentData.filter(i => i.component === component.component).length;

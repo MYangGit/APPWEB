@@ -68,7 +68,6 @@ export function getStyle(style, filter = []) {
             }
         }
     });
-
     return result;
 }
 
@@ -107,7 +106,6 @@ export function getCanvasStyle(canvasStyleData) {
                 result[key] += 'px';
             }
         });
-
     return result;
 }
 
