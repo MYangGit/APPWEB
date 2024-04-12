@@ -30,6 +30,10 @@ import ErInput from './errantia/Input/Component.vue'
 import ErInputAttr from './errantia/Input/Attr.vue'
 import ErStatusBar from './errantia/StatusBar/Component.vue'
 import ErStatusBarAttr from './errantia/StatusBar/Attr.vue'
+import ErLayout from './errantia/Layout/Component.vue'
+import ErLayoutAttr from './errantia/Layout/Attr.vue'
+import ErCollapse from './errantia/Collapse/Component.vue'
+import ErCollapseAttr from './errantia/Collapse/Attr.vue'
 const components = {
     VText,
     VButton,
@@ -46,7 +50,9 @@ const components = {
     VFlexPanel,
     VTabs,
     ErPlot,
-    ErStatusBar
+    ErStatusBar,
+    ErLayout,
+    ErCollapse
 };
 const attrs = {
     VTextAttr,
@@ -64,8 +70,10 @@ const attrs = {
     VFlexPanelAttr,
     VTabsAttr,
     ErPlotAttr,
-    ErStatusBarAttr
-};
+    ErStatusBarAttr,
+    ErLayoutAttr,
+    ErCollapseAttr
+}
 
 export const install = function (app) {
     Object.keys(components).forEach((key) => {

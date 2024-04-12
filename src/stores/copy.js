@@ -74,6 +74,30 @@ export const useCopyStore = defineStore('copy', () => {
                 label: i.label,
             }));
         }
+        if(component.component === 'ErLayout') {
+            const itemFlag = [
+              { name: 'header', label: '页眉' },
+              { name: 'leftSidebar', label: '左边栏' },
+              { name: 'main', label: '主界面' },
+              { name: 'rightSidebar', label: '右边栏' },
+              { name: 'footer', label: '页脚' },
+            ]
+            component.items = new Array(5).fill(1).map((i, j) => ({
+              name: generateID(),
+              label: `ErLayout${itemFlag[j].name}`,
+            }));
+        }
+
+        if(component.component === 'ErCollapse') {
+            const itemFlag = [
+                { name: 'only', label: '剩余空间' },
+                { name: '1', label: '第一个cord' },
+            ]
+            component.items = new Array(itemFlag.length).fill(1).map((i, j) => ({
+                name: generateID(),
+                label:  `ErCollapse${itemFlag[j].name}`,
+            }));
+        }
 
         data.id = generateID()
         if (rootStore.dataCenter.componentData.filter(i => i.component === data.component).length) {

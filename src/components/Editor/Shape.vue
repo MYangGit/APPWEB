@@ -1,5 +1,10 @@
 <template>
-    <div class="shape" :class="{ active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
+    <div 
+        class="shape" 
+        :class="{ active }" 
+        @click="selectCurComponent" 
+        @mousedown="handleMouseDownOnShape"
+    >
         <span v-show="isActive()" class="iconfont icon-xuanzhuan" @mousedown="handleRotate"></span>
         <span v-show="element.isLock" class="iconfont icon-suo"></span>
         <div
@@ -226,7 +231,7 @@ export default {
             if (isPreventDrop(this.element.component)) {
                 e.preventDefault();
             }
-            if (!['Tabs', 'GridLayout', 'VPanel'].includes(this.element.component)) {
+            if (!['Tabs', 'GridLayout', 'ErLayout', 'VPanel', 'ErCollapse'].includes(this.element.component)) {
                 if (this.element.pid) {
                     rootStore.compose.setActiveContainer(this.element.activeName)
                 } else {

@@ -14,6 +14,8 @@ import ErPlot from './errantia/Plot/meta';
 import ErTable from './errantia/Table/meta';
 import ErInput from './errantia/Input/meta';
 import ErStatusBar from './errantia/StatusBar/meta';
+import ErLayout from './errantia/Layout/meta';
+import ErCollapse from './errantia/Collapse/meta';
 
 // 编辑器左侧组件列表
 const componentList = [
@@ -32,7 +34,9 @@ const componentList = [
     VFlexPanel,
     VTabs,
     ErPlot,
-    ErStatusBar
+    ErStatusBar,
+    ErLayout,
+    ErCollapse
 ];
 
 export const commonStyle = {
