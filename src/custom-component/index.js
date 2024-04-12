@@ -32,6 +32,8 @@ import ErLayout from './errantia/Layout/Component.vue'
 import ErLayoutAttr from './errantia/Layout/Attr.vue'
 import ErCollapse from './errantia/Collapse/Component.vue'
 import ErCollapseAttr from './errantia/Collapse/Attr.vue'
+import ErDropDown from './errantia/DropDown/Component.vue'
+import ErDropDownAttr from './errantia/DropDown/Attr.vue'
 const components = {
     VText,
     VButton,
@@ -49,7 +51,8 @@ const components = {
     ErPlot,
     ErStatusBar,
     ErLayout,
-    ErCollapse
+    ErCollapse,
+    ErDropDown
 };
 const attrs = {
     VTextAttr,
@@ -68,7 +71,8 @@ const attrs = {
     ErPlotAttr,
     ErStatusBarAttr,
     ErLayoutAttr,
-    ErCollapseAttr
+    ErCollapseAttr,
+    ErDropDownAttr
 }
 
 export const install = function (app) {
