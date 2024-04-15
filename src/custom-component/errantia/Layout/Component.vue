@@ -32,15 +32,15 @@
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                     <Container
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutheader')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutheader')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutheader')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutheader')[0].name)"
                     />
                 </div>
                 <div v-else class="v-tabs preview" style="width: 100%; height: 100%;">
                     <PreviewContainer
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutheader')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutheader')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutheader')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutheader')[0].name)"
                     />
                 </div>
             </template>
@@ -48,15 +48,15 @@
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                     <Container
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name)"
                     />
                 </div>
                 <div v-else class="v-tabs preview">
                     <PreviewContainer
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name)"
                     />
                 </div>
             </template>
@@ -64,15 +64,15 @@
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                     <Container
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutmain')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutmain')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutmain')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutmain')[0].name)"
                     />
                 </div>
                 <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
                     <PreviewContainer
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutmain')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutmain')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutmain')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutmain')[0].name)"
                     />
                 </div>
             </template>
@@ -80,15 +80,15 @@
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                     <Container
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name)"
                     />
                 </div>
                 <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
                     <PreviewContainer
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutrightSidebar')[0].name)"
                     />
                 </div>
             </template>
@@ -96,15 +96,15 @@
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                     <Container
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutfooter')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutfooter')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutfooter')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutfooter')[0].name)"
                     />
                 </div>
                 <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
                     <PreviewContainer
                         :element="element"
-                        :name="element.items.filter((i) => i.label === 'ErLayoutfooter')[0].name"
-                        :childs="childs.filter((i) => i.activeName === element.items.filter((i) => i.label === 'ErLayoutfooter')[0].name)"
+                        :name="element.items?.filter((i) => i.label === 'ErLayoutfooter')[0].name"
+                        :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutfooter')[0].name)"
                     />
                 </div>
             </template>
