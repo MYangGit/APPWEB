@@ -177,7 +177,7 @@ export default {
             return str.toLowerCase().includes('color');
         },
         isString(str) {
-            return ['width'].includes(str.toLowerCase());
+            return ['width', 'fixedheight'].includes(str.toLowerCase());
         },
         bindData (key, type) {
             this.form.bindKeys = ''

@@ -47,6 +47,7 @@ export default {
     },
     methods: {
         getFlexStyle () {
+            if(!this.flexOptions) return {}
             let { direction, horAlign, verAlign, wrapType} = this.flexOptions;
             let styles = {}
             styles.display = 'flex';
