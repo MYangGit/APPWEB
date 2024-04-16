@@ -24,6 +24,13 @@
                                 :value="item.value"
                             ></el-option>
                         </el-select>
+                        <el-input 
+                            v-else-if="isWidth(key)" 
+                            v-model="curComponent.style[key]"
+                            type="number"
+                            min="0"
+                            :max="canvasStyleData.width"
+                        />
                         <el-input v-else-if="isString(key)" v-model="curComponent.style[key]"></el-input>
                         <el-input v-else v-model.number="curComponent.style[key]" type="number" />
                     </el-form-item>
@@ -107,6 +114,7 @@ import {
 } from '@/utils/attr';
 import Linkage from './Linkage.vue';
 import { rootStore } from '@/stores/rootStore';
+import { mapState } from 'pinia';
 
 const extractKeys = (obj) => {
     let result = [];
@@ -153,6 +161,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(rootStore.usePageStore, ['canvasStyleData']),
         styleKeys() {
             if (this.curComponent) {
                 const curComponentStyleKeys = Object.keys(this.curComponent.style);
@@ -177,7 +186,10 @@ export default {
             return str.toLowerCase().includes('color');
         },
         isString(str) {
-            return ['width', 'fixedheight'].includes(str.toLowerCase());
+            return ['fixedheight'].includes(str.toLowerCase());
+        },
+        isWidth(str) {
+            return ['width'].includes(str.toLowerCase());
         },
         bindData (key, type) {
             this.form.bindKeys = ''
