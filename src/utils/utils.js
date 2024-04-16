@@ -159,3 +159,23 @@ export const getComputedSet = (key, dataBinds, stateSet, propValue, val) => {
     propValue[key] = val;
   }
 };
+
+/**
+ * @description: 判断一个东西是不是空 空格 空字符串 undefined 长度为0的数组及对象会被认为是空的
+ * @param key
+ * @returns {boolean}
+ */
+export const isEmpty = (key) => {
+  switch (typeof key) {
+    case 'string':
+      return key.trim().length === 0;
+    case 'object':
+      return key === null || key === undefined || Object.keys(key).length === 0;
+    case 'boolean':
+      return false;
+    case 'number':
+      return Number.isNaN(key);
+    default:
+      return true;
+  }
+};

@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import generateID from '@/utils/generateID';
 import CommonAttr from '@/custom-component/common/CommonAttr.vue';
 import { rootStore } from '@/stores/rootStore';
 export default {

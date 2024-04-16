@@ -1,4 +1,9 @@
 import { sin, cos, toPercent } from '@/utils/translate';
+import { isEmpty } from '@/utils/utils';
+import { usePageStore } from '@/stores/page';
+
+const { canvasStyleData } = usePageStore();
+
 
 export function getShapeStyle(style) {
     const result = {};
@@ -68,6 +73,14 @@ export function getStyle(style, filter = []) {
             }
         }
     });
+    // 添加一个可以编辑的百分比高度设置
+    if(!isEmpty(style.fixedHeight)) {
+        result.height = style.fixedHeight;
+    }
+    // 转换设计搞的最大宽度就是界面的全部宽度
+    if(result.width?.startsWith(canvasStyleData.width)) {
+        result.width = '100%';
+    }
     return result;
 }
 
