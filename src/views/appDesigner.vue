@@ -43,7 +43,7 @@ const handleDrop = (e) => {
         label: `Grid${j + 1}`,
       }));
     } 
-    if(component.component === 'ErLayout') {
+    if(['ErDialog', 'ErLayout'].includes(component.component)) {
       component.style.top = 0;
       component.style.left = 0;
     }
