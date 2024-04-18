@@ -23,9 +23,21 @@ export const useEventCentre = () => {
       let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
       fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {})
    }
+
+   // 其它点击事件
+   const onClickOther = ({ element, clickName, params }) => {
+      let click = element.actionBinds[clickName];
+      if (!click) return
+      let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {
+            clickName,
+            params: params
+      })
+   }
    
    return {
     onChange,
-    onClick
+    onClick,
+    onClickOther
    }
 };

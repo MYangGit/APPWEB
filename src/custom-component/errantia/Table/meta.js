@@ -4,6 +4,8 @@ export default {
   propValue: {
     showBorder: false,
     activeClickRow: false,
+    showOperate: false,
+    textAlign: 'left',
     columns: [
         {
           title: '姓名',
@@ -39,6 +41,7 @@ export default {
     height: 200
   },
   actionBinds: {
-    onClickRow: ''
+    onClickRow: '',
+    onClickDelete: ''
   }
 }

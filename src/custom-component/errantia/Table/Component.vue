@@ -1,23 +1,30 @@
 <template>
     <div class="input-wrap">
         <erTable
+            :style="{'text-align': propValue.textAlign}"
             :borders="propValue.showBorder"
             :activeClickRow="propValue.activeClickRow"
             @onClickRow="handleClickRow"
             :outStyleHeader="{position: 'sticky', top: '0px'}"
             :columns="columns"
             :dataSource="dataSource"
-        />
+        >   
+            <template v-if="propValue.showOperate" v-slot:operate="{ row, index }">
+                <el-icon><Delete @click.stop="handleDelete(row, index)" /></el-icon>
+            </template>
+        </erTable>
     </div>
 </template>
 
 <script>
 import eventBus from '@/utils/eventBus';
 import OnEvent from '../../common/OnEvent'
-import { getComputedGet, getComputedSet } from '../../../utils/utils'
+import { getComputedGet } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { erTable } from 'errantia';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { onClickOther } = useEventCentre();
 export default {
     extends: OnEvent,
     components: {
@@ -29,6 +36,8 @@ export default {
             default: () => ({
                 showBorder: false,
                 activeClickRow: false,
+                showOperate: false,
+                textAlign: 'left',
                 columns: [],
                 dataSource: [],
             }),
@@ -40,10 +49,10 @@ export default {
     },
     methods: {
         handleClickRow(e, row, index) {
-            let { onClickRow } = this.element.actionBinds;
-            if (!onClickRow) return
-            let fn = new Function(`return ${rootStore.dataConfig.actionSet[onClickRow]}`)()
-            fn(rootStore.dataConfig.stateSet, e, row, index)
+            onClickOther({element: this.element, clickName:'onClickRow', params: { e, row, index } })
+        },
+        handleDelete(row, index) {
+            onClickOther({element: this.element, clickName:'onClickDelete', params: { row, index } })
         }
     },
     computed: {

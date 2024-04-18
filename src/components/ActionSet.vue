@@ -48,8 +48,8 @@ const handleAdd = () => {
       return ElMessageBox.alert('动作名称不能以Julia@开头', '新增动作失败')
     }
     rootStore.dataConfig.addAction(value, `({dataCenter, globalUtils}, eventParams) => { 
-      // TODO: 你的代码
-    }`)
+  // TODO: 你的代码
+}`)
     autoActive()
   })
   
