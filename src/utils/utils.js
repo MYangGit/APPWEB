@@ -179,3 +179,19 @@ export const isEmpty = (key) => {
       return true;
   }
 };
+
+/**
+ * @description: 命名判重
+ * @param {string} name
+ * @param {arr} list
+ * @returns string
+ */
+export const nameRepeat = (name, list) => {
+  let newName = name;
+  let ext = 1;
+  while (list.some(item => item.name === newName)) {
+    newName = `${name}_${ext}`;
+    ext++;
+  }
+  return newName;
+}

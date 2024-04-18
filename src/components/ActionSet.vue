@@ -44,9 +44,12 @@ const handleAdd = () => {
     inputErrorMessage: '无效的动作命名',
   })
   .then(({ value }) => {
+    if(value.substring(0, 6) === 'Julia@') {
+      return ElMessageBox.alert('动作名称不能以Julia@开头', '新增动作失败')
+    }
     rootStore.dataConfig.addAction(value, `({dataCenter, globalUtils}, eventParams) => { 
-  // TODO: 你的代码
-}`)
+      // TODO: 你的代码
+    }`)
     autoActive()
   })
   
@@ -55,13 +58,29 @@ const handleAdd = () => {
 
 <template>
   <div class="btns-wrapper">
-    <el-button type="primary" plain class="add-btn" style="width: 100%" @click="handleAdd">新增动作</el-button>
+    <el-button 
+      type="primary" 
+      plain 
+      class="add-btn" 
+      style="width: 100%" 
+      @click="handleAdd"
+    >
+      新增动作
+    </el-button>
   </div>
   <div class="data-set-wrapper">
     <div class="action-list">
-      <div class="action-item" :class="{ active: activeName === key }" @click="activeName = key" :key="key" v-for="key in Object.keys(rootStore.dataConfig.actionSet)">
+      <div 
+        class="action-item" 
+        :class="{ active: activeName === key }" 
+        @click="activeName = key" 
+        :key="key" 
+        v-for="key in Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))"
+      >
         <span>{{ key }}</span>
-        <el-icon @click.stop="handleDelete(key)" ><Delete /></el-icon>
+        <el-icon @click.stop="handleDelete(key)" >
+          <Delete />
+        </el-icon>
       </div>
     </div>
     <div class="content">
@@ -76,9 +95,8 @@ const handleAdd = () => {
     </div>
   </div>
 </template>
+
 <style lang="less" scoped>
-.btns-wrapper {
-}
 .data-set-wrapper {
   height: 100%;
   display: flex;
