@@ -39,6 +39,7 @@ const handleAdd = () => {
       name: value,
       type: 'Julia',
       props:{},
+      returns: {},
       code: `// TODO: 你的代码`
     }
     juliaCentre.setJuliaFunList({type: 'add', uuidName: value, data: newFunData})

@@ -77,7 +77,11 @@
             </el-collapse-item>
         </el-collapse>
         <el-dialog v-model="dataConfigShow" title="数据绑定" width="800">
-            <el-cascader v-model="form.bindKeys" :props="{checkStrictly: true}" :options="getOptions()" />
+            <el-cascader 
+                v-model="form.bindKeys" 
+                :props="{checkStrictly: true}" 
+                :options="getOptions()" 
+            />
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="dataConfigShow = false">Cancel</el-button>
@@ -88,9 +92,25 @@
             </template>
         </el-dialog>
         <el-dialog v-model="actionConfigShow" title="动作绑定" width="800">
-            <el-select v-model="actionForm.bindKey">
-                <el-option v-for="item in getActionOptions()" :key="item" :label="item" :value="item"></el-option>
-            </el-select>
+            <el-form label-position="top" label-width="auto">
+                <el-form-item label="选择动作">
+                    <el-select v-model="actionForm.bindKey">
+                        <el-option 
+                            v-for="item in getActionOptions()" 
+                            :key="item" 
+                            :label="item" 
+                            :value="item" 
+                        />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="结果赋值">
+                    <el-cascader 
+                        v-model="juliaResult" 
+                        :props="{checkStrictly: true}" 
+                        :options="getOptions()" 
+                    />
+                </el-form-item>
+            </el-form>
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="actionConfigShow = false">Cancel</el-button>
@@ -115,7 +135,9 @@ import {
 import Linkage from './Linkage.vue';
 import { rootStore } from '@/stores/rootStore';
 import { mapState } from 'pinia';
+import { useJuliaCentre } from '@/hooks/useJuliaCentre';
 
+const juliaCentre = useJuliaCentre();
 const extractKeys = (obj) => {
     let result = [];
     for (let key in obj) {
@@ -151,6 +173,7 @@ export default {
                 bindKeys: '',
                 type: 'normal'
             },
+            juliaResult: '',
             dataConfigShow: false,
             actionConfigShow: false,
             actionForm: {
@@ -212,6 +235,12 @@ export default {
             this.dataConfigShow = false
         },
         handleActionConfirm () {
+            const newReturns = {
+                [this.actionForm.bindKey] : this.juliaResult
+            }
+            if(this.actionForm.bindKey.substring(0, 6) === 'Julia@') {
+                juliaCentre.setJuliaFunList({ uuidName: this.actionForm.bindKey, data: { returns: newReturns} })
+            }
             rootStore.dataCenter.curComponent.actionBinds[this.actionForm.key] = this.actionForm.bindKey
             this.actionConfigShow = false
         },

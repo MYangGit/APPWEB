@@ -79,7 +79,7 @@ export const useJuliaCentre = defineStore('useJulia', () => {
             return acc;
         }, [])
         if(isEmpty(juliaFun)) return;
-        juliaFunList.value = juliaFun;
+        juliaFunList.value = [...juliaFunList.value, ...juliaFun];
     }
     // 初始化区域
     const init = () => {
@@ -100,7 +100,7 @@ export const useJuliaCentre = defineStore('useJulia', () => {
         };
         rootStore.dataConfig.addAction(`${newVal.type}@${newVal.name}`, JSON.stringify(newVal))
     })
-    
+
     return {
         juliaFunList,
         currentFun,
