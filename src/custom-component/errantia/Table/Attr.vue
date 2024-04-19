@@ -14,11 +14,18 @@
                 <el-form-item label="可选中行：">
                     <el-checkbox v-model="curComponent.propValue.activeClickRow" size="small" />
                 </el-form-item>
-                <el-form-item label="操作列：">
+                <el-form-item label="操作：">
                     <el-checkbox 
                         v-model="curComponent.propValue.showOperate" 
                         size="small"
                         @change="handleShowOperate"
+                    />
+                </el-form-item>
+                <el-form-item label="编号：">
+                    <el-checkbox 
+                        v-model="curComponent.propValue.serialNumber" 
+                        size="small"
+                        @change="handleSerialNumber"
                     />
                 </el-form-item>
             </el-form>
@@ -50,6 +57,17 @@ export default {
                 })
             } else {
                 this.curComponent.propValue.columns = this.curComponent.propValue.columns.filter(item => item.key !== 'operate')
+            }
+        },
+        handleSerialNumber(val) {
+            if (val) {
+                this.curComponent.propValue.columns.unshift({
+                    title: '编号',
+                    key: 'serialNumber',
+                    slot: 'serialNumber'
+                })
+            } else {
+                this.curComponent.propValue.columns = this.curComponent.propValue.columns.filter(item => item.key !== 'serialNumber')
             }
         }
     }

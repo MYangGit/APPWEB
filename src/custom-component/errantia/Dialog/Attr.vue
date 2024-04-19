@@ -6,7 +6,7 @@
                     <el-input  v-model="curComponent.propValue.title"  size="small" />
                 </el-form-item>
                 <el-form-item label="显示浮窗：">
-                    <el-checkbox v-model="curComponent.propValue.isShowVisible"  size="small" />
+                    <el-checkbox v-model="curComponent.propValue.showVisible"  size="small" />
                 </el-form-item>
                 <el-form-item label="浮窗宽度：">
                     <el-input 

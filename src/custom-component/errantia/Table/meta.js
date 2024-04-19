@@ -5,6 +5,7 @@ export default {
     showBorder: false,
     activeClickRow: false,
     showOperate: false,
+    serialNumber: false,
     textAlign: 'left',
     columns: [
         {
@@ -38,7 +39,10 @@ export default {
   type: 'errantia',
   style: {
     width: 300,
-    height: 200
+    height: 200,
+    borderWidth: 0,
+    borderColor: '#ffffff',
+    borderStyle: 'solid',
   },
   actionBinds: {
     onClickRow: '',

@@ -5,6 +5,7 @@ export default {
   type: 'errantia',
   propValue: {
     isShowVisible: true,
+    showVisible: false,
     showDialogHeader: false,
     title: '弹窗',
     width: 400,

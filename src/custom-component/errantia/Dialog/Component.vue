@@ -1,11 +1,12 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div :class="{'erdialog-header': propValue.showDialogHeader, 'erdialog-footer': true}">
+    <div v-show="isShowVisible || propValue.showVisible" :class="{'erdialog-header': propValue.showDialogHeader, 'erdialog-footer': true}">
         <erDialog 
             :title="propValue.title"
             :width="propValue.width + 'px'"
             :outStyleBody="{height: propValue.height + 'px', flex: 'none'}"
-            :isVisible="propValue.isShowVisible"
+            :isVisible="isShowVisible || propValue.showVisible"
+            @close="isShowVisible = false"
         >
             <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                 <Container
@@ -29,6 +30,7 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
+import { getComputedGet, getComputedSet } from '@/utils/utils';
 import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { erDialog } from 'errantia';
@@ -45,7 +47,8 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
-                isShowVisible: true,
+                isShowVisible: false,
+                showVisible: false,
                 showDialogHeader: false,
                 title: '弹窗',
                 width: 400,
@@ -68,6 +71,14 @@ export default {
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
         },
+        isShowVisible: {
+            get() {
+                return getComputedGet('isShowVisible', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('isShowVisible', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        }
     },
     methods: {
         

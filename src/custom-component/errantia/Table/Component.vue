@@ -8,9 +8,11 @@
             :outStyleHeader="{position: 'sticky', top: '0px'}"
             :columns="columns"
             :dataSource="dataSource"
-        >   
-            <template v-if="propValue.showOperate" v-slot:operate="{ row, index }">
+        >   <template v-if="showOperate" v-slot:operate="{ row, index }">
                 <el-icon><Delete @click.stop="handleDelete(row, index)" /></el-icon>
+            </template>
+            <template v-if="serialNumber" v-slot:serialNumber="{ index }">
+               <span>{{ index }}</span>
             </template>
         </erTable>
     </div>
@@ -37,6 +39,7 @@ export default {
                 showBorder: false,
                 activeClickRow: false,
                 showOperate: false,
+                serialNumber: false,
                 textAlign: 'left',
                 columns: [],
                 dataSource: [],
@@ -56,6 +59,12 @@ export default {
         }
     },
     computed: {
+        serialNumber () {
+            return getComputedGet('serialNumber', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+        },
+        showOperate () {
+            return getComputedGet('showOperate', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+        },
         columns () {
             return getComputedGet('columns', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
         },
