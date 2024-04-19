@@ -9,7 +9,7 @@ import { ElMessageBox } from 'element-plus'
 
 const extensions = [javascript(), noctisLilac]
 const activeName = ref('')
-activeName.value = Object.keys(rootStore.dataConfig.actionSet)[0]
+activeName.value = Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))[0]
 
 const code = computed({
   get() {
@@ -24,7 +24,7 @@ const code = computed({
 const autoActive = () => {
   if (!rootStore.dataConfig.actionSet[activeName.value]) {
     if (Object.keys(rootStore.dataConfig.actionSet).length > 0) {
-      activeName.value = Object.keys(rootStore.dataConfig.actionSet)[0]
+      activeName.value = Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))[0]
     } else {
       activeName.value = ''
     }

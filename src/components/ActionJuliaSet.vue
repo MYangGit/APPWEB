@@ -11,7 +11,7 @@ import BindData from './BindData/index.vue'
 import { isEmpty } from '@/utils/utils'
  
 const juliaCentre = useJuliaCentre()
-
+juliaCentre.init()
 const extensions = [javascript(), noctisLilac]
 const code = computed({
   get() {

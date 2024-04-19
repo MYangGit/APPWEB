@@ -88,7 +88,6 @@ export const useJuliaCentre = defineStore('useJulia', () => {
         };
         init_juliaFun("Julia@");
     }
-    init();
 
     const handleDelete = (name) => {
         delete rootStore.dataConfig.actionSet[name]
@@ -104,6 +103,7 @@ export const useJuliaCentre = defineStore('useJulia', () => {
     return {
         juliaFunList,
         currentFun,
+        init,
         setJuliaFunList,
         setCurrentFun,
         updateCurrentFunProps
