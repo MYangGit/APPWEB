@@ -85,6 +85,7 @@ export const useJuliaCentre = defineStore('useJulia', () => {
     const init = () => {
         if(!isEmpty(juliaFunList.value)){
             setCurrentFun(juliaFunList.value[0].name);
+            return;
         };
         init_juliaFun("Julia@");
     }

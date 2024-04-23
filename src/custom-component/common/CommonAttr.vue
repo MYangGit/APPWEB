@@ -253,7 +253,7 @@ export default {
             }
         },
         unbindActionData (key) {
-            delete rootStore.dataCenter.curComponent.actionBinds[key]
+            rootStore.dataCenter.curComponent.actionBinds[key] = ''
         },
         getOptions () {
             let options = extractKeys(rootStore.dataConfig.stateSet);
