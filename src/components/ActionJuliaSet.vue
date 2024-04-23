@@ -52,11 +52,11 @@ const handleAction = () => {
 // 命名a-z 如果超过26个则命名为a_1 - z_N
 const handConfirmBindData = (val) => {
   const oldProps = Object.keys(juliaCentre.currentFun.props)
-  let propsName = `#${String.fromCharCode(97 + oldProps.length % 26)}`
+  let propsName = `_${String.fromCharCode(97 + oldProps.length % 26)}_`
   if(oldProps.includes(propsName)) {
     let i = 1;
     for(i; i < 26; i++) {
-      let newPropsName = `#${String.fromCharCode(97 + (oldProps.length + i) % 26)}`
+      let newPropsName = `_${String.fromCharCode(97 + (oldProps.length + i) % 26)}_`
       if(!oldProps.includes(newPropsName)) {
         propsName = newPropsName
         break
@@ -130,7 +130,7 @@ const handleBlur = () => {
               @onAction="handleAction"
             />
             <div v-if="!isEmpty(juliaCentre.currentFun?.props)" class="example">
-              "示例: x = ${#a} 等同于变量 x 的值为引入参数 #a 的值, 引入参数需要 ${你的参数名}, 例如: ${#a}"
+              "示例: x = ${_a_} 等同于变量 x 的值为引入参数 _a_ 的值, 引入参数需要 ${你的参数名}, 例如: ${_a_}"
             </div>
           </erFlex>
           <div class="conrainer">
