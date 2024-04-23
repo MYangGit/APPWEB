@@ -138,6 +138,7 @@ import { mapState } from 'pinia';
 import { useJuliaCentre } from '@/hooks/useJuliaCentre';
 
 const juliaCentre = useJuliaCentre();
+juliaCentre.init()
 const extractKeys = (obj) => {
     let result = [];
     for (let key in obj) {
@@ -239,7 +240,7 @@ export default {
                 [this.actionForm.bindKey] : this.juliaResult
             }
             if(this.actionForm.bindKey.substring(0, 6) === 'Julia@') {
-                juliaCentre.setJuliaFunList({ uuidName: this.actionForm.bindKey, data: { returns: newReturns} })
+                juliaCentre.setJuliaFunList({ uuidName: this.actionForm.bindKey.slice(6), data: { returns: newReturns} })
             }
             rootStore.dataCenter.curComponent.actionBinds[this.actionForm.key] = this.actionForm.bindKey
             this.actionConfigShow = false
