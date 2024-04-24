@@ -52,7 +52,7 @@
                         :childs="childs.filter((i) => i.activeName === element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name)"
                     />
                 </div>
-                <div v-else class="v-tabs preview">
+                <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
                     <PreviewContainer
                         :element="element"
                         :name="element.items?.filter((i) => i.label === 'ErLayoutleftSidebar')[0].name"
