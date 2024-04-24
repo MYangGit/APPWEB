@@ -78,8 +78,8 @@ export function getStyle(style, filter = []) {
         result.height = style.fixedHeight;
     }
     // 转换设计搞的最大宽度就是界面的全部宽度
-    if(result.width?.startsWith(canvasStyleData.width)) {
-        result.width = '100%';
+    if(result.width?.startsWith(canvasStyleData.width) || !isEmpty(style.fixedWidth)) {
+        result.width =  !isEmpty(style.fixedWidth) ? style.fixedWidth : '100%';
     }
     return result;
 }
