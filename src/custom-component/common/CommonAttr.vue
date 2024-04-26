@@ -36,7 +36,7 @@
                     </el-form-item>
                 </el-form>
             </el-collapse-item>
-            <Linkage v-if="curComponent.linkage"></Linkage>
+            <Linkage v-if="showDevelopFunction && curComponent.linkage"></Linkage>
             <el-collapse-item title="定制属性" name="design">
                 <div class="v-common-design">
                     <slot></slot>
@@ -139,6 +139,7 @@ import { useJuliaCentre } from '@/hooks/useJuliaCentre';
 
 const juliaCentre = useJuliaCentre();
 juliaCentre.init()
+
 const extractKeys = (obj) => {
     let result = [];
     for (let key in obj) {
@@ -196,6 +197,9 @@ export default {
         },
         curComponent() {
             return rootStore.dataCenter.curComponent;
+        },
+        showDevelopFunction() {
+            return this.$route.query.mode === 'develop'
         },
     },
     created() {
