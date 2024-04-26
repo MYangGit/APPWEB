@@ -231,7 +231,7 @@ export default {
             if (isPreventDrop(this.element.component)) {
                 e.preventDefault();
             }
-            if (!['Tabs', 'GridLayout', 'ErLayout', 'VPanel', 'ErCollapse'].includes(this.element.component)) {
+            if (!['Tabs', 'GridLayout', 'ErLayout', 'ErGrid', 'VPanel', 'ErCollapse'].includes(this.element.component)) {
                 if (this.element.pid) {
                     rootStore.compose.setActiveContainer(this.element.activeName)
                 } else {

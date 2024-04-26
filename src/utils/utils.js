@@ -186,11 +186,11 @@ export const isEmpty = (key) => {
  * @param {arr} list
  * @returns string
  */
-export const nameRepeat = (name, list) => {
+export const nameRepeat = (name, list, tag = '_') => {
   let newName = name;
   let ext = 1;
   while (list.some(item => item.name === newName)) {
-    newName = `${name}_${ext}`;
+    newName = `${name}${tag}${ext}`;
     ext++;
   }
   return newName;
