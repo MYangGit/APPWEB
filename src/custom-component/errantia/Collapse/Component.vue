@@ -9,10 +9,11 @@
                 @change="handleChange"
             >
                 <el-collapse-item
-                    v-for="item in propValue.panelLists" 
+                    v-for="item in panelLists"
                     :key="item.name"
                     :title="item.title"  
                     :name="item.name"
+                    v-show="item.visible"
                 >
                     <div :style="{width: '100%', height: item.height + 'px'}">
                         <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
@@ -58,6 +59,7 @@ import PreviewContainer from '../../common/PreviewContainer.vue';
 import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';   
+import { getComputedGet, getComputedSet } from '@/utils/utils';
 
 const { onChange } = useEventCentre();
 export default {
@@ -79,6 +81,7 @@ export default {
                         name: '1',
                         title: '面板1',
                         height: 100,
+                        visible: true,
                     }
                 ],
             }),
@@ -98,6 +101,14 @@ export default {
         },
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
+        },
+        panelLists: {
+            get() {
+                return getComputedGet('panelLists', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('panelLists', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
         },
     },
     methods: {

@@ -7,6 +7,8 @@ export default {
   style: {
     width: 400,
     height: 200,
+    fixedWidth: '100%',
+    fixedHeight: '100%',
     display: 'block',
   },
   childs: [],

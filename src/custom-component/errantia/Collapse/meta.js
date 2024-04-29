@@ -12,12 +12,15 @@ export default {
             name: '1',
             title: '面板1',
             height: 100,
+            visible: true,
         }
     ],
   },
   style: {
     width: 400,
     height: 300,
+    fixedWidth: '',
+    fixedHeight: '',
     backgroundColor: '#fff',
     display: 'block',
     borderWidth: 0,

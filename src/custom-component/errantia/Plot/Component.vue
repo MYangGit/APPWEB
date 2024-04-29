@@ -1,7 +1,7 @@
 <template>
     <div>
         <erPlot
-            style="width: 100%;height: 100%;"
+            style="width: 100%; height: 100%; display: block;"
             :dataSource="dataSource"
             :layout="layout"
         />
@@ -9,11 +9,9 @@
 </template>
 
 <script>
-// import eventBus from '@/utils/eventBus';
 import OnEvent from '../../common/OnEvent'
 import { getComputedGet } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
-// import Plotly from 'plotly.js-dist-min';
 
 export default {
     extends: OnEvent,
