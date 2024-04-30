@@ -214,7 +214,7 @@ export default {
             return str.toLowerCase().includes('color');
         },
         isString(str) {
-            return ['fixedheight'].includes(str.toLowerCase());
+            return ['fixedheight', 'fixedwidth'].includes(str.toLowerCase());
         },
         isWidth(str) {
             return ['width'].includes(str.toLowerCase());

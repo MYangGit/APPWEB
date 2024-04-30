@@ -10,6 +10,8 @@ export default {
   style: {
     width: 300,
     height: 200,
+    fixedWidth: '',
+    fixedHeight: '',
     backgroundColor: '#ffffff',
   }
 }

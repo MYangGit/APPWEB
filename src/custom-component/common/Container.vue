@@ -140,6 +140,12 @@ export default {
                         label: `Grid${j + 1}`,
                     }));
                 }
+                if (component.component === 'ErGrid') {
+                    component.items = new Array(2).fill(1).map((i, j) => ({
+                        name: generateID(),
+                        label: `ErGrid${j + 1}`,
+                    }));
+                }
                 if(component.component === 'ErLayout') {
                     const itemFlag = [
                         { name: 'header', label: '页眉' },

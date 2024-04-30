@@ -36,6 +36,9 @@
                     </template>
                     <el-form>
                         <br/>
+                        <el-form-item label="是否显示：">
+                            <el-checkbox v-model="item.visible"  size="small" />
+                        </el-form-item>
                         <el-form-item label="title:">
                             <el-input v-model="item.title" size="small" />
                         </el-form-item>
@@ -57,7 +60,7 @@
 import generateID from '@/utils/generateID';
 import CommonAttr from '@/custom-component/common/CommonAttr.vue';
 import { rootStore } from '@/stores/rootStore';
-let count = 1
+import { nameRepeat } from '@/utils/utils';
 export default {
     components: { CommonAttr },
     computed: {
@@ -78,12 +81,15 @@ export default {
             this.curComponent.items.splice(index + 1, 1)
         },
         handAddCollapse() {
-            count++
             const length = this.curComponent.items.length
+            const count = length
+            let name = `面板${count}`
+            name = nameRepeat(name, this.options, '')
             this.options.push({
-                title: "面板" + count,
+                title: name,
                 name: count,
                 height: 100,
+                visible: true,
             })
             this.curComponent.items.push({
                 name: generateID(),
