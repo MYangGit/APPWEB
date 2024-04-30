@@ -70,16 +70,14 @@ export default {
                 watch(() => {
                     return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
                 }, (value) => {
-                    fn(rootStore.dataConfig.stateSet, {
-                        globalUtils: {},
-                        eventParams: {
-                            value
-                        }
+                    fn({ 
+                        dataCenter: rootStore.dataConfig.stateSet,
+                        globalUtils: {}
+                    }, {
+                        value
                     })
                 }, { deep: true });
            })
-
-            
         }
     },
 };
