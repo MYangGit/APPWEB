@@ -62,10 +62,13 @@ const downComponent = () => {
       <span>{{ getComponent(index).label }}</span>
 
       <!-- 组件上移，下移，删除三个点击面板 -->
-      <div class="icon-container">
+      <!-- <div class="icon-container">
         <span class="iconfont el-icon-upload2" title="上移" @click="upComponent(transformIndex(index))"></span>
         <span class="iconfont el-icon-download" title="下移" @click="downComponent(transformIndex(index))"></span>
         <span class="iconfont el-icon-delete" title="删除" @click="deleteComponent(transformIndex(index))"></span>
+      </div> -->
+      <div class="icon-container">
+        <el-icon @click="deleteComponent(transformIndex(index))"><Delete /></el-icon>
       </div>
     </div>
   </div>
@@ -114,7 +117,6 @@ const downComponent = () => {
       position: absolute;
       right: 10px;
       display: none;
-
       .iconfont {
         cursor: pointer;
       }
