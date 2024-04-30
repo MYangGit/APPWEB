@@ -25,7 +25,7 @@
     if (item.key === 'redo') redo()
     if (item.key === 'preview') preview()
     if (item.key === 'clear') clearCanvas()
-    if (item.key === 'generate') generateJson()
+    if (item.key === 'generate') buildApp()
   }
 
   const importFile = () => {
@@ -106,6 +106,33 @@
     // 清理链接和对象URL以释放内存
     URL.revokeObjectURL(url);
     document.body.removeChild(a);
+  }
+  const buildApp = () => {
+    // 创建一个包含JSON数据的对象
+    var jsonData = {
+      components: rootStore.dataCenter.componentData,
+      dataCenter: rootStore.dataConfig.stateSet,
+      actionCenter: rootStore.dataConfig.actionSet
+    };
+    // 将JSON对象转换为字符串
+    var jsonString = JSON.stringify(jsonData);
+    fetch('http://172.16.1.177:4000/buildAppVsix', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        appJson: jsonString
+      })
+    }).then(res => {
+      res.json().then(data => {
+        console.log(data)
+        const downloadLink = document.createElement('a');
+        downloadLink.href = data.fileUrl;
+        // 点击链接触发下载
+        downloadLink.click();
+      })
+    })
   }
 </script>
 
