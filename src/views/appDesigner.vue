@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router'
 import { deepCopy, getQueryVariable } from '@/utils/utils';
 import componentList from '@/custom-component/component-list'; // 左侧列表数据
 import generateID from '@/utils/generateID';
@@ -14,8 +15,12 @@ import AnimationList from '@/components/AnimationList';
 
 import { rootStore } from '@/stores/rootStore';
 
+const route = useRoute()
 const mode = ref('design')
 const activeName = ref('attr')
+const showDevelopFunction = computed(() => {
+  return route.query.mode === 'develop'
+})
 
 // 组件拖拽的动作
 const handleDrop = (e) => {
@@ -139,7 +144,7 @@ const deselectCurComponent = (e) => {
         <div class="mode">
           <el-radio-group v-model="mode" size="small">
             <el-radio-button value="design">设计视图</el-radio-button>
-            <el-radio-button value="code">代码视图</el-radio-button>
+            <el-radio-button value="code" v-if="showDevelopFunction">代码视图</el-radio-button>
             <el-radio-button value="dataCenter">数据中心</el-radio-button>
           </el-radio-group>
         </div>
@@ -167,7 +172,7 @@ const deselectCurComponent = (e) => {
           <el-tab-pane label="属性" name="attr">
             <component :is="rootStore.dataCenter.curComponent.component + 'Attr'" />
           </el-tab-pane>
-          <el-tab-pane label="动画" name="animation" style="padding-top: 20px">
+          <el-tab-pane label="动画" v-if="showDevelopFunction" name="animation" style="padding-top: 20px">
             <AnimationList />
           </el-tab-pane>
         </el-tabs>
