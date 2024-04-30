@@ -2,8 +2,14 @@
     <div class="attr-list">
         <CommonAttr>
             <el-form>
-                <el-form-item label="禁止浮窗：">
+                <el-form-item label="禁用：">
                     <el-checkbox v-model="curComponent.propValue.disabled"  size="small" />
+                </el-form-item>
+                <el-form-item label="选中：">
+                    <el-checkbox v-model="curComponent.propValue.activate"  size="small" />
+                </el-form-item>
+                <el-form-item label="匹配内容选中：">
+                    <el-input  v-model="curComponent.propValue.activateText"  size="small" />
                 </el-form-item>
                 <el-form-item label="标题：">
                     <el-input  v-model="curComponent.propValue.title"  size="small" />

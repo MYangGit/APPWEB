@@ -1,14 +1,14 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div class="input-wrap">
+    <div class="input-wrap" :class="{activate: isEmpty(activateText) ? activate : activate == activateText }">
         <el-dropdown 
             ref="dropdown1" 
             :trigger="propValue.trigger"
-            :disabled="propValue.disabled"
             @visible-change="handleVisible2"
         >
             <div class="dropdown-title" :style="{ width: propValue.titleWidth + 'px'}">
                 <erPicText
+                    :disabled="disabled"
                     :hasSubscript="propValue.hasSubscript"
                     :horizontal="propValue.horizontal"
                     :iconPath="propValue.iconPath"
@@ -53,8 +53,10 @@ import PreviewContainer from '../../common/PreviewContainer.vue';
 import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { erPicText } from 'errantia';
+import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
-
+const { onClickOther } = useEventCentre();
 export default {
     components: {
         Container,
@@ -69,6 +71,8 @@ export default {
                 title: '标题',
                 titleWidth: 100,
                 disabled: false,
+                activate: false,
+                activateText: '',
                 iconPath: 'https://img.icons8.com/ios/452/plus-math.png',
                 trigger: 'click',
                 floatHeight: 200,
@@ -89,6 +93,30 @@ export default {
         };
     },
     computed: {
+        disabled: {
+            get() {
+                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        activate: {
+            get() {
+                return getComputedGet('activate', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('activate', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        activateText: {
+            get() {
+                return getComputedGet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
         editMode () {
             return rootStore.editor.editMode
         },
@@ -97,8 +125,10 @@ export default {
         },
     },
     methods: {
+        isEmpty,
         handleAction(val) {
-            console.log(val)
+            val.e.stopPropagation();
+            onClickOther({element: this.element, clickName: 'click', params: {  val}})
         },
         onContextMenu() {
             this.showClick()
@@ -130,6 +160,11 @@ export default {
         white-space: nowrap;
         margin-bottom: 0;
     }
+}
+.activate {
+    cursor: pointer;
+    background-color: #cbe8fe;
+    border-radius: 4px;
 }
 .dropdown-title {
     text-align: center;
