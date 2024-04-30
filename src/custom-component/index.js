@@ -40,6 +40,8 @@ import ErDialog from './errantia/Dialog/Component.vue'
 import ErDialogAttr from './errantia/Dialog/Attr.vue'
 import ErGrid from './errantia/Grid/Component.vue'
 import ErGridAttr from './errantia/Grid/Attr.vue'
+import ErCheckBox from './errantia/Checkbox/Component.vue'
+import ErCheckBoxAttr from './errantia/Checkbox/Attr.vue'
 
 const components = {
     VText,
@@ -62,7 +64,8 @@ const components = {
     ErCollapse,
     ErDropDown,
     ErDialog,
-    ErGrid
+    ErGrid,
+    ErCheckBox
 };
 const attrs = {
     VTextAttr,
@@ -85,7 +88,8 @@ const attrs = {
     ErCollapseAttr,
     ErDropDownAttr,
     ErDialogAttr,
-    ErGridAttr
+    ErGridAttr,
+    ErCheckBoxAttr
 }
 
 export const install = function (app) {

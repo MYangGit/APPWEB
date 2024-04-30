@@ -19,6 +19,8 @@ import ErCollapse from './errantia/Collapse/meta';
 import ErDropDown from './errantia/DropDown/meta';
 import ErDialog from './errantia/Dialog/meta';
 import ErGrid from './errantia/Grid/meta';
+import ErCheckBox from './errantia/Checkbox/meta';
+
 
 // 编辑器左侧组件列表
 const componentList = [
@@ -42,7 +44,8 @@ const componentList = [
     ErCollapse,
     ErDropDown,
     ErDialog,
-    ErGrid
+    ErGrid,
+    ErCheckBox
 ];
 
 export const commonStyle = {
