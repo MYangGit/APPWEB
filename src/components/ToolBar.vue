@@ -43,6 +43,7 @@
         const data = JSON.parse(fileString);
         rootStore.dataConfig.stateSet = data.dataCenter
         rootStore.dataConfig.actionSet = data.actionCenter
+        rootStore.dataConfig.watchRegisters = data.watchRegisters
         rootStore.dataCenter.setComponentData(data.components)
       };
     }
@@ -112,7 +113,8 @@
     var jsonData = {
       components: rootStore.dataCenter.componentData,
       dataCenter: rootStore.dataConfig.stateSet,
-      actionCenter: rootStore.dataConfig.actionSet
+      actionCenter: rootStore.dataConfig.actionSet,
+      watchRegisters: rootStore.dataConfig.watchRegisters
     };
     // 将JSON对象转换为字符串
     var jsonString = JSON.stringify(jsonData);
