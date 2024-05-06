@@ -130,7 +130,7 @@ const handleBlur = () => {
               @onAction="handleAction"
             />
             <div v-if="!isEmpty(juliaCentre.currentFun?.props)" class="example">
-              "示例: x = ${_a_} 等同于变量 x 的值为引入参数 _a_ 的值, 引入参数需要 ${你的参数名}, 例如: ${_a_}"
+              "示例: x = _a_ 等同于变量 x 的值为引入参数 _a_ 的值, 代码中引入参数直接输入 你的参数名, 例如: _a_"
             </div>
           </erFlex>
           <div class="conrainer">

@@ -78,7 +78,7 @@ export default {
                 activePanelName: ['1'],
                 panelLists: [
                     {
-                        name: '1',
+                        name: 1,
                         title: '面板1',
                         height: 100,
                         visible: true,

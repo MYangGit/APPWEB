@@ -26,7 +26,7 @@
                         marginLeft: propValue.marginLeft + 'px'
                     }"
                 >
-                    <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
+                    <div @contextmenu.prevent v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
                         <Container
                             :element="element"
                             :name="element.id"
@@ -50,7 +50,6 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
@@ -63,7 +62,6 @@ export default {
         PreviewContainer,
         erPicText
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

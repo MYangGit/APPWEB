@@ -9,7 +9,7 @@ export default {
   icon: 'input',
   type: 'errantia',
   style: {
-    width: 200,
+    width: 100,
     height: 34,
     fontSize: '',
     fontWeight: 400,

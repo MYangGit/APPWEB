@@ -22,6 +22,7 @@ import eventBus from '@/utils/eventBus';
 import { getValueByDotKey } from '@/utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
+import { isEmpty } from '@/utils/utils';
 
 const { onClick } = useEventCentre();
 export default {
@@ -46,6 +47,13 @@ export default {
             if (!config.visiable) return true
             if (!config.visiable.key) return true
             let value = getValueByDotKey(rootStore.dataConfig.stateSet, config.visiable.key.join('.'))
+            if(isEmpty(config.visiable.value)) {
+                return value
+            }
+            // 如果第一个字符是！，则取反
+            if (config.visiable.value.startsWith('!')) {
+                return value !== config.visiable.value.slice(1)
+            }
             return value === config.visiable.value
         },
         handleActionClick () {

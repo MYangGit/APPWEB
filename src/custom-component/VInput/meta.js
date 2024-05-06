@@ -17,6 +17,7 @@ export default {
     textAlign: '',
     color: '',
     backgroundColor: '',
+    marginLeft: 0,
   },
   eventOptions: [{ label: '数据改变', value: 'updateValue' }],
   actionBinds: {

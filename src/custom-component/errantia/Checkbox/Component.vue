@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-checkbox 
-            :value="value" 
+            v-model="value" 
             :label="label" 
             :disabled="disabled"
             @change="handleValueChange" 
