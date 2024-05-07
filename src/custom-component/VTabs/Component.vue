@@ -1,7 +1,18 @@
 <template>
     <div v-if="editMode == 'edit'" class="v-tabs">
-        <el-tabs v-model="activeName" :tab-position="element.position" type="border-card" @tab-click="handleClick">
-            <el-tab-pane v-for="tab in element.tabs" :key="tab.name" :label="tab.label" :name="tab.name">
+        <el-tabs 
+            v-model="activeName" 
+            :tab-position="element.position" 
+            type="border-card" 
+            @tab-click="handleClick"
+        >
+            <el-tab-pane 
+                v-for="tab in element.tabs" 
+                :key="tab.name" 
+                :label="tab.label" 
+                :name="tab.name"
+                class="use-tabs-active"
+            >
                 <Container
                     :element="element"
                     :name="tab.name"
@@ -12,8 +23,18 @@
         </el-tabs>
     </div>
     <div v-else class="v-tabs preview">
-        <el-tabs v-model="activeName" :tab-position="element.position" type="border-card" @tab-click="handleClick">
-            <el-tab-pane v-for="tab in element.tabs" :key="tab.name" :label="tab.label" :name="tab.name">
+        <el-tabs 
+            v-model="activeName" 
+            :tab-position="element.position" 
+            type="border-card" 
+            @tab-click="handleClick"
+        >
+            <el-tab-pane 
+                v-for="tab in element.tabs" 
+                :key="tab.name" 
+                :label="tab.label" 
+                :name="tab.name"
+            >
                 <PreviewContainer
                     :element="element"
                     :name="tab.name"

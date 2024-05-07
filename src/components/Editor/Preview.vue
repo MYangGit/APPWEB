@@ -40,7 +40,7 @@ export default {
         rootStore.editor.setEditMode('preview')
         setTimeout(() => {
             this.initWatch()
-        }, 100)
+        }, 1000)
     },
     methods: {
         getStyle,
