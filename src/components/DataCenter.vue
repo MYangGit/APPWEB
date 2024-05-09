@@ -1,7 +1,7 @@
 
 <script setup>
 import DataSet from './DataSet.vue';
-import ActionSet from './ActionSet.vue';
+import ActionJsSet from './ActionJsSet.vue';
 import ActionJuliaSet from './ActionJuliaSet.vue';
 import StateWatch from './StateWatch.vue';
 import { ref } from 'vue';
@@ -22,8 +22,8 @@ const handleCommand = (command) => {
         <DataSet/>
       </el-tab-pane>
       <el-tab-pane name="action" label="动作">
+        <ActionJsSet v-if="useLanguage === 'Javascript'"/>
         <ActionJuliaSet v-if="useLanguage === 'Julia'"/>
-        <ActionSet v-else/>
       </el-tab-pane>
       <el-tab-pane name="stateWatch" label="数据监听">
         <StateWatch/>

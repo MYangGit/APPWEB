@@ -42,7 +42,7 @@
                     <slot></slot>
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="数据绑定" name="databind">
+            <el-collapse-item v-if="showDevelopFunction" title="数据绑定" name="databind">
                 <div class="v-common-design">
                     <div class="data-bind-item" v-for="key in getKeys(curComponent.propValue)">
                         <div class="label">{{ key }}</div>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="动作绑定" v-if="getKeys(curComponent.actionBinds).length > 0" name="actionbind">
+            <el-collapse-item title="动作绑定" v-if="showDevelopFunction && getKeys(curComponent.actionBinds).length > 0" name="actionbind">
                 <div class="v-common-design">
                     <div class="data-bind-item" v-for="key in getKeys(curComponent.actionBinds)">
                         <div class="label">{{ key }}</div>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="显示状态绑定" name="visiablebind">
+            <el-collapse-item v-if="showDevelopFunction" title="显示状态绑定" name="visiablebind">
                 <div class="v-common-design">
                     <div class="data-bind-item">
                         <el-button v-if="!(curComponent.visiable && curComponent.visiable.key)" size="small" @click="bindData('key', 'visiable')">绑定数据</el-button>
@@ -75,7 +75,30 @@
                     </div>
                 </div>
             </el-collapse-item>
+            <el-collapse-item v-if="curComponent.coreKey" title="属性名" name="varName">
+                <div class="v-common-design">
+                    <div class="data-bind-item">
+                        <el-input size="small" style="margin-right: 10px;" @input="bindVarNameHasChanged = true" type="text" v-model="bindVarName" />
+                        <el-button :disabled="!bindVarNameHasChanged" size="small" @click="confirmBindVarName">应用</el-button>
+                    </div>
+                </div>
+            </el-collapse-item>
+            <el-collapse-item v-if="getKeys(curComponent.actionBinds).length > 0" title="事件回调方法" name="callback">
+                <div class="v-common-design">
+                    <div class="v-common-design">
+                        <div class="data-bind-item" v-for="key in getKeys(curComponent.actionBinds)">
+                            <div class="label">{{ eventNameMap[key] }}</div>
+                            <div>
+                                <el-button v-if="!curComponent.actionBinds[key]" size="small" @click="callbackEdit(key, 'new')">编辑</el-button>
+                                <el-tag closable @click="callbackEdit(key, 'edit')" @close="removeCallback(key)" v-else>{{ curComponent.actionBinds[key] }}</el-tag>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </el-collapse-item>
         </el-collapse>
+
+        <!-- 数据绑定弹窗 -->
         <el-dialog v-model="dataConfigShow" title="数据绑定" width="800">
             <el-cascader 
                 v-model="form.bindKeys" 
@@ -91,6 +114,7 @@
                 </div>
             </template>
         </el-dialog>
+        <!-- 动作绑定弹窗 -->
         <el-dialog v-model="actionConfigShow" title="动作绑定" width="800">
             <el-form label-position="top" label-width="auto">
                 <el-form-item label="选择动作">
@@ -103,18 +127,35 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="结果赋值">
-                    <el-cascader 
-                        v-model="juliaResult" 
-                        :props="{checkStrictly: true}" 
-                        :options="getOptions()" 
-                    />
-                </el-form-item>
             </el-form>
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="actionConfigShow = false">Cancel</el-button>
                     <el-button type="primary" @click="handleActionConfirm">
+                    Confirm
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
+        <!-- 回调函数编写弹窗 -->
+        <el-dialog v-model="callbackEditShow" title="回调函数编辑" width="800">
+            <el-form label-position="left" label-width="auto">
+                <el-form-item label="函数定义">
+                    <div style="width: 100%;height: 500px;">
+                        <Codemirror
+                            v-model="callbackForm.code"
+                            :autofocus="false"
+                            :indent-with-tab="true"
+                            :tab-size="2"
+                            :extensions="extensions"
+                        />
+                    </div>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="callbackEditShow = false">Cancel</el-button>
+                    <el-button type="primary" @click="handleCallbackConfirm">
                     Confirm
                     </el-button>
                 </div>
@@ -135,10 +176,10 @@ import {
 import Linkage from './Linkage.vue';
 import { rootStore } from '@/stores/rootStore';
 import { mapState } from 'pinia';
-import { useJuliaCentre } from '@/hooks/useJuliaCentre';
-
-const juliaCentre = useJuliaCentre();
-juliaCentre.init()
+import { updateVarName, updateCallback } from '@/hooks/useComponent'
+import { Codemirror } from 'vue-codemirror'
+import { noctisLilac } from 'thememirror'
+import { julia } from "@plutojl/lang-julia";
 
 const extractKeys = (obj) => {
     let result = [];
@@ -159,10 +200,16 @@ const extractKeys = (obj) => {
     return result;
 }
 
+const eventNameMap = {
+    change: "当值更新时",
+    click: "当单击时"
+}
+
 export default {
-    components: { Linkage },
+    components: { Linkage, Codemirror },
     data() {
         return {
+            eventNameMap,
             optionMap,
             styleData,
             textAlignOptions,
@@ -175,13 +222,21 @@ export default {
                 bindKeys: '',
                 type: 'normal'
             },
-            juliaResult: '',
             dataConfigShow: false,
             actionConfigShow: false,
             actionForm: {
                 key: '',
                 bindKey: ''
             },
+            bindVarName: '',
+            bindVarNameHasChanged: false,
+            callbackEditShow: false,
+            callbackForm: {
+                mode: 'new',
+                key: '',
+                code: ''
+            },
+            extensions: [julia(), noctisLilac],
             rootStore,
         };
     },
@@ -202,8 +257,18 @@ export default {
             return this.$route.query.mode === 'develop'
         },
     },
+    watch: {
+        curComponent() {
+            if (this.curComponent.coreKey) {
+                this.bindVarName = this.curComponent.dataBinds[this.curComponent.coreKey][0]
+            }
+        },
+    },
     created() {
         this.activeName = this.curComponent.collapseName || 'design';
+        if (this.curComponent.coreKey) {
+            this.bindVarName = this.curComponent.dataBinds[this.curComponent.coreKey][0]
+        }
     },
     methods: {
         onChange() {
@@ -230,6 +295,18 @@ export default {
             this.actionForm.key = key
             this.actionConfigShow = true
         },
+        callbackEdit (key, mode) {
+            this.callbackForm.mode = mode
+            this.callbackForm.key = key
+            if (mode === 'edit') {
+                let actionKey = rootStore.dataCenter.curComponent.actionBinds[this.callbackForm.key]
+                let code = rootStore.dataConfig.actionSet[actionKey]
+                this.callbackForm.code = code
+            } else {
+                this.callbackForm.code = ''
+            }
+            this.callbackEditShow = true
+        },
         handleConfirm () {
             if (this.form.type === 'visiable') {
                 rootStore.dataCenter.curComponent.visiable[this.form.key] = this.form.bindKeys
@@ -240,14 +317,12 @@ export default {
             this.dataConfigShow = false
         },
         handleActionConfirm () {
-            const newReturns = {
-                [this.actionForm.bindKey] : this.juliaResult
-            }
-            if(this.actionForm.bindKey.substring(0, 6) === 'Julia@') {
-                juliaCentre.setJuliaFunList({ uuidName: this.actionForm.bindKey.slice(6), data: { returns: newReturns} })
-            }
             rootStore.dataCenter.curComponent.actionBinds[this.actionForm.key] = this.actionForm.bindKey
             this.actionConfigShow = false
+        },
+        handleCallbackConfirm () {
+            updateCallback(this.callbackForm)
+            this.callbackEditShow = false
         },
         unbindData(key, type = 'normal') {
             if (type === 'visiable') {
@@ -259,6 +334,14 @@ export default {
         },
         unbindActionData (key) {
             rootStore.dataCenter.curComponent.actionBinds[key] = ''
+        },
+        removeCallback (key) {
+            rootStore.dataConfig.deleteAction(rootStore.dataCenter.curComponent.actionBinds[key])
+            rootStore.dataCenter.curComponent.actionBinds[key] = ''
+        },
+        confirmBindVarName () {
+            updateVarName(this.bindVarName)
+            this.bindVarNameHasChanged = false;
         },
         getOptions () {
             let options = extractKeys(rootStore.dataConfig.stateSet);

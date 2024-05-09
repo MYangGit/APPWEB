@@ -13,13 +13,15 @@ import CodeEdit from '@/components/CodeEdit.vue';
 import DataCenter from '@/components/DataCenter.vue';
 import AnimationList from '@/components/AnimationList';
 
+import { beforeComponentEnterView, afterComponentEnterView } from '@/hooks/useComponent'
+
 import { rootStore } from '@/stores/rootStore';
 
 const route = useRoute()
 const mode = ref('design')
 const activeName = ref('attr')
 const showDevelopFunction = computed(() => {
-  return route.query.mode === 'develop' || true
+  return route.query.mode === 'develop'
 })
 
 // 组件拖拽的动作
@@ -29,7 +31,7 @@ const handleDrop = (e) => {
   const index = e.dataTransfer.getData('index');
   const rectInfo = rootStore.compose.editor.getBoundingClientRect();
   if (index) {
-    const component = deepCopy(componentList[index]);
+    let component = deepCopy(componentList[index]);
     component.style.top = e.clientY - rectInfo.y;
     component.style.left = e.clientX - rectInfo.x;
     if (component.type === 'report') {
@@ -92,7 +94,10 @@ const handleDrop = (e) => {
     if (rootStore.dataCenter.componentData.filter(i => i.component === component.component).length) {
       component.label += rootStore.dataCenter.componentData.filter(i => i.component === component.component).length;
     }
+    
+    component = beforeComponentEnterView(component)
     rootStore.dataCenter.addComponent({ component })
+    afterComponentEnterView(component)
     rootStore.snapshot.recordSnapshot()
   }
 }
@@ -145,7 +150,7 @@ const deselectCurComponent = (e) => {
           <el-radio-group v-model="mode" size="small">
             <el-radio-button value="design">设计视图</el-radio-button>
             <el-radio-button value="code" v-if="showDevelopFunction">代码视图</el-radio-button>
-            <el-radio-button value="dataCenter">数据中心</el-radio-button>
+            <el-radio-button value="dataCenter" v-if2="showDevelopFunction">数据中心</el-radio-button>
           </el-radio-group>
         </div>
         <div

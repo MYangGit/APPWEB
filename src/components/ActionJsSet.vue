@@ -9,7 +9,12 @@ import { ElMessageBox } from 'element-plus'
 
 const extensions = [javascript(), noctisLilac]
 const activeName = ref('')
-activeName.value = Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))[0]
+
+const jsActionList = computed(() => {
+  return Object.keys(rootStore.dataConfig.actionSet)?.filter(item => item.indexOf('@') === -1)
+})
+
+activeName.value = jsActionList.value[0]
 
 const code = computed({
   get() {
@@ -23,8 +28,8 @@ const code = computed({
 
 const autoActive = () => {
   if (!rootStore.dataConfig.actionSet[activeName.value]) {
-    if (Object.keys(rootStore.dataConfig.actionSet).length > 0) {
-      activeName.value = Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))[0]
+    if (jsActionList.value.length > 0) {
+      activeName.value = jsActionList.value[0]
     } else {
       activeName.value = ''
     }
@@ -44,15 +49,9 @@ const handleAdd = () => {
     inputErrorMessage: '无效的动作命名',
   })
   .then(({ value }) => {
-    if(value.substring(0, 6) === 'Julia@') {
-      return ElMessageBox.alert('动作名称不能以Julia@开头', '新增动作失败')
-    }
-    rootStore.dataConfig.addAction(value, `({dataCenter, globalUtils}, eventParams) => { 
-  // TODO: 你的代码
-}`)
+    rootStore.dataConfig.addAction(value, `({dataCenter, globalUtils}, eventParams) => {}`)
     autoActive()
   })
-  
 }
 </script>
 
@@ -75,7 +74,7 @@ const handleAdd = () => {
         :class="{ active: activeName === key }" 
         @click="activeName = key" 
         :key="key" 
-        v-for="key in Object.keys(rootStore.dataConfig.actionSet)?.filter(item => !(item.substring(0, 6) === 'Julia@'))"
+        v-for="key in jsActionList"
       >
         <span>{{ key }}</span>
         <el-icon @click.stop="handleDelete(key)" >
@@ -101,7 +100,7 @@ const handleAdd = () => {
   height: 100%;
   display: flex;
   .action-list {
-    width: 150px;
+    width: 200px;
     display: flex;
     flex-direction: column;
     margin-right: 10px;
