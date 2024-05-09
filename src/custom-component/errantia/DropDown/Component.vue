@@ -6,7 +6,7 @@
             :trigger="propValue.trigger"
             @visible-change="handleVisible2"
         >
-            <div class="dropdown-title" :style="{ width: propValue.titleWidth + 'px'}">
+            <div class="dropdown-title" :class="{disabledClick: disabled}" :style="{ width: propValue.titleWidth + 'px'}">
                 <erPicText
                     :disabled="disabled"
                     :hasSubscript="propValue.hasSubscript"
@@ -158,6 +158,10 @@ export default {
         white-space: nowrap;
         margin-bottom: 0;
     }
+}
+.disabledClick {
+    cursor: not-allowed;    
+    pointer-events: none;
 }
 .activate {
     cursor: pointer;

@@ -296,6 +296,7 @@ export default {
 .data-bind-item {
     display: flex;
     margin-bottom: 5px;
+    justify-content: space-between;
     .label {
         width: 70px;
     }

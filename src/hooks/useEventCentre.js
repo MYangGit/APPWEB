@@ -73,7 +73,6 @@ end
 }
 
 const getFunction = (configOrFn) => {
-   console.log(configOrFn)
    let isFn = configOrFn.indexOf('{') === 0 ? false : true
    if (isFn) return new Function(`return ${configOrFn}`)()
    let {name, type, props, code, returns} = JSON.parse(configOrFn)
@@ -104,7 +103,8 @@ export const useEventCentre = () => {
       if (!click) return
       let fn = getFunction(rootStore.dataConfig.actionSet[click])
       fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {
-         post: () => {}
+         post: () => {},
+         getFilePath: () => {}
       }})
    }
 

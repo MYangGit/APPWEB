@@ -14,6 +14,7 @@ export default {
   style: {
     width: '100%',
     height: '100%',
+    fixedWidth: '100%',
     fixedHeight: '100%',
   },
   childs: [],
