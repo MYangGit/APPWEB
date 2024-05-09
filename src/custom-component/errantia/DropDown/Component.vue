@@ -11,7 +11,7 @@
                     :disabled="disabled"
                     :hasSubscript="propValue.hasSubscript"
                     :horizontal="propValue.horizontal"
-                    :iconPath="propValue.iconPath"
+                    :iconPath="useIcon(propValue.iconPath)"
                     :title="propValue.title"
                     @onAction="handleAction"
                     @onContextMenu="onContextMenu"
@@ -54,7 +54,10 @@ import { rootStore } from '@/stores/rootStore';
 import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
-
+import { WIRELESS } from '@/assets/AppResources/index.js';
+const useIconS = {
+    wireless: WIRELESS
+}
 const { onClickOther } = useEventCentre();
 export default {
     components: {
@@ -142,6 +145,16 @@ export default {
                 this.$refs.dropdown1.handleOpen()
             }
         },
+        useIcon(iconPath) {
+            if (iconPath.startsWith('http')) {
+                return iconPath
+            }
+            const iconPathArr = iconPath.split('.')
+            if (iconPathArr.length === 2) {
+                return useIconS[iconPathArr[0]] ? useIconS[iconPathArr[0]][iconPathArr[1]] : iconPath
+            }
+            return iconPath
+        }
     }
 };
 </script>
