@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import eventBus from '@/utils/eventBus';
-import OnEvent from '../../common/OnEvent'
 import { getComputedGet } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { erTable } from 'errantia';
@@ -28,7 +26,6 @@ import { useEventCentre } from '@/hooks/useEventCentre';
 
 const { onClickOther } = useEventCentre();
 export default {
-    extends: OnEvent,
     components: {
         erTable
     },
@@ -71,19 +68,7 @@ export default {
         dataSource () {
             return getComputedGet('dataSource', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
         }
-    },
-    watch: {
-        propValue: {
-            handler(val) {
-                const linkageEvents = this.element.linkage.data.filter((i) => i.event === 'updateValue');
-                if (linkageEvents.length) {
-                    eventBus.$emit('updateValue', linkageEvents, { ...val });
-                }
-            },
-            deep: true,
-            immediate: true,
-        },
-    },
+    }
 }
 </script>
 

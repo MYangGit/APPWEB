@@ -36,7 +36,6 @@
                     </el-form-item>
                 </el-form>
             </el-collapse-item>
-            <Linkage v-if="showDevelopFunction && curComponent.linkage"></Linkage>
             <el-collapse-item title="定制属性" name="design">
                 <div class="v-common-design">
                     <slot></slot>
@@ -132,7 +131,6 @@ import {
     selectKey,
     optionMap,
 } from '@/utils/attr';
-import Linkage from './Linkage.vue';
 import { rootStore } from '@/stores/rootStore';
 import { mapState } from 'pinia';
 import { useJuliaCentre } from '@/hooks/useJuliaCentre';
@@ -160,7 +158,7 @@ const extractKeys = (obj) => {
 }
 
 export default {
-    components: { Linkage },
+    components: {},
     data() {
         return {
             optionMap,

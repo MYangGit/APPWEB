@@ -18,10 +18,8 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
 import Container from '../common/Container.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
-import OnEvent from '../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 
 export default {
@@ -29,7 +27,6 @@ export default {
         Container,
         PreviewContainer,
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,
@@ -62,7 +59,6 @@ export default {
         },
     },
     mounted() {
-        console.log(this.editMode)
     },
     methods: {
 

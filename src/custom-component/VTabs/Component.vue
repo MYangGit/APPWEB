@@ -47,10 +47,8 @@
 
 <script>
 import { keycodes } from '@/utils/shortcutKey.js';
-import eventBus from '@/utils/eventBus';
 import Container from '../common/Container.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
-import OnEvent from '../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 
 export default {
@@ -58,7 +56,6 @@ export default {
         Container,
         PreviewContainer,
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Array,

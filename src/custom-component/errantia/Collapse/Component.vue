@@ -56,7 +56,6 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';   
 import { getComputedGet, getComputedSet } from '@/utils/utils';
@@ -67,7 +66,6 @@ export default {
         Container,
         PreviewContainer,
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

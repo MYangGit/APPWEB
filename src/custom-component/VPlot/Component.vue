@@ -5,14 +5,11 @@
 </template>
 
 <script>
-import eventBus from '@/utils/eventBus';
-import OnEvent from '../common/OnEvent'
 import { getComputedGet } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import Plotly from 'plotly.js-dist-min';
 
 export default {
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,
@@ -121,16 +118,6 @@ export default {
                 this.renderChart()
             },
             deep: true,
-        },
-        propValue: {
-            handler(val) {
-                const linkageEvents = this.element.linkage.data.filter((i) => i.event === 'updateValue');
-                if (linkageEvents.length) {
-                    eventBus.$emit('updateValue', linkageEvents, { ...val });
-                }
-            },
-            deep: true,
-            immediate: true,
         },
     },
 }

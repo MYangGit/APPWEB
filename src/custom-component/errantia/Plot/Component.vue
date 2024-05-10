@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import OnEvent from '../../common/OnEvent'
 import { getComputedGet } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 
 export default {
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

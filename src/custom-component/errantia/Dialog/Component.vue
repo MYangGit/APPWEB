@@ -31,7 +31,6 @@
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
-import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { erDialog } from 'errantia';
 
@@ -42,7 +41,6 @@ export default {
         PreviewContainer,
         erDialog
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

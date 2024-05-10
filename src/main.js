@@ -5,7 +5,7 @@ import './assets/iconfont/iconfont.css';
 import './assets/animate.less'
 
 import { createApp } from 'vue'
-import pinia from './stores';
+import pinia from './stores/index.js';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import '../node_modules/errantia/dist/style.css'
 
@@ -17,7 +17,7 @@ import Errantia from 'errantia'
 import '../node_modules/errantia/dist/style.css'
 
 import App from './App.vue'
-import router from './router'
+import router from './router/index.js'
 
 
 const app = createApp(App)
