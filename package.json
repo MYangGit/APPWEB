@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --mode dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "updata-package": "node ./package-edit.cjs"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",

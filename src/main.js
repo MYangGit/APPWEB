@@ -11,7 +11,7 @@ import '../node_modules/errantia/dist/style.css'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { install as CustomComponent } from '@/custom-component';
+import { install as CustomComponent } from '@/custom-component/index.js';
 
 import Errantia from 'errantia'
 import '../node_modules/errantia/dist/style.css'
