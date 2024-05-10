@@ -1,4 +1,5 @@
 import { rootStore } from '@/stores/rootStore';
+import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 
 const parseJuliaFn = (name, props, code, returns) => {
    return  `async ({dataCenter, globalUtils}, eventParams) => {
@@ -86,13 +87,12 @@ const getFunction = (configOrFn) => {
  * @returns 
  */
 export const useEventCentre = () => {
-
    // 事件触发
    const onChange = ({ element, newValue }) => {
       let { change } = element.actionBinds;
       if (!change) return
       let fn = new Function(`return ${rootStore.dataConfig.actionSet[change]}`)()
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {
             newValue: newValue
       })
    }
@@ -102,10 +102,7 @@ export const useEventCentre = () => {
       let { click } = element.actionBinds;
       if (!click) return
       let fn = getFunction(rootStore.dataConfig.actionSet[click])
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {
-         post: () => {},
-         getFilePath: () => {}
-      }})
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {})
    }
 
    // 其它点击事件
@@ -113,15 +110,23 @@ export const useEventCentre = () => {
       let click = element.actionBinds[clickName];
       if (!click) return
       let fn = new Function(`return ${rootStore.dataConfig.actionSet[click]}`)()
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: {}}, {
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {
             clickName,
             params: params
       })
+   }
+
+   // init事件
+   const onInit = ({ type, fnStr }) => {
+      if (type !== 'init') return;
+      let fn = new Function(`return ${fnStr}`)();
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {})
    }
    
    return {
       onChange,
       onClick,
-      onClickOther
+      onClickOther,
+      onInit
    }
 };

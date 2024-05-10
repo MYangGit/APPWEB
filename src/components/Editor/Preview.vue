@@ -13,7 +13,11 @@ import { toPng } from 'html-to-image';
 import { rootStore } from '@/stores/rootStore';
 import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
+import { useGlobalUtils } from '@/hooks/useGlobalUtils';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { initFilePath } = useGlobalUtils();
+const { onInit } = useEventCentre();
 export default {
     components: { ComponentWrapper },
     props: {
@@ -31,6 +35,7 @@ export default {
         };
     },
     created() {
+        this.initialize();
         localforage.getItem('canvasData').then((data) => {
             this.copyData = JSON.parse(data) || []
         });
@@ -46,11 +51,20 @@ export default {
         getStyle,
         getCanvasStyle,
         changeStyleWithScale,
-
+        pageInitAction () {
+            let fnStrs = []
+            for (const key in rootStore.dataConfig.actionSet) {
+                if (key.indexOf('init_') === 0) {
+                    fnStrs.push(rootStore.dataConfig.actionSet[key])
+                }
+            }
+            fnStrs.forEach(async fnStr => {
+                onInit({type: 'init', fnStr})
+            })
+        },
         close() {
             this.$emit('close');
         },
-
         htmlToImage() {
             toPng(this.$refs.container.querySelector('.canvas'))
                 .then((dataUrl) => {
@@ -78,7 +92,11 @@ export default {
                     })
                 }, { deep: true });
            })
-        }
+        },
+        async initialize() {
+            await initFilePath();
+            this.pageInitAction()
+        },
     },
 };
 </script>
