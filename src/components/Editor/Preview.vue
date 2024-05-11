@@ -18,10 +18,9 @@ import { rootStore } from '@/stores/rootStore';
 import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
 import { useGlobalUtils } from '@/hooks/useGlobalUtils';
-import { useEventCentre } from '@/hooks/useEventCentre';
+import { excuteJsAction } from '@/hooks/useEventCentre';
 
 const { initFilePath } = useGlobalUtils();
-const { excuteJsAction } = useEventCentre();
 export default {
     components: { ComponentWrapper },
     props: {

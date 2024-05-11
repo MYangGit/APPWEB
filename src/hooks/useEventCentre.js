@@ -1,6 +1,21 @@
 import { rootStore } from '@/stores/rootStore';
 import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 import { parseJuliaFn } from '@/hooks/useJuliaCentre'
+import { computed } from 'vue';
+
+const actionCenter = computed(() => {
+   let actionCenter = {}
+   for (const key in rootStore.dataConfig.actionSet) {
+      if (Object.hasOwnProperty.call(rootStore.dataConfig.actionSet, key)) {
+         actionCenter[key] = function () {
+            return excuteJsAction(key, {
+               params: [...arguments]
+            })
+         }
+      }
+   }
+   return actionCenter
+})
 
 const getFunction = (actionKey) => {
    let code = rootStore.dataConfig.actionSet[actionKey]
@@ -10,6 +25,11 @@ const getFunction = (actionKey) => {
    if (actionKey.indexOf('@julia') > -1) {
       return new Function(`return ${parseJuliaFn(code)}`)()
    }
+}
+
+export const excuteJsAction = (actionName, eventParams = {}) => {
+   let fn = getFunction(actionName)
+   return fn({dataCenter: rootStore.dataConfig.stateSet, actionCenter: actionCenter.value, globalUtils: useGlobalUtils()}, eventParams)
 }
 
 /**
@@ -22,9 +42,15 @@ export const useEventCentre = () => {
       let { change } = element.actionBinds;
       if (!change) return
       let fn = getFunction(change)
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {
+      fn({
+            dataCenter: rootStore.dataConfig.stateSet,
+            actionCenter: actionCenter.value,
+            globalUtils: useGlobalUtils()
+         },
+         {
             newValue: newValue
-      })
+         }
+      )
    }
 
    // 事件点击
@@ -32,7 +58,7 @@ export const useEventCentre = () => {
       let { click } = element.actionBinds;
       if (!click) return
       let fn = getFunction(click)
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {})
+      fn({dataCenter: rootStore.dataConfig.stateSet, actionCenter: actionCenter.value, globalUtils: useGlobalUtils()}, {})
    }
 
    // 其它点击事件
@@ -40,28 +66,15 @@ export const useEventCentre = () => {
       let click = element.actionBinds[clickName];
       if (!click) return
       let fn = getFunction(click)
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {
+      fn({dataCenter: rootStore.dataConfig.stateSet ,actionCenter: actionCenter.value, globalUtils: useGlobalUtils()}, {
             clickName,
             params: params
       })
-   }
-
-   // init事件
-   const onInit = ({ type, fnStr }) => {
-      if (type !== 'init') return;
-      let fn = new Function(`return ${fnStr}`)();
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {})
-   }
-
-   const excuteJsAction = (actionName, eventParams = {}) => {
-      let fn = getFunction(actionName)
-      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, eventParams)
    }
    
    return {
       onChange,
       onClick,
-      onClickOther,
-      excuteJsAction
+      onClickOther
    }
 };
