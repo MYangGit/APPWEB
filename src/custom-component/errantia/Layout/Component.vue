@@ -115,7 +115,6 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import OnEvent from '../../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { erLayout } from 'errantia';
 
@@ -125,7 +124,6 @@ export default {
         PreviewContainer,
         erLayout,
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,
@@ -168,7 +166,6 @@ export default {
         },
     },
     mounted() {
-        console.log(this.editMode)
         if (this.element.tabs) {
             this.activeName = this.element.tabs[0].name
         }

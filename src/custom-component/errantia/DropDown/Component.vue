@@ -6,12 +6,12 @@
             :trigger="propValue.trigger"
             @visible-change="handleVisible2"
         >
-            <div class="dropdown-title" :style="{ width: propValue.titleWidth + 'px'}">
+            <div class="dropdown-title" :class="{disabledClick: disabled}" :style="{ width: propValue.titleWidth + 'px'}">
                 <erPicText
                     :disabled="disabled"
                     :hasSubscript="propValue.hasSubscript"
                     :horizontal="propValue.horizontal"
-                    :iconPath="propValue.iconPath"
+                    :iconPath="useIcon(propValue.iconPath)"
                     :title="propValue.title"
                     @onAction="handleAction"
                     @onContextMenu="onContextMenu"
@@ -54,7 +54,10 @@ import { rootStore } from '@/stores/rootStore';
 import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
-
+import { WIRELESS } from '@/assets/AppResources/index.js';
+const useIconS = {
+    wireless: WIRELESS
+}
 const { onClickOther } = useEventCentre();
 export default {
     components: {
@@ -142,6 +145,16 @@ export default {
                 this.$refs.dropdown1.handleOpen()
             }
         },
+        useIcon(iconPath) {
+            if (iconPath.startsWith('http')) {
+                return iconPath
+            }
+            const iconPathArr = iconPath.split('.')
+            if (iconPathArr.length === 2) {
+                return useIconS[iconPathArr[0]] ? useIconS[iconPathArr[0]][iconPathArr[1]] : iconPath
+            }
+            return iconPath
+        }
     }
 };
 </script>
@@ -158,6 +171,10 @@ export default {
         white-space: nowrap;
         margin-bottom: 0;
     }
+}
+.disabledClick {
+    cursor: not-allowed;    
+    pointer-events: none;
 }
 .activate {
     cursor: pointer;

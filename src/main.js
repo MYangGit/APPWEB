@@ -5,25 +5,26 @@ import './assets/iconfont/iconfont.css';
 import './assets/animate.less'
 
 import { createApp } from 'vue'
-import pinia from './stores';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import '../node_modules/errantia/dist/style.css'
-
+import pinia from './stores/index.js';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { install as CustomComponent } from '@/custom-component';
-
+import { install as CustomComponent } from '@/custom-component/index.js';
 import Errantia from 'errantia'
 import '../node_modules/errantia/dist/style.css'
-
 import App from './App.vue'
-import router from './router'
+import AppSyslab from './AppSyslab.vue';
+import router from './router/index.js'
 
+const EnterApp = import.meta.env.VITE_NODE_ENV === 'SyslabApp' ? AppSyslab : App
 
-const app = createApp(App)
+const app = createApp(EnterApp);
+
+if (import.meta.env.VITE_NODE_ENV !== 'SyslabApp') {
+  app.use(router);
+}
 
 app.use(pinia)
-app.use(router)
 app.use(ElementPlus)
 app.use(CustomComponent)
 app.use(Errantia)

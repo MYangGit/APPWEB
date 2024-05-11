@@ -9,7 +9,6 @@
             :style="getStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
-            :linkage="config.linkage"
         />
     </div>
 </template>
@@ -18,7 +17,6 @@
 import { getStyle } from '@/utils/style';
 import runAnimation from '@/utils/runAnimation';
 import { mixins } from '@/utils/events';
-import eventBus from '@/utils/eventBus';
 import { getValueByDotKey } from '@/utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
@@ -58,13 +56,6 @@ export default {
         },
         handleActionClick () {
             onClick({element: this.config})
-        },
-
-        onMouseEnter() {
-            const linkageEvents = this.config.linkage.data.filter((i) => i.event === 'v-hover');
-            if (linkageEvents.length) {
-                eventBus.$emit('v-hover', linkageEvents);
-            }
         },
         childMounted() {
             if (this.$refs.component) {

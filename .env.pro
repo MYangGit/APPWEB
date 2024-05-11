@@ -1,7 +1,7 @@
 # 构建预览页面
  
 # 指定构建模式 production
-VITE_NODE_ENV=production
+VITE_NODE_ENV = 'production'
  
 # 页面 title 前缀
-VUE_APP_TITLE=生产环境
+VUE_APP_TITLE = '生产环境'

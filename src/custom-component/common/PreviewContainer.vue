@@ -4,7 +4,12 @@
         class="content"
         :style="getFlexStyle()"
     >
-        <ComponentWrapper :layoutType="layoutType" v-for="(item, index) in childs" :key="index" :config="item" />
+        <ComponentWrapper 
+            :layoutType="layoutType" 
+            v-for="(item, index) in childs" 
+            :key="index" 
+            :config="item" 
+        />
     </div>
 </template>
 

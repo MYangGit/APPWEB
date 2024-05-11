@@ -1,6 +1,10 @@
 <template>
     <div ref="container" class="bg preview">
-        <ComponentWrapper v-for="(item, index) in copyData.filter((i) => !i.pid)" :key="index" :config="item" />
+        <ComponentWrapper 
+            v-for="(item, index) in copyData.filter((i) => !i.pid)" 
+            :key="index" 
+            :config="item" 
+        />
     </div>
 </template>
 
@@ -13,7 +17,11 @@ import { toPng } from 'html-to-image';
 import { rootStore } from '@/stores/rootStore';
 import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
+import { useGlobalUtils } from '@/hooks/useGlobalUtils';
+import { useEventCentre } from '@/hooks/useEventCentre';
 
+const { initFilePath } = useGlobalUtils();
+const { onInit } = useEventCentre();
 export default {
     components: { ComponentWrapper },
     props: {
@@ -26,17 +34,21 @@ export default {
         return {
             copyData: [],
             canvasStyleData: {},
-            heatTimer: null,
-            loading: false,
         };
     },
     created() {
-        localforage.getItem('canvasData').then((data) => {
-            this.copyData = JSON.parse(data) || []
-        });
-        localforage.getItem('canvasStyle').then((data) => {
-            this.canvasStyleData = JSON.parse(data);
-        });
+        this.initialize();
+        if(import.meta.env.VITE_NODE_ENV === 'SyslabApp') {
+            this.copyData = rootStore.dataCenter.componentData
+            this.canvasStyleData = rootStore.page.canvasStyleData
+        }else {
+            localforage.getItem('canvasData').then((data) => {
+            this.copyData = JSON.parse(data) || [];
+            });
+            localforage.getItem('canvasStyle').then((data) => {
+                this.canvasStyleData = JSON.parse(data);
+            });
+        }
         rootStore.editor.setEditMode('preview')
         setTimeout(() => {
             this.initWatch()
@@ -46,11 +58,20 @@ export default {
         getStyle,
         getCanvasStyle,
         changeStyleWithScale,
-
+        pageInitAction () {
+            let fnStrs = []
+            for (const key in rootStore.dataConfig.actionSet) {
+                if (key.indexOf('init_') === 0) {
+                    fnStrs.push(rootStore.dataConfig.actionSet[key])
+                }
+            }
+            fnStrs.forEach(async fnStr => {
+                onInit({type: 'init', fnStr})
+            })
+        },
         close() {
             this.$emit('close');
         },
-
         htmlToImage() {
             toPng(this.$refs.container.querySelector('.canvas'))
                 .then((dataUrl) => {
@@ -65,6 +86,7 @@ export default {
                 .finally(this.close);
         },
         initWatch () {
+            //todo： 有空建议移动到hooks中事件中心
             rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
                 let fn = new Function(`return ${rootStore.dataConfig.actionSet[action]}`)()
                 watch(() => {
@@ -78,7 +100,11 @@ export default {
                     })
                 }, { deep: true });
            })
-        }
+        },
+        async initialize() {
+            await initFilePath();
+            this.pageInitAction()
+        },
     },
 };
 </script>

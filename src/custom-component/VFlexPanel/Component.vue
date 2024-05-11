@@ -33,7 +33,6 @@
 <script>
 import FlexContainer from '../common/FlexContainer.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
-import OnEvent from '../common/OnEvent';
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 
@@ -42,7 +41,6 @@ export default {
         FlexContainer,
         PreviewContainer,
     },
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

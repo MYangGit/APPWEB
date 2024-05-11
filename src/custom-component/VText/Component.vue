@@ -18,14 +18,11 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
 import { keycodes } from '@/utils/shortcutKey.js';
-import OnEvent from '../common/OnEvent.vue';
 import { getComputedGet, getComputedSet } from '@/utils/utils.js';
 import { rootStore } from '@/stores/rootStore';
 
 export default {
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,
