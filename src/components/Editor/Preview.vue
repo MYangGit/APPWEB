@@ -1,6 +1,10 @@
 <template>
     <div ref="container" class="bg preview">
-        <ComponentWrapper v-for="(item, index) in copyData.filter((i) => !i.pid)" :key="index" :config="item" />
+        <ComponentWrapper 
+            v-for="(item, index) in copyData.filter((i) => !i.pid)" 
+            :key="index" 
+            :config="item" 
+        />
     </div>
 </template>
 
@@ -30,18 +34,21 @@ export default {
         return {
             copyData: [],
             canvasStyleData: {},
-            heatTimer: null,
-            loading: false,
         };
     },
     created() {
         this.initialize();
-        localforage.getItem('canvasData').then((data) => {
-            this.copyData = JSON.parse(data) || []
-        });
-        localforage.getItem('canvasStyle').then((data) => {
-            this.canvasStyleData = JSON.parse(data);
-        });
+        if(import.meta.env.VITE_NODE_ENV === 'SyslabApp') {
+            this.copyData = rootStore.dataCenter.componentData
+            this.canvasStyleData = rootStore.page.canvasStyleData
+        }else {
+            localforage.getItem('canvasData').then((data) => {
+            this.copyData = JSON.parse(data) || [];
+            });
+            localforage.getItem('canvasStyle').then((data) => {
+                this.canvasStyleData = JSON.parse(data);
+            });
+        }
         rootStore.editor.setEditMode('preview')
         setTimeout(() => {
             this.initWatch()
@@ -79,6 +86,7 @@ export default {
                 .finally(this.close);
         },
         initWatch () {
+            //todo： 有空建议移动到hooks中事件中心
             rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
                 let fn = new Function(`return ${rootStore.dataConfig.actionSet[action]}`)()
                 watch(() => {

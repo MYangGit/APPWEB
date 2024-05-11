@@ -1,13 +1,13 @@
 const appConfig = {
   // 必填
   /** 设置app的名称 */
-  appName: 'wireless',
+  appName: 'wirelessWaveformGenerator',
   /** 显示在应用市场的名字 */
-  displayName: "wireless",
+  displayName: "无线波形发生器",
   /** 设置app的启动命名 */
-  startCommand: 'wireless',
+  startCommand: 'wirelessWaveformGenerator',
   /** 设置app的启动标题 */
-  startTitle: 'wireless',
+  startTitle: 'wirelessWaveformGenerator',
 
   // 发布到MoHub的，必填
   /** 是否发布到MoHub */
@@ -21,15 +21,15 @@ const appConfig = {
   /** 设置app的版本 */
   version: '0.0.0',
   /** 设置app的描述 */
-  description: '这是一个无线应用demo',
+  description: '这是一个无线波形发生器',
   /** 设置app标题 中文 */
-  appTitle: '无线应用demo',
+  appTitle: '无线波形发生器',
   /** 设置app标题 英文 */
-  appTitleEn: 'demo',
+  appTitleEn: 'wirelessWaveformGenerator',
   /** 设置app的高度 */
-  appHeight: 1057,
+  appHeight: 850,
   /** 设置app的宽度 */
-  appWidth: 850,
+  appWidth: 1200,
 };
 
 module.exports = {

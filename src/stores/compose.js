@@ -6,7 +6,7 @@ import { $ } from '@/utils/utils'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import { createGroupStyle } from '@/utils/style'
 
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useDataCenterStore } from './dataCenter' 
 
