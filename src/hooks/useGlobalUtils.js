@@ -1,4 +1,5 @@
 import { post, postMessage, getFilePath, initFilePath } from '@/services/request/connectBase'
+import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 
 /**
  * @description 全局公共方法暴露中心
@@ -9,6 +10,7 @@ export const useGlobalUtils = () => {
     post,
     postMessage,
     getFilePath,
-    initFilePath
+    initFilePath,
+    handleJuliaCode
   }
 }

@@ -10,14 +10,12 @@
 </template>
 
 <script>
-import OnEvent from '../common/OnEvent'
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
 const { onChange } = useEventCentre();
 export default {
-    extends: OnEvent,
     props: {
         propValue: {
             type: Object,
