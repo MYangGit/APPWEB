@@ -21,7 +21,7 @@ import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
 const { initFilePath } = useGlobalUtils();
-const { onInit } = useEventCentre();
+const { excuteJsAction } = useEventCentre();
 export default {
     components: { ComponentWrapper },
     props: {
@@ -59,14 +59,14 @@ export default {
         getCanvasStyle,
         changeStyleWithScale,
         pageInitAction () {
-            let fnStrs = []
+            let initActionNames = []
             for (const key in rootStore.dataConfig.actionSet) {
                 if (key.indexOf('init_') === 0) {
-                    fnStrs.push(rootStore.dataConfig.actionSet[key])
+                    initActionNames.push(key)
                 }
             }
-            fnStrs.forEach(async fnStr => {
-                onInit({type: 'init', fnStr})
+            initActionNames.forEach(async name => {
+                excuteJsAction(name)
             })
         },
         close() {
@@ -86,16 +86,11 @@ export default {
                 .finally(this.close);
         },
         initWatch () {
-            //todo： 有空建议移动到hooks中事件中心
             rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
-                let fn = new Function(`return ${rootStore.dataConfig.actionSet[action]}`)()
                 watch(() => {
                     return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
                 }, (value) => {
-                    fn({ 
-                        dataCenter: rootStore.dataConfig.stateSet,
-                        globalUtils: {}
-                    }, {
+                    excuteJsAction(action, {
                         value
                     })
                 }, { deep: true });

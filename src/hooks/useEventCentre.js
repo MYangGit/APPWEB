@@ -52,11 +52,16 @@ export const useEventCentre = () => {
       let fn = new Function(`return ${fnStr}`)();
       fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, {})
    }
+
+   const excuteJsAction = (actionName, eventParams = {}) => {
+      let fn = getFunction(actionName)
+      fn({dataCenter: rootStore.dataConfig.stateSet, globalUtils: useGlobalUtils()}, eventParams)
+   }
    
    return {
       onChange,
       onClick,
       onClickOther,
-      onInit
+      excuteJsAction
    }
 };
