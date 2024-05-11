@@ -1,0 +1,62 @@
+<template>
+    <div class="input-wrap">
+        <el-input
+            type="number"
+            v-model.number="value" 
+            size="small"
+            @change="handleValueChange"
+        />
+    </div>
+</template>
+
+<script>
+import OnEvent from '../common/OnEvent'
+import { rootStore } from '@/stores/rootStore';
+import { getComputedGet, getComputedSet } from '@/utils/utils';
+import { useEventCentre } from '@/hooks/useEventCentre';
+
+const { onChange } = useEventCentre();
+export default {
+    extends: OnEvent,
+    props: {
+        propValue: {
+            type: Object,
+            default: () => ({
+                label: '',
+                value: '',
+            }),
+        },
+        element: {
+            type: Object,
+            default: () => {},
+        },
+    },
+    methods: {
+        handleValueChange(newVal) {
+          onChange({element: this.element, newValue: newVal})
+        },
+    },
+    computed: {
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        }
+    }
+}
+</script>
+
+<style lang="less" scoped>
+.input-wrap {
+    display: inline-flex;
+    align-items: center;
+    label {
+        word-break: keep-all;
+        white-space: nowrap;
+        margin-bottom: 0;
+    }
+}
+</style>

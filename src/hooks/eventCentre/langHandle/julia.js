@@ -5,6 +5,9 @@ function genJuliaVarStrs(obj) {
       if (typeof value === 'string') {
           value = `"${value}"`; // Wrap strings in double quotes
       }
+      if (typeof value === 'object') {
+        value = `JSON.parse("${JSON.stringify(value).replace(/\"/g, "\\\"")}")`; // Wrap strings in double quotes
+      }
       juliaCode += `${key} = ${value}\n`;
   }
   return juliaCode;
@@ -29,9 +32,9 @@ const varInject = (str, stateObj) => {
 const attachReturn = (str, stateObj, name, appFilePath) => {
   return `
 let
+  using JSON
   ${str}
   ${genDictByKeys(stateObj, name)}
-  using JSON
   output_text = JSON.json(${name})
   io = open("${appFilePath}","w")
   write(io,output_text)
@@ -48,4 +51,3 @@ const handleJuliaCode = (funStr, stateObj, name, appFilePath) => {
 export {
   handleJuliaCode
 }
-

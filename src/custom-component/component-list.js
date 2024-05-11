@@ -1,6 +1,7 @@
 import VButton from './VButton/meta';
 import VHtml from './VHtml/meta';
 import VInput from './VInput/meta';
+import VInputNumber from './VInputNumber/meta';
 import VPlot from './VPlot/meta';
 import VText from './VText/meta';
 import VSelect from './VSelect/meta';
@@ -27,6 +28,7 @@ const componentList = [
     VButton,
     VHtml,
     VInput,
+    VInputNumber,
     VPlot,
     VText,
     VSelect,

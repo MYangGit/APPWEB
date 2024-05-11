@@ -150,7 +150,7 @@ const deselectCurComponent = (e) => {
           <el-radio-group v-model="mode" size="small">
             <el-radio-button value="design">设计视图</el-radio-button>
             <el-radio-button value="code" v-if="showDevelopFunction">代码视图</el-radio-button>
-            <el-radio-button value="dataCenter" v-if2="showDevelopFunction">数据中心</el-radio-button>
+            <el-radio-button value="dataCenter" v-if="showDevelopFunction">数据中心</el-radio-button>
           </el-radio-group>
         </div>
         <div

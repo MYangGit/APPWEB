@@ -19,16 +19,16 @@ export const actions = ref([
     title: '导出',
     key: 'export'
   },
-  {
-    icon: syslabRetreatIcon,
-    title: '撤销',
-    key: 'canceldo'
-  },
-  {
-    icon: syslabForwardIcon,
-    title: '重做',
-    key: 'redo'
-  },
+  // {
+  //   icon: syslabRetreatIcon,
+  //   title: '撤销',
+  //   key: 'canceldo'
+  // },
+  // {
+  //   icon: syslabForwardIcon,
+  //   title: '重做',
+  //   key: 'redo'
+  // },
   {
     icon: simulateIcon,
     title: '预览',
