@@ -1,5 +1,6 @@
 import { post, postMessage, getFilePath, initFilePath } from '@/services/request/connectBase'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
+import { rootStore } from '@/stores/rootStore'
 
 /**
  * @description 全局公共方法暴露中心
@@ -11,6 +12,7 @@ export const useGlobalUtils = () => {
     postMessage,
     getFilePath,
     initFilePath,
+    openConfirmBox: rootStore.confirmBox.openConfirmBox,
     handleJuliaCode
   }
 }

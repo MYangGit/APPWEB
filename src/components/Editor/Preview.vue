@@ -5,6 +5,7 @@
             :key="index" 
             :config="item" 
         />
+        <ConfirmBox></ConfirmBox>
     </div>
 </template>
 
@@ -12,6 +13,7 @@
 import { getStyle, getCanvasStyle } from '@/utils/style';
 import localforage from 'localforage';
 import ComponentWrapper from './ComponentWrapper';
+import ConfirmBox from '@/components/ConfirmBox.vue';
 import { changeStyleWithScale } from '@/utils/translate';
 import { toPng } from 'html-to-image';
 import { rootStore } from '@/stores/rootStore';
@@ -22,7 +24,7 @@ import { excuteJsAction } from '@/hooks/useEventCentre';
 
 const { initFilePath } = useGlobalUtils();
 export default {
-    components: { ComponentWrapper },
+    components: { ComponentWrapper, ConfirmBox },
     props: {
         isScreenshot: {
             type: Boolean,

@@ -55,6 +55,7 @@ export const afterComponentEnterView = (component) => {
     index: rootStore.dataCenter.componentData.length - 1,
   })
   let key = getUniqueKey(rootStore.dataConfig.stateSet, component.component)
+  if (!component.coreKey) return
   rootStore.dataConfig.addState(key, component.propValue[component.coreKey])
   rootStore.dataCenter.curComponent.dataBinds[component.coreKey] = [key]
 }

@@ -6,6 +6,7 @@ import { usePageStore } from './page'
 import { useSnapShotStore } from './snapshot'
 import { useCopyStore } from './copy'
 import { useDataConfigStore } from './dataConfig'
+import { useConfirmBoxStore } from './confirmBox'
 import pinia from './index'
 
 const dataCenter = useDataCenterStore(pinia)
@@ -16,6 +17,7 @@ const page = usePageStore(pinia)
 const snapshot = useSnapShotStore(pinia)
 const copy = useCopyStore(pinia)
 const dataConfig = useDataConfigStore(pinia)
+const confirmBox = useConfirmBoxStore(pinia)
 
 export const rootStore = {
   useDataCenterStore,
@@ -33,5 +35,6 @@ export const rootStore = {
   page,
   snapshot,
   copy,
-  dataConfig
+  dataConfig,
+  confirmBox
 }
