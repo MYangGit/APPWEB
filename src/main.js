@@ -15,12 +15,13 @@ import '../node_modules/errantia/dist/style.css'
 import App from './App.vue'
 import AppSyslab from './AppSyslab.vue';
 import router from './router/index.js'
+import { isSyslabApp} from '@/utils/isPreviewOrApp'
 
-const EnterApp = import.meta.env.VITE_NODE_ENV === 'SyslabApp' ? AppSyslab : App
+const EnterApp = isSyslabApp() ? AppSyslab : App
 
 const app = createApp(EnterApp);
 
-if (import.meta.env.VITE_NODE_ENV !== 'SyslabApp') {
+if (!isSyslabApp()) {
   app.use(router);
 }
 

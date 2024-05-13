@@ -1,10 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router'
-import { deepCopy, getQueryVariable } from '@/utils/utils';
+import { deepCopy } from '@/utils/utils';
 import componentList from '@/custom-component/component-list'; // 左侧列表数据
 import generateID from '@/utils/generateID';
-
 import ToolBar from '@/components/ToolBar.vue';
 import ComponentList from '@/components/ComponentList.vue';
 import RealTimeComponentList from '@/components/RealTimeComponentList.vue';
