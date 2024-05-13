@@ -7,7 +7,7 @@ import {
   importDesignFile,
   exportDesignFile
 } from '@/services/request/connectBase'
-import { returnData } from '@/constant'
+// import { returnData } from '@/constant'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { rootStore } from '@/stores/rootStore'
 
@@ -17,7 +17,7 @@ import { rootStore } from '@/stores/rootStore'
 */
 export const useGlobalUtils = () => {
   return {
-    returnData,
+    // returnData,
     importDesignFile,
     exportDesignFile,
     post,
