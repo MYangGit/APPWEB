@@ -34,7 +34,7 @@ export const postMessage = (config) => {
 // 处理消息返回
 window.addEventListener('message', event => {
   const message = event.data;
-  // console.log('message', message)
+  console.log('message', message)
   if (message.type === 'receiveData') {
     if (!message.result) {
       deferred.resolve(false)
@@ -95,16 +95,16 @@ export const importDesignFile = async () => {
   let fileContent = message.data.value.slice(0, message.data.value.lastIndexOf('}\n') + 1);
   let md5hash = message.data.value.slice(message.data.value.lastIndexOf('}\n') + 2);
   if ((window).md5(fileContent) !== md5hash) {
-    // todo：提示文件被篡改 使用弹窗提示
-    return
+    return {
+      type: 'error',
+      message: '文件校验失败'
+    }
   }
   return JSON.parse(fileContent);
 }
 
 // 加载 syslab 文件 param 必须满足JSON格式
 export const exportDesignFile = (param) => {
-  let calcAppConfig = getCalcAppConfig()
-  calcAppConfig.core = appConfig.core
   let text = JSON.stringify(param, null, "\t");
   // 执行导出获取返回
   post({

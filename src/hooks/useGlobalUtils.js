@@ -8,6 +8,9 @@ import {
   exportDesignFile
 } from '@/services/request/connectBase'
 import { returnData } from '@/constant'
+import { handleJuliaCode } from '@/hooks/useJuliaCentre'
+import { rootStore } from '@/stores/rootStore'
+
 /**
  * @description 全局公共方法暴露中心
  * @returns 
@@ -21,6 +24,8 @@ export const useGlobalUtils = () => {
     postMessage,
     getFilePath,
     initFilePath,
-    checkValHas
+    checkValHas,
+    openConfirmBox: rootStore.confirmBox.openConfirmBox,
+    handleJuliaCode
   }
 }

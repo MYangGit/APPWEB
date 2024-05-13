@@ -119,7 +119,7 @@
     };
     // 将JSON对象转换为字符串
     var jsonString = JSON.stringify(jsonData);
-    fetch('http://172.16.1.177:4000/buildAppVsix', {
+    fetch('http://localhost:3000/buildAppVsix', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

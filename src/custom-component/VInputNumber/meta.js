@@ -1,9 +1,8 @@
 export default {
-  component: 'VInput',
-  label: '输入框',
+  component: 'VInputNumber',
+  label: '数字输入框',
   propValue: {
-    value: '',
-    label: '字段名',
+    value: 1,
   },
   coreKey: "value",
   icon: 'input',
@@ -20,6 +19,7 @@ export default {
     backgroundColor: '',
     marginLeft: 0,
   },
+  eventOptions: [{ label: '数据改变', value: 'updateValue' }],
   actionBinds: {
     change: ''
   }
