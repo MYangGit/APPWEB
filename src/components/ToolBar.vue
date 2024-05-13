@@ -55,13 +55,10 @@
     rootStore.snapshot.redo()
   }
   const preview = () => {
-    localforage.setItem('canvasData', JSON.stringify(rootStore.dataCenter.componentData));
-    localforage.setItem('canvasStyle', JSON.stringify(rootStore.page.canvasStyleData), (err) => {
-      const route = router.resolve({
-        name: 'preview',
-      });
-      window.open(route.href, '_blank');
+    const route = router.resolve({
+      name: 'preview',
     });
+    window.open(route.href, '_blank');
   }
   const clearCanvas = () => {
     rootStore.dataCenter.setCurComponent({ component: null, index: null })

@@ -1,7 +1,7 @@
 <template>
     <div ref="container" class="bg preview">
         <ComponentWrapper 
-            v-for="(item, index) in copyData.filter((i) => !i.pid)" 
+            v-for="(item, index) in componentList.filter((i) => !i.pid)" 
             :key="index" 
             :config="item" 
         />
@@ -10,12 +10,9 @@
 </template>
 
 <script>
-import { getStyle, getCanvasStyle } from '@/utils/style';
-import localforage from 'localforage';
+// import localforage from 'localforage';
 import ComponentWrapper from './ComponentWrapper';
 import ConfirmBox from '@/components/ConfirmBox.vue';
-import { changeStyleWithScale } from '@/utils/translate';
-import { toPng } from 'html-to-image';
 import { rootStore } from '@/stores/rootStore';
 import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
@@ -32,33 +29,27 @@ export default {
         },
     },
     data() {
-        return {
-            copyData: [],
-            canvasStyleData: {},
-        };
+        return {};
+    },
+    computed: {
+        componentList () {
+            return rootStore.dataCenter.componentData
+        },
+        watchRegisters () {
+            return rootStore.dataConfig.watchRegisters
+        }
+    },
+    watch: {
+        watchRegisters (val) {
+            if (!val) return
+            this.initWatch()
+        }
     },
     created() {
-        this.initialize();
-        if(import.meta.env.VITE_NODE_ENV === 'SyslabApp') {
-            this.copyData = rootStore.dataCenter.componentData
-            this.canvasStyleData = rootStore.page.canvasStyleData
-        }else {
-            localforage.getItem('canvasData').then((data) => {
-            this.copyData = JSON.parse(data) || [];
-            });
-            localforage.getItem('canvasStyle').then((data) => {
-                this.canvasStyleData = JSON.parse(data);
-            });
-        }
         rootStore.editor.setEditMode('preview')
-        setTimeout(() => {
-            this.initWatch()
-        }, 1000)
+        this.initialize();
     },
     methods: {
-        getStyle,
-        getCanvasStyle,
-        changeStyleWithScale,
         pageInitAction () {
             let initActionNames = []
             for (const key in rootStore.dataConfig.actionSet) {
@@ -69,22 +60,6 @@ export default {
             initActionNames.forEach(async name => {
                 excuteJsAction(name)
             })
-        },
-        close() {
-            this.$emit('close');
-        },
-        htmlToImage() {
-            toPng(this.$refs.container.querySelector('.canvas'))
-                .then((dataUrl) => {
-                    const a = document.createElement('a');
-                    a.setAttribute('download', 'screenshot');
-                    a.href = dataUrl;
-                    a.click();
-                })
-                .catch((error) => {
-                    console.error('oops, something went wrong!', error);
-                })
-                .finally(this.close);
         },
         initWatch () {
             rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
@@ -114,20 +89,5 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    .canvas-container {
-
-        .canvas {
-            background: #fff;
-            position: relative;
-            margin: auto;
-        }
-    }
-
-    .close {
-        position: absolute;
-        right: 20px;
-        top: 20px;
-    }
 }
 </style>

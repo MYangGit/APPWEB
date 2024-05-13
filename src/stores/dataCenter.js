@@ -3,23 +3,26 @@ import { defineStore } from 'pinia'
 import { swap } from '@/utils/utils'
 import toast from '@/utils/toast'
 import localforage from 'localforage';
-
+import isPreviewOrApp from '@/utils/isPreviewOrApp';
 
 export const useDataCenterStore = defineStore('DataCenter', () => {
   const componentData = ref([])
   const curComponent = ref(null)
   const curComponentIndex = ref(null)
 
-  localforage.getItem('componentData').then(cp => {
-    if (!cp) return
-    componentData.value = JSON.parse(cp)
-  })
+  const initComponentData = async () => {
+    let componentDataCache = await localforage.getItem('componentData')
+    if (!componentDataCache) return
+    if (componentData.value.length === 0) componentData.value = JSON.parse(componentDataCache)
+    watch(componentData, () => {
+      if (isPreviewOrApp()) return
+      localforage.setItem('componentData', JSON.stringify(componentData.value))
+    }, {
+      deep: true
+    })
+  }
 
-  watch(componentData, () => {
-    localforage.setItem('componentData', JSON.stringify(componentData.value))
-  }, {
-    deep: true
-  })
+  initComponentData()
 
   const setComponentData = (data) => {
     componentData.value = data
