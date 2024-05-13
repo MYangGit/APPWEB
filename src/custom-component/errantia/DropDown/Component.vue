@@ -129,7 +129,7 @@ export default {
         isEmpty,
         handleAction(val) {
             val.e.stopPropagation();
-            onClickOther({element: this.element, clickName: 'click', params: {  val}})
+            onClickOther({element: this.element, clickName: 'click', params: { val }})
         },
         onContextMenu() {
             this.showClick()
