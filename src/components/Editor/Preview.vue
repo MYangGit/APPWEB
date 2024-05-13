@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// import localforage from 'localforage';
 import ComponentWrapper from './ComponentWrapper';
 import ConfirmBox from '@/components/ConfirmBox.vue';
 import { rootStore } from '@/stores/rootStore';

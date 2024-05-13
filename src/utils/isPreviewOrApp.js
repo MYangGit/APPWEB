@@ -1,4 +1,11 @@
-const isPreviewOrApp = () => {
-  return window.location.hash.indexOf('preview') > -1 || import.meta.env.VITE_NODE_ENV === 'SyslabApp'
+const isPreview = () => {
+  return window.location.hash.indexOf('preview') > -1 
 }
-export default isPreviewOrApp
+
+const isSyslabApp = () => {
+  return import.meta.env.VITE_NODE_ENV === 'SyslabApp'
+}
+export {
+  isPreview,
+  isSyslabApp
+}

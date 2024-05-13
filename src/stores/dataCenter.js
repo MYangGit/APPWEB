@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { swap } from '@/utils/utils'
 import toast from '@/utils/toast'
 import localforage from 'localforage';
-import isPreviewOrApp from '@/utils/isPreviewOrApp';
+import { isPreview, isSyslabApp } from '@/utils/isPreviewOrApp';
 
 export const useDataCenterStore = defineStore('DataCenter', () => {
   const componentData = ref([])
@@ -15,14 +15,16 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
     if (!componentDataCache) return
     if (componentData.value.length === 0) componentData.value = JSON.parse(componentDataCache)
     watch(componentData, () => {
-      if (isPreviewOrApp()) return
+      if (isPreview()) return
       localforage.setItem('componentData', JSON.stringify(componentData.value))
     }, {
       deep: true
     })
   }
 
-  initComponentData()
+  if (!isSyslabApp()) initComponentData()
+
+  
 
   const setComponentData = (data) => {
     componentData.value = data
