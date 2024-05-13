@@ -10,16 +10,18 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
   const curComponent = ref(null)
   const curComponentIndex = ref(null)
 
-  localforage.getItem('componentData').then(cp => {
-    if (!cp) return
-    componentData.value = JSON.parse(cp)
-  })
+  if (import.meta.env.VITE_NODE_ENV !== 'SyslabApp') {
+    localforage.getItem('componentData').then(cp => {
+      if (!cp) return
+      componentData.value = JSON.parse(cp)
+    })
 
-  watch(componentData, () => {
-    localforage.setItem('componentData', JSON.stringify(componentData.value))
-  }, {
-    deep: true
-  })
+    watch(componentData, () => {
+      localforage.setItem('componentData', JSON.stringify(componentData.value))
+    }, {
+      deep: true
+    })
+  }
 
   const setComponentData = (data) => {
     componentData.value = data

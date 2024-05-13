@@ -8,39 +8,40 @@ export const useDataConfigStore = defineStore('dataConfig', () => {
   const actionSet = ref({})
   const watchRegisters = ref([])
 
-  localforage.getItem('stateSet').then(cp => {
-    if (!cp) return
-    stateSet.value = JSON.parse(cp)
-  })
-
-  watch(stateSet, () => {
-    localforage.setItem('stateSet', JSON.stringify(stateSet.value))
-  }, {
-    deep: true
-  })
-
-  localforage.getItem('actionSet').then(cp => {
-    if (!cp) return
-    actionSet.value = JSON.parse(cp)
-  })
-
-  watch(actionSet, () => {
-    localforage.setItem('actionSet', JSON.stringify(actionSet.value))
-  }, {
-    deep: true
-  })
-
-  localforage.getItem('watchRegisters').then(cp => {
-    if (!cp) return
-    watchRegisters.value = JSON.parse(cp)
-  })
-
-  watch(watchRegisters, () => {
-    localforage.setItem('watchRegisters', JSON.stringify(watchRegisters.value))
-  }, {
-    deep: true
-  })
-
+  if (import.meta.env.VITE_NODE_ENV !== 'SyslabApp') {
+    localforage.getItem('stateSet').then(cp => {
+      if (!cp) return
+      stateSet.value = JSON.parse(cp)
+    })
+  
+    watch(stateSet, () => {
+      localforage.setItem('stateSet', JSON.stringify(stateSet.value))
+    }, {
+      deep: true
+    })
+  
+    localforage.getItem('actionSet').then(cp => {
+      if (!cp) return
+      actionSet.value = JSON.parse(cp)
+    })
+  
+    watch(actionSet, () => {
+      localforage.setItem('actionSet', JSON.stringify(actionSet.value))
+    }, {
+      deep: true
+    })
+  
+    localforage.getItem('watchRegisters').then(cp => {
+      if (!cp) return
+      watchRegisters.value = JSON.parse(cp)
+    })
+  
+    watch(watchRegisters, () => {
+      localforage.setItem('watchRegisters', JSON.stringify(watchRegisters.value))
+    }, {
+      deep: true
+    })
+  }
   const addState = (key, value) => {
     stateSet.value[key] = value
   }

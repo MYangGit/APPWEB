@@ -30,7 +30,7 @@
     "dev": "vite --mode dev",
     "dev:app": "vite --mode app",
     "build": "vite build --mode pro",
-    "build:app": "vite build --mode app && node ./package-edit.cjs && vsce package",
+    "build:app": "vite build --mode app && node ./package-edit.cjs && vsce package --no-yarn",
     "updata-package": "node ./package-edit.cjs"
   },
   "dependencies": {
