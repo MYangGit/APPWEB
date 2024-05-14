@@ -1,3 +1,4 @@
-errantia.cjs merge=ours
+packages/syslab/extension-build.json merge=ours
 *syslabApp.json merge=ours
-src/constant/syslabApp.json merge=ours
+packages/syslab/syslabApp.json merge=ours
+packages/syslab/package.json merge=ours
