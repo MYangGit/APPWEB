@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import eventBus from '@/utils/eventBus';
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { erFormItem, erInput } from 'errantia';

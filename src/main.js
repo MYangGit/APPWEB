@@ -15,7 +15,7 @@ import '../node_modules/errantia/dist/style.css'
 import App from './App.vue'
 import AppSyslab from './AppSyslab.vue';
 import router from './router/index.js'
-import { isSyslabApp} from '@/utils/isPreviewOrApp'
+import { isSyslabApp } from '@/utils/isPreviewOrApp'
 
 const EnterApp = isSyslabApp() ? AppSyslab : App
 
