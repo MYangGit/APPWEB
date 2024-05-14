@@ -39,9 +39,13 @@ export default {
         }
     },
     watch: {
-        watchRegisters (val) {
-            if (!val) return
-            this.initWatch()
+        watchRegisters: {
+            handler (val) {
+                if (!val) return
+                this.initWatch()
+            },
+            deep: true,
+            immediate: true
         }
     },
     created() {

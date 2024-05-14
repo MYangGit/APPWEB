@@ -21,7 +21,6 @@ import { computed } from 'vue';
 const confirmBoxState = computed(() => rootStore.confirmBox.confirmBoxState)
 
 const sure = () => {
-  console.log(222)
   rootStore.confirmBox.resolveConfirmBox()
 }
 
