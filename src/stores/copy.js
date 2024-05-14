@@ -80,6 +80,12 @@ export const useCopyStore = defineStore('copy', () => {
                 label: `ErGrid${j + 1}`,
             }));
         }
+        if (component.component === 'ErTabs') {
+            component.items = new Array(1).fill(1).map((i, j) => ({
+                name: generateID(),
+                label: `ErTabs${j + 1}`,
+            }));
+        }
         if(component.component === 'ErLayout') {
             const itemFlag = [
               { name: 'header', label: '页眉' },
