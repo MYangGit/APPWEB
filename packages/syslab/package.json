@@ -1,0 +1,29 @@
+{
+  "name": "tst",
+  "displayName": "111",
+  "description": "1111",
+  "activationEvents": [
+    "onCommand:tst"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "tst",
+        "title": "tst"
+      }
+    ]
+  },
+  "repository": ".",
+  "publisher": "TongYuan",
+  "engines": {
+    "vscode": "^1.75.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.cjs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "icon": "app-icon.png"
+}

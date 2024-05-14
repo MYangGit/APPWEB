@@ -1,37 +1,16 @@
 {
-  "name": "wirelessWaveformGenerator",
-  "displayName": "wirelessWaveformGenerator",
-  "description": "这是一个无线波形发生器",
-  "icon": "app-icon.png",
-  "activationEvents": [
-    "onCommand:wirelessWaveformGenerator"
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "wirelessWaveformGenerator",
-        "title": "wirelessWaveformGenerator"
-      }
-    ]
-  },
-  "repository": ".",
-  "publisher": "TongYuan",
-  "engines": {
-    "vscode": "^1.75.1"
-  },
-  "categories": [
-    "Other"
-  ],
-  "main": "./extension.cjs",
-  "version": "0.0.0",
+  "name": "appdesigner",
+  "description": "appdesigner",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
-    "dev:app": "vite --mode app",
     "build": "vite build --mode pro",
-    "build:app": "vite build --mode app && node ./package-edit.cjs && vsce package --no-yarn",
-    "updata-package": "node ./package-edit.cjs"
+    "dev:app": "vite --mode app",
+    "build:app": "vite build --mode app",
+    "package:app": "vite build --mode app && node ./packages/syslab/build-package.js",
+    "server": "node server/index.js"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",

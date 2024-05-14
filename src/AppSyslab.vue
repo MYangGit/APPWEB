@@ -4,7 +4,7 @@
 
 <script setup>
   import Preview from '@/components/Editor/Preview.vue'
-  import AppInfo from '@/constant/syslabApp.json';
+  import AppInfo from '../packages/syslab/syslabApp.json';
   import { rootStore } from '@/stores/rootStore';
   const init = () => {
     const data = AppInfo;

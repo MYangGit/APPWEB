@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const vscode = require('vscode');
-const { appConfig }  = require('./errantia.cjs');
+const appConfig  = require('./extension-build.json');
 
 function getWebViewContent(context, templatePath, urlPath) {
   const resourcePath = path.join(context.extensionPath, templatePath)

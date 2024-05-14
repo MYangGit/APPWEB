@@ -7,16 +7,124 @@
         <p class="item-title">{{ item.title }}</p>
       </div>
     </div>
+    <el-dialog
+      v-model="buildConfigureShow"
+      title="构建参数配置"
+      width="50%"
+    >
+    <el-form ref="formRef" :model="buildConfig" :rules="rules" label-width="120">
+      <el-form-item label="AppId" prop="appName">
+        <el-input type="text" v-model="buildConfig.appName" placeholder="以英文字符开始的英文字符和数组组成，示例：testApp" />
+      </el-form-item>
+      <el-form-item label="名称" prop="displayName">
+        <el-input type="text" v-model="buildConfig.displayName" placeholder="app名称，例如：滤波器设计工具" />
+      </el-form-item>
+      <el-form-item label="描述" prop="description">
+        <el-input type="text" v-model="buildConfig.description" placeholder="对于app的简单描述" />
+      </el-form-item>
+      <el-form-item label="Version" prop="version">
+        <el-input type="text" v-model="buildConfig.version" placeholder="示例：1.12.0" />
+      </el-form-item>
+      <el-form-item label="App界面宽度" prop="width">
+        <el-input type="number" v-model.number="buildConfig.width" placeholder="示例：800" />
+      </el-form-item>
+      <el-form-item label="App界面高度" prop="height">
+        <el-input type="number" v-model.number="buildConfig.height" placeholder="示例：600" />
+      </el-form-item>
+      <el-form-item label="发布到Mohub">
+        <el-checkbox v-model="buildConfig.publishMoHub" />
+      </el-form-item>
+      <el-form-item label="MoHubPort" v-if="buildConfig.publishMoHub">
+        <el-input type="number" v-model.number="buildConfig.MoHubPort" placeholder="示例：47736" />
+      </el-form-item>
+    </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="buildConfigureShow = false">取消</el-button>
+          <el-button type="primary" :loading="isRequestBuildAppLoading" @click="handleBuildApp">
+            开始打包
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-  import localforage from 'localforage';
   import { actions } from '@/config/toolbar'
   import { rootStore } from '@/stores/rootStore';
   import { useRouter } from 'vue-router'
+  import { reactive, ref } from 'vue'
+
+  const formRef = ref()
+
+  const rules = reactive({
+    appName: [
+      { required: true, message: 'AppId必填', trigger: 'blur' },
+    ],
+    displayName: [
+      { required: true, message: '名称必填', trigger: 'blur' },
+    ],
+    description: [
+      { required: true, message: '描述必填', trigger: 'blur' },
+    ],
+    version: [
+      { required: true, message: '版本号必填', trigger: 'blur' },
+    ],
+    width: [
+      { required: true, message: '界面宽度必填', trigger: 'change' },
+      { type: 'number', min: 100, max: 1000, message: 'Length should be 100 to 1000', trigger: 'change' },
+    ],
+    height: [
+      { required: true, message: '界面高度必填', trigger: 'change' },
+      { type: 'number', min: 100, max: 1000, message: 'Length should be 100 to 1000', trigger: 'change' },
+    ],
+  })
 
   const router = useRouter()
+
+  const buildConfigureShow = ref(false)
+  const buildConfig = ref({})
+  const isRequestBuildAppLoading = ref(false)
+  const requestBuildApp = () => {
+    // 创建一个包含JSON数据的对象
+    var jsonData = {
+      components: rootStore.dataCenter.componentData,
+      dataCenter: rootStore.dataConfig.stateSet,
+      actionCenter: rootStore.dataConfig.actionSet,
+      watchRegisters: rootStore.dataConfig.watchRegisters
+    };
+    // 将JSON对象转换为字符串
+    var jsonString = JSON.stringify(jsonData);
+    isRequestBuildAppLoading.value = true
+    window.localStorage.setItem('appConfigCache', JSON.stringify(buildConfig.value))
+    return fetch('http://localhost:3000/buildAppVsix', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        appJson: jsonString,
+        appConfig: JSON.stringify(buildConfig.value)
+      })
+    }).then(res => {
+      isRequestBuildAppLoading.value = false
+      res.json().then(data => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = data.fileUrl;
+        downloadLink.click();
+      })
+    })
+  }
+
+  const handleBuildApp = () => {
+    formRef.value.validate((valid) => {
+      if (!valid) return
+      requestBuildApp().then(() => {
+        buildConfigureShow.value = false
+      })
+    })
+  }
 
   const handleAction = (item) => {
     if (item.key === 'import') importFile()
@@ -107,32 +215,14 @@
     document.body.removeChild(a);
   }
   const buildApp = () => {
-    // 创建一个包含JSON数据的对象
-    var jsonData = {
-      components: rootStore.dataCenter.componentData,
-      dataCenter: rootStore.dataConfig.stateSet,
-      actionCenter: rootStore.dataConfig.actionSet,
-      watchRegisters: rootStore.dataConfig.watchRegisters
-    };
-    // 将JSON对象转换为字符串
-    var jsonString = JSON.stringify(jsonData);
-    fetch('http://localhost:3000/buildAppVsix', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        appJson: jsonString
-      })
-    }).then(res => {
-      res.json().then(data => {
-        console.log(data)
-        const downloadLink = document.createElement('a');
-        downloadLink.href = data.fileUrl;
-        // 点击链接触发下载
-        downloadLink.click();
-      })
-    })
+    buildConfigureShow.value = true
+    buildConfig.value = JSON.parse(window.localStorage.getItem('appConfigCache')) || {
+      width: 800,
+      height: 600,
+      version: '1.0.0',
+      publishMoHub: false,
+      MoHubPort: 47736
+    }
   }
 </script>
 
