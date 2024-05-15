@@ -73,11 +73,11 @@
     ],
     width: [
       { required: true, message: '界面宽度必填', trigger: 'change' },
-      { type: 'number', min: 100, max: 1000, message: 'Length should be 100 to 1000', trigger: 'change' },
+      { type: 'number', min: 100, max: 1800, message: 'should be 100 to 1800', trigger: 'change' },
     ],
     height: [
       { required: true, message: '界面高度必填', trigger: 'change' },
-      { type: 'number', min: 100, max: 1000, message: 'Length should be 100 to 1000', trigger: 'change' },
+      { type: 'number', min: 100, max: 1800, message: 'should be 100 to 1800', trigger: 'change' },
     ],
   })
 
