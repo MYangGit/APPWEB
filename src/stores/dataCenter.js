@@ -12,8 +12,9 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
 
   const initComponentData = async () => {
     let componentDataCache = await localforage.getItem('componentData')
-    if (!componentDataCache) return
-    if (componentData.value.length === 0) componentData.value = JSON.parse(componentDataCache)
+    if (componentDataCache) {
+      componentData.value = JSON.parse(componentDataCache)
+    }
     watch(componentData, () => {
       if (isPreview()) return
       localforage.setItem('componentData', JSON.stringify(componentData.value))
@@ -21,7 +22,6 @@ export const useDataCenterStore = defineStore('DataCenter', () => {
       deep: true
     })
   }
-
   if (!isSyslabApp()) initComponentData()
 
   
