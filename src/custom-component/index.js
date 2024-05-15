@@ -47,6 +47,10 @@ import ErCheckBoxAttr from './errantia/Checkbox/Attr.vue'
 import ErTabs from './errantia/Tabs/Component.vue'
 import ErTabsAttr from './errantia/Tabs/Attr.vue'
 
+// 临时业务组件
+import VTableTemp from './VTableTemp/Component.vue'
+import VTableTempAttr from './VTableTemp/Attr.vue'
+
 const components = {
     VText,
     VButton,
@@ -71,7 +75,8 @@ const components = {
     ErDialog,
     ErGrid,
     ErCheckBox,
-    ErTabs
+    ErTabs,
+    VTableTemp
 };
 const attrs = {
     VTextAttr,
@@ -97,7 +102,8 @@ const attrs = {
     ErDialogAttr,
     ErGridAttr,
     ErCheckBoxAttr,
-    ErTabsAttr
+    ErTabsAttr,
+    VTableTempAttr
 }
 
 export const install = function (app) {

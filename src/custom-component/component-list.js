@@ -23,6 +23,9 @@ import ErGrid from './errantia/Grid/meta';
 import ErCheckBox from './errantia/Checkbox/meta';
 import ErTabs from './errantia/Tabs/meta';
 
+// 临时业务组件
+import VTableTemp from './VTableTemp/meta';
+
 
 // 编辑器左侧组件列表
 const componentList = [
@@ -50,6 +53,8 @@ const componentList = [
     ErGrid,
     ErCheckBox,
     ErTabs,
+    // 临时业务组件
+    VTableTemp
 ];
 
 export const commonStyle = {

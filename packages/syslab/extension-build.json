@@ -1,15 +1,15 @@
 {
-  "appName": "tst",
-  "displayName": "111",
-  "startCommand": "tst",
-  "startTitle": "tst",
+  "appName": "analysis",
+  "displayName": "analysis",
+  "startCommand": "analysis",
+  "startTitle": "analysis",
   "publishMoHub": false,
   "MoHubPort": 47736,
   "icon": "app-icon.png",
   "version": "1.0.0",
   "description": "这是一个无线波形发生器",
-  "appTitle": "111",
-  "appTitleEn": "111",
-  "appHeight": 600,
-  "appWidth": 800
+  "appTitle": "analysis",
+  "appTitleEn": "analysis",
+  "appHeight": 550,
+  "appWidth": 1375
 }

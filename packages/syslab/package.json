@@ -1,15 +1,15 @@
 {
-  "name": "tst",
-  "displayName": "111",
-  "description": "1111",
+  "name": "analysis",
+  "displayName": "analysis",
+  "description": "analysis",
   "activationEvents": [
-    "onCommand:tst"
+    "onCommand:analysis"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "tst",
-        "title": "tst"
+        "command": "analysis",
+        "title": "analysis"
       }
     ]
   },
