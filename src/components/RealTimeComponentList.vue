@@ -9,7 +9,7 @@ const transformIndex = (index) => {
   return dataCenterStore.componentData.length - 1 - index;
 }
 
- // 提交当前组件信息到仓库
+// 提交当前组件信息到仓库
 const setCurComponent = (index) => {
   dataCenterStore.setCurComponent({ component: dataCenterStore.componentData[index] })
 }

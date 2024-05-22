@@ -5,6 +5,7 @@ export default {
     value: [],
     fileList: []
   },
+  exposeAttr: ['value', 'fileList'],
   icon: 'wenben',
   type: 'common',
   style: {

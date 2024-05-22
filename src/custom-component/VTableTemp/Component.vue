@@ -40,7 +40,7 @@
                 <template #default="scope">
                     <el-select
                         multiple
-                        :multiple-limit="1"
+                        :multiple-limit="2"
                         v-model="scope.row.filePath"
                         placeholder=""
                         size="small"
@@ -66,8 +66,10 @@
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="120">
+                <template #header>
+                    操作 <el-button size="small" :icon="Plus" circle @click="handleAdd"/>
+                </template>
                 <template #default="scope">
-                    <el-button size="small" :icon="Plus" circle @click="handleAdd"/>
                     <el-button size="small" :icon="Delete" circle  @click="handleDelete(scope.$index)"/>
                 </template>
             </el-table-column>
@@ -86,16 +88,8 @@ import {
 
 const dataTypeOptions = ref([
     {
-        label: "Int",
-        value: "Int"
-    },
-    {
-        label: "String",
-        value: "String"
-    },
-    {
-        label: "Boolean",
-        value: "Boolean"
+        label: "Float64",
+        value: "Float64"
     }
 ])
 
@@ -105,12 +99,8 @@ const algorithmOptions = ref([
         value: "ABS"
     },
     {
-        label: "CFDD",
-        value: "CFDD"
-    },
-    {
-        label: "DSP",
-        value: "DSP"
+        label: "请选择",
+        value: ""
     }
 ])
 
@@ -143,7 +133,7 @@ const handleAdd = () => {
         algorithm: 'ABS',
         filePath: [],
         figureColor: "#409EFF",
-        legend: ""
+        legend: "chart"
     })
     getComputedSet('value', props.element.dataBinds, rootStore.dataConfig.stateSet, props.propValue, tableData.value)
 }

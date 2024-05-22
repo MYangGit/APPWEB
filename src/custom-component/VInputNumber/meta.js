@@ -4,7 +4,7 @@ export default {
   propValue: {
     value: 1,
   },
-  coreKey: "value",
+  exposeAttr: ['value'],
   icon: 'input',
   type: 'common',
   style: {

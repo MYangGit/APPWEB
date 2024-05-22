@@ -18,11 +18,12 @@ function getUniqueKey(obj, key) {
 }
 
 export const updateVarName = (varName) => {
-  let originalKey = rootStore.dataCenter.curComponent.dataBinds[rootStore.dataCenter.curComponent.coreKey][0]
-  let key = getUniqueKey(rootStore.dataConfig.stateSet, varName)
-  rootStore.dataConfig.addState(key, rootStore.dataConfig.stateSet[originalKey])
-  rootStore.dataCenter.curComponent.dataBinds[rootStore.dataCenter.curComponent.coreKey] = [key]
-  delete rootStore.dataConfig.stateSet[originalKey]
+  let originalComponentStateName = rootStore.dataCenter.curComponent.componentStateName
+  let newComponentStateName = getUniqueKey(rootStore.dataConfig.stateSet, varName)
+  rootStore.dataConfig.addState(newComponentStateName, rootStore.dataConfig.stateSet[originalComponentStateName])
+  component.componentStateName = newComponentStateName
+  buildDataBinds(rootStore.dataCenter.curComponent, newComponentStateName)
+  delete rootStore.dataConfig.stateSet[originalComponentStateName]
 }
 
 function getUniqueActionKey(obj, key) {
@@ -47,6 +48,22 @@ export const updateCallback = (callbackForm) => {
   }
 }
 
+// 获取组件默认值
+const getDefaultComponentValueObj = (component) => {
+  let obj = {}
+  component.exposeAttr.forEach(key => {
+    obj[key] = component.propValue[key]
+  });
+  return obj
+}
+
+// 构建组件数据绑定
+const buildDataBinds = (component, componentStateName) => {
+  component.exposeAttr.forEach(key => {
+    rootStore.dataCenter.curComponent.dataBinds[key] = [componentStateName, key]
+  });
+}
+
 // 组件拖入视图后置操作
 export const afterComponentEnterView = (component) => {
   // 拖入时选中当前组件
@@ -54,8 +71,9 @@ export const afterComponentEnterView = (component) => {
     component,
     index: rootStore.dataCenter.componentData.length - 1,
   })
-  let key = getUniqueKey(rootStore.dataConfig.stateSet, component.component)
-  if (!component.coreKey) return
-  rootStore.dataConfig.addState(key, component.propValue[component.coreKey])
-  rootStore.dataCenter.curComponent.dataBinds[component.coreKey] = [key]
+  let componentStateName = getUniqueKey(rootStore.dataConfig.stateSet, component.component)
+  if (!component.exposeAttr) return
+  rootStore.dataConfig.addState(componentStateName, getDefaultComponentValueObj(component))
+  component.componentStateName = componentStateName
+  buildDataBinds(component, componentStateName)
 }

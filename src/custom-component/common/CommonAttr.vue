@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </el-collapse-item>
-            <el-collapse-item v-if="curComponent.coreKey" title="属性名" name="varName">
+            <el-collapse-item v-if="curComponent.exposeAttr" title="组件名" name="varName">
                 <div class="v-common-design">
                     <div class="data-bind-item">
                         <el-input size="small" style="margin-right: 10px;" @input="bindVarNameHasChanged = true" type="text" v-model="bindVarName" />
@@ -257,15 +257,15 @@ export default {
     },
     watch: {
         curComponent() {
-            if (this.curComponent.coreKey) {
-                this.bindVarName = this.curComponent.dataBinds[this.curComponent.coreKey][0]
+            if (this.curComponent.exposeAttr) {
+                this.bindVarName = this.curComponent.componentStateName
             }
         },
     },
     created() {
         this.activeName = this.curComponent.collapseName || 'design';
-        if (this.curComponent.coreKey) {
-            this.bindVarName = this.curComponent.dataBinds[this.curComponent.coreKey][0]
+        if (this.curComponent.exposeAttr) {
+            this.bindVarName = this.curComponent.componentStateName
         }
     },
     methods: {

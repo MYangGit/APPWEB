@@ -4,7 +4,7 @@ export default {
   propValue: {
     lineDatas: []
   },
-  coreKey: "lineDatas",
+  exposeAttr: ['lineDatas'],
   icon: 'chart-line',
   type: 'common',
   style: {

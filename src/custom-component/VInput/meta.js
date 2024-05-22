@@ -5,7 +5,7 @@ export default {
     value: '',
     label: '字段名',
   },
-  coreKey: "value",
+  exposeAttr: ['value'],
   icon: 'input',
   type: 'common',
   style: {
