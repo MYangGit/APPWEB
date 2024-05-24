@@ -3,6 +3,7 @@
 import DataSet from './DataSet.vue';
 import ActionJsSet from './ActionJsSet.vue';
 import ActionJuliaSet from './ActionJuliaSet.vue';
+import ActionPythonSet from './ActionPythonSet.vue';
 import StateWatch from './StateWatch.vue';
 import { ref } from 'vue';
 import { useProgramLanguage } from '@/hooks/useProgramLanguage';
@@ -24,6 +25,7 @@ const handleCommand = (command) => {
       <el-tab-pane name="action" label="动作">
         <ActionJsSet v-if="useLanguage === 'Javascript'"/>
         <ActionJuliaSet v-if="useLanguage === 'Julia'"/>
+        <ActionPythonSet v-if="useLanguage === 'Python'"/>
       </el-tab-pane>
       <el-tab-pane name="stateWatch" label="数据监听">
         <StateWatch/>
@@ -41,7 +43,7 @@ const handleCommand = (command) => {
           <el-dropdown-menu>
             <el-dropdown-item command="Javascript" >Javascript</el-dropdown-item>
             <el-dropdown-item command="Julia" >Julia</el-dropdown-item>
-            <el-dropdown-item disabled command="Python">Python</el-dropdown-item>
+            <el-dropdown-item command="Python">Python</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

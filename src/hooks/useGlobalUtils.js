@@ -9,6 +9,7 @@ import {
 } from '@/services/request/connectBase'
 // import { returnData } from '@/constant'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
+import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { rootStore } from '@/stores/rootStore'
 
 /**
@@ -26,6 +27,7 @@ export const useGlobalUtils = () => {
     initFilePath,
     checkValHas,
     openConfirmBox: rootStore.confirmBox.openConfirmBox,
-    handleJuliaCode
+    handleJuliaCode,
+    handlePythonCode
   }
 }

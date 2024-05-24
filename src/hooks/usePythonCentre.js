@@ -1,58 +1,56 @@
-function genJuliaVarStrs(obj) {
-   let juliaCode = '';
+function genPythonVarStrs(obj) {
+   let pythonCode = '';
    for (let key in obj) {
       let value = obj[key];
       if (typeof value === 'string') {
          value = `"${value}"`; // Wrap strings in double quotes
       }
       if (typeof value === 'object') {
-         value = `JSON.parse("${JSON.stringify(value).replace(/\"/g, "\\\"")}")`; // Wrap strings in double quotes
+         value = `json.loads("${JSON.stringify(value).replace(/\"/g, "\\\"")}")`; // Wrap strings in double quotes
       }
-      juliaCode += `${key} = ${value}\n`;
+      pythonCode += `${key} = ${value}\n`;
    }
-   return juliaCode;
+   return pythonCode;
 }
 
 function genDictByKeys(obj, name) {
-   let juliaCode = `${name} = Dict(\n`;
+   let pythonCode = `${name} = {\n`;
    for (let key in obj) {
-      juliaCode += `  "${key}" => ${key},\n`;
+      pythonCode += `  "${key}": ${key},\n`;
    }
-   juliaCode += ')';
-   return juliaCode;
+   pythonCode += '}';
+   return pythonCode;
 }
 
 // 本地数据注入
 const varInject = (str, stateObj) => {
-   let juliaVarStrs = genJuliaVarStrs(stateObj)
-   return `${juliaVarStrs}\n${str}`
+   let pythonVarStrs = genPythonVarStrs(stateObj)
+   return `${pythonVarStrs}\n${str}`
 }
 
 // 结果返回机制附件
 const attachReturn = (str, stateObj, name, appFilePath) => {
    return `
- let
-   using JSON
-   ${str}
-   ${genDictByKeys(stateObj, name)}
-   output_text = JSON.json(${name})
-   io = open("${appFilePath}","w")
-   write(io,output_text)
-   close(io)
- end
+import json
+${str}
+${genDictByKeys(stateObj, name)}
+output_text = json.dumps(${name})
+io = open("${appFilePath}","w")
+io.write(output_text)
+io.close()
    `
 }
 
-export const handleJuliaCode = (funStr, stateObj, name, appFilePath) => {
-   let juliaCode = varInject(funStr, stateObj)
-   return attachReturn(juliaCode, stateObj, name, appFilePath)
+export const handlePythonCode = (funStr, stateObj, name, appFilePath) => {
+   let pythonCode = varInject(funStr, stateObj)
+   return attachReturn(pythonCode, stateObj, name, appFilePath)
 }
 
-export const parseJuliaFn = (code) => {
+export const parsePythonFn = (code) => {
    return `async ({dataCenter, globalUtils}, eventParams) => {
-          const { post, getFilePath, handleJuliaCode } = globalUtils
-          let juliaCode = \`${code}\`
-          let code = handleJuliaCode(juliaCode, dataCenter, "gd", getFilePath())
+          const { post, getFilePath, handlePythonCode } = globalUtils
+          let pythonCode = \`${code}\`
+          let code = handlePythonCode(pythonCode, dataCenter, "gd", getFilePath())
           function assignValues(obj, obj2) {
              for (let key in obj) {
                 if (obj2.hasOwnProperty(key)) {
@@ -65,7 +63,7 @@ export const parseJuliaFn = (code) => {
           let res = await post({
              key: 'excuteCode',
              command: 'excute',
-             lang: 'julia',
+             lang: 'python',
              code
           })
           console.log('res', res.data.value)

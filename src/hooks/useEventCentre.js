@@ -1,6 +1,7 @@
 import { rootStore } from '@/stores/rootStore';
 import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 import { parseJuliaFn } from '@/hooks/useJuliaCentre'
+import { parsePythonFn } from '@/hooks/usePythonCentre'
 import { computed } from 'vue';
 
 const actionCenter = computed(() => {
@@ -24,6 +25,9 @@ const getFunction = (actionKey) => {
    }
    if (actionKey.indexOf('@julia') > -1) {
       return new Function(`return ${parseJuliaFn(code)}`)()
+   }
+   if (actionKey.indexOf('@python') > -1) {
+      return new Function(`return ${parsePythonFn(code)}`)()
    }
 }
 

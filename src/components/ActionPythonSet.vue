@@ -3,18 +3,18 @@
 import { computed, ref } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { noctisLilac } from 'thememirror'
-import { julia } from "@plutojl/lang-julia";
+import { python } from "@codemirror/lang-python";
 import { rootStore } from '@/stores/rootStore'
 import { ElMessageBox } from 'element-plus'
 
-const extensions = [julia(), noctisLilac]
+const extensions = [python(), noctisLilac]
 const activeName = ref('')
 
-const juliaActionList = computed(() => {
-  return Object.keys(rootStore.dataConfig.actionSet)?.filter(item => item.indexOf('@julia') > -1)
+const pythonActionList = computed(() => {
+  return Object.keys(rootStore.dataConfig.actionSet)?.filter(item => item.indexOf('@python') > -1)
 })
 
-activeName.value = juliaActionList.value[0]
+activeName.value = pythonActionList.value[0]
 
 const code = computed({
   get() {
@@ -28,8 +28,8 @@ const code = computed({
 
 const autoActive = () => {
   if (!rootStore.dataConfig.actionSet[activeName.value]) {
-    if (juliaActionList.value.length > 0) {
-      activeName.value = juliaActionList.value[0]
+    if (pythonActionList.value.length > 0) {
+      activeName.value = pythonActionList.value[0]
     } else {
       activeName.value = ''
     }
@@ -49,7 +49,7 @@ const handleAdd = () => {
     inputErrorMessage: '无效的动作命名',
   })
   .then(({ value }) => {
-    rootStore.dataConfig.addAction(`${value}@julia`, ``)
+    rootStore.dataConfig.addAction(`${value}@python`, ``)
     autoActive()
   })
 }
@@ -74,7 +74,7 @@ const handleAdd = () => {
         :class="{ active: activeName === key }" 
         @click="activeName = key" 
         :key="key" 
-        v-for="key in juliaActionList"
+        v-for="key in pythonActionList"
       >
         <span>{{ key }}</span>
         <el-icon @click.stop="handleDelete(key)" >

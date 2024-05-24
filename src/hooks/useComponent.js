@@ -21,7 +21,7 @@ export const updateVarName = (varName) => {
   let originalComponentStateName = rootStore.dataCenter.curComponent.componentStateName
   let newComponentStateName = getUniqueKey(rootStore.dataConfig.stateSet, varName)
   rootStore.dataConfig.addState(newComponentStateName, rootStore.dataConfig.stateSet[originalComponentStateName])
-  component.componentStateName = newComponentStateName
+  rootStore.dataCenter.curComponent.componentStateName = newComponentStateName
   buildDataBinds(rootStore.dataCenter.curComponent, newComponentStateName)
   delete rootStore.dataConfig.stateSet[originalComponentStateName]
 }
