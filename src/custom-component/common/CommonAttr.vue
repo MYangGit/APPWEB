@@ -88,8 +88,17 @@
                         <div class="data-bind-item" v-for="key in getKeys(curComponent.actionBinds)">
                             <div class="label">{{ eventNameMap[key] }}</div>
                             <div>
-                                <el-button v-if="!curComponent.actionBinds[key]" size="small" @click="callbackEdit(key, 'new')">编辑</el-button>
-                                <el-tag closable @click="callbackEdit(key, 'edit')" @close="removeCallback(key)" v-else>{{ curComponent.actionBinds[key] }}</el-tag>
+                                <el-button 
+                                    v-if="!curComponent.actionBinds[key]" 
+                                    size="small" 
+                                    @click="callbackEdit(key, 'new')"
+                                >编辑</el-button>
+                                <el-tag 
+                                    closable 
+                                    @click="callbackEdit(key, 'edit')" 
+                                    @close="removeCallback(key)" 
+                                    v-else
+                                 >{{ curComponent.actionBinds[key] }}</el-tag>
                             </div>
                         </div>
                     </div>
@@ -138,6 +147,7 @@
         </el-dialog>
         <!-- 回调函数编写弹窗 -->
         <el-dialog v-model="callbackEditShow" title="回调函数编辑" width="800">
+            <div class="languageSwitch"><LanguageSwitch/></div>
             <el-form label-position="left" label-width="auto">
                 <el-form-item label="函数定义">
                     <div style="width: 100%;height: 500px;">
@@ -146,7 +156,7 @@
                             :autofocus="false"
                             :indent-with-tab="true"
                             :tab-size="2"
-                            :extensions="extensions"
+                            :extensions="{Julia: extensions, Python: extensionspython, Javascript: extensionsjs}[Language.cunLanguage]"
                         />
                     </div>
                 </el-form-item>
@@ -178,6 +188,10 @@ import { updateVarName, updateCallback } from '@/hooks/useComponent'
 import { Codemirror } from 'vue-codemirror'
 import { noctisLilac } from 'thememirror'
 import { julia } from "@plutojl/lang-julia";
+import LanguageSwitch from '@/components/module/LanguageSwitch.vue';
+import { python } from "@codemirror/lang-python";
+import { javascript } from "@codemirror/lang-javascript";
+import { useProgramLanguage } from '@/hooks/useProgramLanguage';
 
 const extractKeys = (obj) => {
     let result = [];
@@ -204,7 +218,7 @@ const eventNameMap = {
 }
 
 export default {
-    components: { Codemirror },
+    components: { Codemirror, LanguageSwitch },
     data() {
         return {
             eventNameMap,
@@ -235,11 +249,16 @@ export default {
                 code: ''
             },
             extensions: [julia(), noctisLilac],
+            extensionspython: [python(), noctisLilac],
+            extensionsjs: [javascript(), noctisLilac],
             rootStore,
         };
     },
     computed: {
         ...mapState(rootStore.usePageStore, ['canvasStyleData']),
+        Language() {
+            return useProgramLanguage();
+        },
         styleKeys() {
             if (this.curComponent) {
                 const curComponentStyleKeys = Object.keys(this.curComponent.style);
@@ -261,6 +280,23 @@ export default {
                 this.bindVarName = this.curComponent.componentStateName
             }
         },
+        // 监听language变化 更新回调函数内容
+        Language: {
+            handler(val) {
+                if(this.callbackForm.mode === 'edit') {
+                    let actionKey = rootStore.dataCenter.curComponent.actionBinds[this.callbackForm.key]
+                    let code = rootStore.dataConfig.actionSet[actionKey]
+                    let actionKeySuffix = actionKey.split('@').pop();
+                    let languageSwitch = {julia: 'Julia', python: 'Python'}[actionKeySuffix] || 'Javascript'
+                    if (languageSwitch != val.cunLanguage) {
+                        this.callbackForm.code = ''
+                    } else {
+                        this.callbackForm.code = code
+                    }
+                }
+            },
+            deep: true
+        }
     },
     created() {
         this.activeName = this.curComponent.collapseName || 'design';
@@ -298,6 +334,11 @@ export default {
             this.callbackForm.key = key
             if (mode === 'edit') {
                 let actionKey = rootStore.dataCenter.curComponent.actionBinds[this.callbackForm.key]
+                let actionKeySuffix = actionKey.split('@').pop();
+                let languageSwitch = {julia: 'Julia', python: 'Python'}[actionKeySuffix] || 'Javascript'
+                if (languageSwitch !== this.Language.cunLanguage) {
+                   this.Language.setCunLanguage(languageSwitch)
+                }
                 let code = rootStore.dataConfig.actionSet[actionKey]
                 this.callbackForm.code = code
             } else {
@@ -319,7 +360,7 @@ export default {
             this.actionConfigShow = false
         },
         handleCallbackConfirm () {
-            updateCallback(this.callbackForm)
+            updateCallback(this.callbackForm, this.Language.cunLanguage)
             this.callbackEditShow = false
         },
         unbindData(key, type = 'normal') {
@@ -364,6 +405,11 @@ export default {
     .el-input-group__prepend {
         padding: 0 10px;
     }
+}
+.languageSwitch {
+    position: absolute;
+    top: 15px;
+    right: 50px;
 }
 .v-common-design {
     padding: 10px;

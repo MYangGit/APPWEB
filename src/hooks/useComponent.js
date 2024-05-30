@@ -26,10 +26,10 @@ export const updateVarName = (varName) => {
   delete rootStore.dataConfig.stateSet[originalComponentStateName]
 }
 
-function getUniqueActionKey(obj, key) {
+function getUniqueActionKey(obj, key, language = '@julia') {
   let originalKey = key;
   let count = 1;
-  while (obj.hasOwnProperty(`${key}@julia`)) {
+  while (obj.hasOwnProperty(`${key}${language}`)) {
       key = originalKey + count;
       count++;
   }
@@ -37,13 +37,25 @@ function getUniqueActionKey(obj, key) {
 }
 
 // 默认支持julia
-export const updateCallback = (callbackForm) => {
+export const updateCallback = (callbackForm, language) => {
+  // 语言后缀标识
+  let languageSign = {Julia: '@julia', Python: '@python', Javascript: ''}[language]
   if (callbackForm.mode === 'new') {
-    let actionKey = getUniqueActionKey(rootStore.dataConfig.actionSet, `${rootStore.dataCenter.curComponent.component}_${callbackForm.key}`)
-    rootStore.dataConfig.addAction(`${actionKey}@julia`, callbackForm.code)
-    rootStore.dataCenter.curComponent.actionBinds[callbackForm.key] = `${actionKey}@julia`
+    let actionKey = getUniqueActionKey(rootStore.dataConfig.actionSet, `${rootStore.dataCenter.curComponent.component}_${callbackForm.key}`, languageSign)
+    rootStore.dataConfig.addAction(`${actionKey}${languageSign}`, callbackForm.code)
+    rootStore.dataCenter.curComponent.actionBinds[callbackForm.key] = `${actionKey}${languageSign}`
   } else {
     let actionKey = rootStore.dataCenter.curComponent.actionBinds[callbackForm.key]
+    let actionKeySuffix = actionKey.split('@').pop();
+    let languageSwitch = {julia: 'Julia', python: 'Python'}[actionKeySuffix] || 'Javascript'
+    // 语言切换 重新绑定
+    if(language != languageSwitch) {
+      let newActionKey = getUniqueActionKey(rootStore.dataConfig.actionSet, `${rootStore.dataCenter.curComponent.component}_${callbackForm.key}`, languageSign)
+      rootStore.dataConfig.addAction(`${newActionKey}${languageSign}`, callbackForm.code)
+      rootStore.dataConfig.deleteAction(actionKey)
+      rootStore.dataCenter.curComponent.actionBinds[callbackForm.key] = `${newActionKey}${languageSign}`
+      return
+    }
     rootStore.dataConfig.actionSet[actionKey] = callbackForm.code
   }
 }

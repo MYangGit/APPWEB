@@ -7,7 +7,7 @@ import { isEmpty } from '@/utils/utils';
  * @returns 
  */
 export const useProgramLanguage = defineStore('ProgramLanguage', () => {
-    const cunLanguage = ref('Javascript');
+    let cunLanguage = ref('Julia');
     // 修改编程语言
     const setCunLanguage = (language) => {
         if(isEmpty(language)) return;
