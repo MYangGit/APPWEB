@@ -11,5 +11,6 @@
   "appTitle": "analysis",
   "appTitleEn": "analysis",
   "appHeight": 550,
-  "appWidth": 1375
+  "appWidth": 1375,
+  "appType": "python"
 }

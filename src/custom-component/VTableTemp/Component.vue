@@ -95,6 +95,10 @@ const dataTypeOptions = ref([
 
 const algorithmOptions = ref([
     {
+        label: "PSD",
+        value: "PSD"
+    },
+    {
         label: "ABS",
         value: "ABS"
     },

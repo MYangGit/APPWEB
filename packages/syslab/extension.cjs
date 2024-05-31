@@ -33,6 +33,7 @@ function activate(context) {
       filePath: process.env.USER_DATA_DIR || '/home/tongyuan/SyslabCloud/code-server',
       width: appConfig.appWidth ?? 1080,
       height: appConfig.appHeight ?? 750,
+      appType: appConfig.appType ?? 'julia',
     });
 	});
   context.subscriptions.push(disposable);

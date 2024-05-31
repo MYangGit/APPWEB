@@ -46,6 +46,8 @@ import ErCheckBox from './errantia/Checkbox/Component.vue'
 import ErCheckBoxAttr from './errantia/Checkbox/Attr.vue'
 import ErTabs from './errantia/Tabs/Component.vue'
 import ErTabsAttr from './errantia/Tabs/Attr.vue'
+import VInteractivePlot from './VInteractivePlot/Component.vue'
+import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -76,7 +78,8 @@ const components = {
     ErGrid,
     ErCheckBox,
     ErTabs,
-    VTableTemp
+    VTableTemp,
+    VInteractivePlot
 };
 const attrs = {
     VTextAttr,
@@ -103,7 +106,8 @@ const attrs = {
     ErGridAttr,
     ErCheckBoxAttr,
     ErTabsAttr,
-    VTableTempAttr
+    VTableTempAttr,
+    VInteractivePlotAttr
 }
 
 export const install = function (app) {

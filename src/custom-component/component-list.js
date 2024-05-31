@@ -22,6 +22,7 @@ import ErDialog from './errantia/Dialog/meta';
 import ErGrid from './errantia/Grid/meta';
 import ErCheckBox from './errantia/Checkbox/meta';
 import ErTabs from './errantia/Tabs/meta';
+import VInteractivePlot from './VInteractivePlot/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -53,6 +54,7 @@ const componentList = [
     ErGrid,
     ErCheckBox,
     ErTabs,
+    VInteractivePlot,
     // 临时业务组件
     VTableTemp
 ];

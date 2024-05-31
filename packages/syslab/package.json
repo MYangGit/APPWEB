@@ -1,7 +1,7 @@
 {
   "name": "analysis",
   "displayName": "analysis",
-  "description": "analysis",
+  "description": "这是一个无线波形发生器",
   "activationEvents": [
     "onCommand:analysis"
   ],
