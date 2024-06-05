@@ -1,0 +1,3 @@
+[submodule "packages/submodule/syslab_online_plot"]
+	path = packages/submodule/syslab_online_plot
+	url = https://git.tongyuan.cc/syslab/ide/syslab-server-4.10.1/syslab_online_plot.git
