@@ -52,6 +52,10 @@ export default {
             if (config.visiable.value.startsWith('!')) {
                 return value !== config.visiable.value.slice(1)
             }
+            // 如果是,则是多个值
+            if (config.visiable.value.includes(',')) {
+                return config.visiable.value.split(',').includes(value)
+            }
             return value === config.visiable.value
         },
         handleActionClick () {

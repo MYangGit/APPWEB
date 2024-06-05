@@ -52,6 +52,10 @@ import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
 import VTableTempAttr from './VTableTemp/Attr.vue'
+import ErAutoDrop from './errantia/AutoDrop/Component.vue'
+import ErAutoDropAttr from './errantia/AutoDrop/Attr.vue'
+import ErHandCoding from './errantia/HandCoding/Component.vue'
+import ErHandCodingAttr from './errantia/HandCoding/Attr.vue'
 
 const components = {
     VText,
@@ -79,7 +83,9 @@ const components = {
     ErCheckBox,
     ErTabs,
     VTableTemp,
-    VInteractivePlot
+    VInteractivePlot,
+    ErAutoDrop,
+    ErHandCoding
 };
 const attrs = {
     VTextAttr,
@@ -107,7 +113,9 @@ const attrs = {
     ErCheckBoxAttr,
     ErTabsAttr,
     VTableTempAttr,
-    VInteractivePlotAttr
+    VInteractivePlotAttr,
+    ErAutoDropAttr,
+    ErHandCodingAttr
 }
 
 export const install = function (app) {

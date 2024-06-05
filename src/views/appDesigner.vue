@@ -20,7 +20,7 @@ const route = useRoute()
 const mode = ref('design')
 const activeName = ref('attr')
 const showDevelopFunction = computed(() => {
-  return route.query.mode === 'develop'
+  return route.query.mode === 'develop' || true
 })
 
 // 组件拖拽的动作

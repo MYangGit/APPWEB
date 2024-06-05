@@ -21,6 +21,7 @@ export default {
     marginLeft: 0,
   },
   actionBinds: {
-    change: ''
+    change: '',
+    blur: '',
   }
 }

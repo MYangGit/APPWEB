@@ -195,3 +195,12 @@ export const nameRepeat = (name, list, tag = '_') => {
   }
   return newName;
 }
+/**
+ * @description: 用于动态获取对象的属性值
+ * @param {string} obj
+ * @param {arr} path 以.分割的路径
+ * @returns string
+ */
+export const getObjValue = (obj, path) => {
+  return path.split('.').reduce((o, key) => (o && o[key] !== undefined) ? o[key] : undefined, obj);
+}

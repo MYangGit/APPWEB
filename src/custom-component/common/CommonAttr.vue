@@ -271,7 +271,7 @@ export default {
             return rootStore.dataCenter.curComponent;
         },
         showDevelopFunction() {
-            return this.$route.query.mode === 'develop'
+            return this.$route.query.mode === 'develop' || true;
         },
     },
     watch: {

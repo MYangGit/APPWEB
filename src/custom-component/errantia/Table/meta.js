@@ -34,18 +34,20 @@ export default {
       }
     ],
   },
-  hideCustomAttrKeys: ['showBorder', 'activeClickRow'],
   icon: 'table',
   type: 'errantia',
   style: {
     width: 300,
     height: 200,
-    borderWidth: 0,
-    borderColor: '#ffffff',
-    borderStyle: 'solid',
+    fixedWidth: '',
+    fixedHeight: '',
+    backgroundColor: '#fff',
   },
   actionBinds: {
     onClickRow: '',
-    onClickDelete: ''
+    onClickDelete: '',
+    onNameBlur:'',
+    onDbClickRow:'',
+    onContextMenuRow:'',
   }
 }

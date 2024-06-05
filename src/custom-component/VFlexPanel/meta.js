@@ -12,6 +12,8 @@ export default {
   style: {
     width: 400,
     height: 400,
+    fixedWidth: '',
+    fixedHeight: '',
     backgroundColor: '#fff',
     display: 'block',
     borderWidth: 0,

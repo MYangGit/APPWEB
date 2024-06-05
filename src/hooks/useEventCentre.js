@@ -10,6 +10,7 @@ const actionCenter = computed(() => {
       if (Object.hasOwnProperty.call(rootStore.dataConfig.actionSet, key)) {
          actionCenter[key] = function () {
             return excuteJsAction(key, {
+               clickName: key,
                params: [...arguments]
             })
          }
@@ -52,6 +53,7 @@ export const useEventCentre = () => {
             globalUtils: useGlobalUtils()
          },
          {
+            property: element.dataBinds.value,
             newValue: newValue
          }
       )

@@ -28,6 +28,56 @@
                         @change="handleSerialNumber"
                     />
                 </el-form-item>
+                <el-form-item label="新增列菜单：">
+                    <el-button size="small" @click="handleAdd()">+</el-button>
+                </el-form-item>
+                <el-collapse>
+                    <el-collapse-item 
+                        v-for="item,index in options" 
+                        :key="item.key"
+                        :name="item.title"
+                    >
+                        <template #title>
+                            <el-icon 
+                                class="header-icon" 
+                                @click.stop="handDelete(index)"
+                            >
+                                <CircleClose />
+                            </el-icon>
+                            {{item.title}}
+                        </template>
+                        <el-form>
+                            <br/>
+                            <el-form-item label="标题:">
+                                <el-input 
+                                    type="text" 
+                                    v-model="item.title" 
+                                    size="small" 
+                                />
+                            </el-form-item>
+                            <el-form-item label="key:">
+                                <el-input 
+                                    type="text" 
+                                    v-model="item.key" 
+                                    size="small" 
+                                />
+                            </el-form-item>
+                            <el-form-item label="width:">
+                                <el-input 
+                                    type="Number" 
+                                    v-model="item.width" 
+                                    size="small" 
+                                />
+                            </el-form-item>
+                            <el-form-item label="slot:">
+                                <el-input 
+                                    v-model="item.slot" 
+                                    size="small" 
+                                />
+                            </el-form-item>
+                        </el-form>
+                    </el-collapse-item>
+                </el-collapse>
             </el-form>
         </CommonAttr>
     </div>
@@ -36,6 +86,7 @@
 <script>
 import CommonAttr from '@/custom-component/common/CommonAttr.vue'
 import { rootStore } from '@/stores/rootStore';
+import { getComputedGet, getComputedSet } from '@/utils/utils'
 
 export default {
     components: { CommonAttr },
@@ -43,8 +94,13 @@ export default {
         curComponent() {
             return rootStore.dataCenter.curComponent
         },
-        options() {
-            return rootStore.dataCenter.curComponent.propValue.columns
+        options:{
+            get() {
+                return getComputedGet('columns', this.curComponent.dataBinds, rootStore.dataConfig.stateSet, this.curComponent.propValue)
+            },
+            set(val) {
+                getComputedSet('columns', this.curComponent.dataBinds, rootStore.dataConfig.stateSet, this.curComponent.propValue, val)
+            }
         },
     },
     methods: {
@@ -69,7 +125,23 @@ export default {
             } else {
                 this.curComponent.propValue.columns = this.curComponent.propValue.columns.filter(item => item.key !== 'serialNumber')
             }
+        },
+        handleAdd() {
+            this.options.push({
+                title: '列' + (this.options.length + 1),
+                key: 'column' + (this.options.length + 1),
+            })
+        },
+        handDelete(index) {
+            this.options.splice(index, 1)
         }
     }
 }
 </script>
+
+<style lang="less" scoped>
+.header-icon {
+    cursor: pointer;
+    margin-right: 10px;
+}
+</style>

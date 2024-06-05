@@ -5,6 +5,7 @@
             v-model="value" 
             size="small" 
             @change="handleValueChange"
+            @blur="handleValublur"
         />
     </div>
 </template>
@@ -14,7 +15,7 @@ import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
-const { onChange } = useEventCentre();
+const { onChange, onClickOther } = useEventCentre();
 export default {
     props: {
         propValue: {
@@ -33,6 +34,9 @@ export default {
         handleValueChange(newVal) {
           onChange({element: this.element, newValue: newVal})
         },
+        handleValublur() {
+           onClickOther({element: this.element, clickName: 'blur', params: { newVal: this.value }})
+        }
     },
     computed: {
         label: {
