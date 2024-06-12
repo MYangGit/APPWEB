@@ -1,15 +1,39 @@
 {
-  "name": "analysis",
-  "displayName": "analysis",
-  "description": "这是一个无线波形发生器",
+  "name": "haha",
+  "displayName": "haha",
+  "description": "haha",
   "activationEvents": [
-    "onCommand:analysis"
+    "onCommand:haha"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "analysis",
-        "title": "analysis"
+        "command": "haha",
+        "title": "haha"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Syslab Plot",
+        "properties": {
+          "plot.defaultInterpreterPath": {
+            "scope": "application",
+            "type": "string",
+            "description": "Setting Interpreter Path for Syslab Plot"
+          },
+          "plot.mouseMoveInterval": {
+            "scope": "application",
+            "type": "number",
+            "description": "%Setting Syslab mouse move rate%",
+            "default": 300
+          },
+          "plot.mouseDragInterval": {
+            "scope": "application",
+            "type": "number",
+            "description": "%Setting Syslab pressed mouse move rate%",
+            "default": 30
+          }
+        }
       }
     ]
   },
@@ -21,9 +45,21 @@
   "categories": [
     "Other"
   ],
-  "main": "./extension.cjs",
+  "main": "./extensionDist/extension.js",
+  "scripts": {
+    "package": "webpack --mode production --devtool hidden-source-map"
+  },
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "icon": "app-icon.png"
+  "icon": "app-icon.png",
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "ts-loader": "^9.5.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.0"
+  }
 }

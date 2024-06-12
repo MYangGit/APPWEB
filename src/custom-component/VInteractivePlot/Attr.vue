@@ -1,15 +1,6 @@
 <template>
     <div class="attr-list">
         <CommonAttr>
-            <el-form>
-                <el-form-item label="srcUrl">
-                    <el-input 
-                        v-model="curComponent.propValue.srcUrl" 
-                        size="small"
-                        type="textarea"
-                    />
-                </el-form-item>
-            </el-form>
         </CommonAttr>
     </div>
 </template>

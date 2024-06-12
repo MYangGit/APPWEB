@@ -35,8 +35,19 @@ function activate(context) {
       height: appConfig.appHeight ?? 750,
       appType: appConfig.appType ?? 'julia',
     });
+    vscode.commands.executeCommand('plot.forward', {
+      appid: 'test-app',
+      data: {
+        type: "hahaha",
+        value: "111111"
+      }
+    })
 	});
+
   context.subscriptions.push(disposable);
+  context.subscriptions.push(vscode.commands.registerCommand('plot.receive', function (message) {
+    console.log('from-app-message', message)
+	}));
 }
 
 function deactivate() {}
