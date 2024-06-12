@@ -9,7 +9,8 @@
     "build": "vite build --mode pro",
     "dev:app": "vite --mode app",
     "build:app": "vite build --mode app",
-    "package:app": "vite build --mode app && node ./packages/syslab/build-package.js",
+    "package:app": "vite build --mode app && yarn compile && node ./packages/syslab/build-package.js",
+    "compile": "webpack --config ./packages/syslab/webpack.config.js",
     "server": "node server/index.js"
   },
   "dependencies": {
@@ -43,6 +44,11 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
     "less": "^4.2.0",
-    "vite": "^5.0.11"
+    "vite": "^5.0.11",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.0",
+    "ts-loader": "^9.5.1",
+    "webpack-cli": "^5.1.4",
+    "@types/vscode": "^1.75.1"
   }
 }

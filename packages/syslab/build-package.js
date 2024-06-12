@@ -1,12 +1,12 @@
-import fs from 'fs-extra';
-import { exec } from 'child_process';
-import appConfig from './extension-build.json' assert { type: 'json' };
+const fs = require('fs-extra');
+const { exec } = require('child_process');
+const appConfig = require('./extension-build.json'); // Removed assert statement for JSON type
 
-writePackageJson(appConfig)
-enterDirAndExecCommand('vsce package --no-dependencies', './packages/syslab/').then(() => {
-  console.log('打包完成')
-})
+writePackageJson(appConfig);
 
+enterDirAndExecCommand('vsce package --no-dependencies', './packages/syslab').then(() => {
+  console.log('打包完成');
+});
 
 function enterDirAndExecCommand(command, cwd) {
   return new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ function enterDirAndExecCommand(command, cwd) {
   });
 }
 
-function writePackageJson (appConfig) {
+function writePackageJson(appConfig) {
   // 读取 package.json 文件
   fs.readFile('packages/syslab/package.json', 'utf8', (err, data) => {
     if (err) return;
@@ -42,9 +42,7 @@ function writePackageJson (appConfig) {
 
     // 写入更新后的 package.json 文件
     fs.writeFile('packages/syslab/package.json', JSON.stringify(packageObj, null, 2), 'utf8', (err) => {
-      if (err) return
+      if (err) return;
     });
   });
 }
-
-

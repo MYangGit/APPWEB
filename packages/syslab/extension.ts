@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import appConfig from './extension-build.json';
-import * as SyslabFigure from '../submodule/syslab_online_plot/src/figure/syslab_figure'
+import { syslabPlot  } from '../submodule/index';
 
 function getWebViewContent(context: vscode.ExtensionContext, templatePath: string, urlPath: string): string {
   const resourcePath = path.join(context.extensionPath, templatePath);
@@ -21,7 +21,7 @@ function getWebViewContent(context: vscode.ExtensionContext, templatePath: strin
 }
 
 function activate(context: vscode.ExtensionContext) {
-  SyslabFigure.activate(context);
+  syslabPlot.activate(context);
   let startAppCommand = appConfig.startCommand ?? 'test-org.startTestApp';
   let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath: string) => {
     vscode.commands.executeCommand('start app', {
