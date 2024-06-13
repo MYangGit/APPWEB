@@ -31,3 +31,5 @@ coverage
 package-lock.json
 yarn.lock
 packages/submodule/syslab_online_plot/
+packages/syslab/extension-build.json
+packages/syslab/extensionDist/extension.js

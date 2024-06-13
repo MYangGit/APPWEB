@@ -13,7 +13,7 @@ export default defineConfig(({mode}) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       },
-      extensions: ['.vue', '.js']
+      extensions: ['.vue', '.js', '.ts']
     },
     build: {
       outDir: mode === 'app' ? 'packages/syslab/dist' : 'dist',
