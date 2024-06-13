@@ -14,6 +14,8 @@ function getWebViewContent(context: vscode.ExtensionContext, templatePath: strin
     if(appConfig.publishMoHub){
       return $1 + (urlPath || '') + `/cn-north-4/syslabonline//stable/${port}/vscode-remote-resource?path=` + context.extensionPath + '/dist' + $2 + '"';
     }
+    console.log(222222, urlPath)
+    console.log(11111, $1 + (urlPath || '') + '/vscode-remote-resource?path=' + context.extensionPath + '/dist' + $2 + '"')
     return $1 + (urlPath || '') + '/vscode-remote-resource?path=' + context.extensionPath + '/dist' + $2 + '"';
   });
 
@@ -21,7 +23,7 @@ function getWebViewContent(context: vscode.ExtensionContext, templatePath: strin
 }
 
 function activate(context: vscode.ExtensionContext) {
-  syslabPlot.activate(context);
+  syslabPlot.activate(context, 'app');
   let startAppCommand = appConfig.startCommand ?? 'test-org.startTestApp';
   let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath: string) => {
     vscode.commands.executeCommand('start app', {
@@ -29,24 +31,18 @@ function activate(context: vscode.ExtensionContext) {
       title: appConfig.appTitle ?? 'TestApp',
       titleEn: appConfig.appTitleEn ?? 'TestApp',
       html: getWebViewContent(context, './dist/index.html', urlPath),
-      filePath: process.env.USER_DATA_DIR || '/home/tongyuan/SyslabCloud/code-server',
+      // filePath: process.env.USER_DATA_DIR || '/home/tongyuan/SyslabCloud/code-server',
+      filePath: 'C:/Users/admin/syslabCloud',
       width: appConfig.appWidth ?? 1080,
       height: appConfig.appHeight ?? 750,
       appType: appConfig.appType ?? 'julia',
-    });
-
-    vscode.commands.executeCommand('plot.forward', {
-      appid: 'test-app',
-      data: {
-        type: "hahaha",
-        value: "111111"
-      }
     });
   });
 
   context.subscriptions.push(disposable);
   context.subscriptions.push(vscode.commands.registerCommand('plot.receive', (message: any) => {
     console.log('from-app-message', message);
+    // syslabPlot.handleAppMessage(message, 'test-app');
   }));
 }
 

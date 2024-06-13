@@ -48,7 +48,7 @@ export const handlePythonCode = (funStr, stateObj, name, appFilePath) => {
 
 export const parsePythonFn = (code) => {
    return `async ({dataCenter, globalUtils}, eventParams) => {
-          const { post, getFilePath, handlePythonCode } = globalUtils
+          const { post, getFilePath, handlePythonCode, postMessage } = globalUtils
           let pythonCode = \`${code}\`
           let code = handlePythonCode(pythonCode, dataCenter, "gd", getFilePath())
           function assignValues(obj, obj2) {
@@ -71,6 +71,10 @@ export const parsePythonFn = (code) => {
           if (res.data && res.data.value) {
             console.log('value', JSON.stringify(res.data.value))
             assignValues(res.data.value, dataCenter)
+            postMessage({
+               type: "loaded",
+               command: "toPlotService"
+            })
           }
        }
     `;
