@@ -34,7 +34,7 @@ export const postMessage = (config) => {
 // 处理消息返回
 window.addEventListener('message', event => {
   const message = event.data;
-  console.log('message', message)
+  // console.log('message', message)
   if (message.type === 'receiveData') {
     if (!message.result) {
       deferred.resolve(false)

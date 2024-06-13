@@ -8,8 +8,8 @@
     "dev": "vite --mode dev",
     "build": "vite build --mode pro",
     "dev:app": "vite --mode app",
-    "build:app": "vite build --mode app",
-    "package:app": "vite build --mode app && yarn compile && node ./packages/syslab/build-package.js",
+    "build:app": "webpack --config ./packages/syslab/webpack.config.js && vite build --mode app",
+    "package:app": "vite build --mode app && webpack --config ./packages/syslab/webpack.config.js && node ./packages/syslab/build-package.js",
     "compile": "webpack --config ./packages/syslab/webpack.config.js",
     "server": "node server/index.js"
   },

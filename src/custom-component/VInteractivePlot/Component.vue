@@ -1,22 +1,23 @@
 <template>
-  <div id="plotapp">
-    <div class="header">
-      <el-select @change="handleModeChange" v-model="status" placeholder="请选择模式" size="mini" style="width: 100px;">
-        <el-option value="static">static</el-option>
-        <el-option value="dynamic">dynamic</el-option>
-      </el-select>
-    </div>
-    <div class="content_box">
-      <div v-if="status === 'dynamic' && isReady === false" class="webagg-loading">
-        <img :src="loadingGif" alt="">
-        加载交互模式中...
+  <div>
+    <div id="app">
+      <div class="header">
+        <el-select @change="handleModeChange" v-model="status" placeholder="请选择模式" size="mini" style="width: 100px;">
+          <el-option value="static">static</el-option>
+          <el-option value="dynamic">dynamic</el-option>
+        </el-select>
       </div>
-      <div class="static-img" v-show="status === 'static'">
-        <img type="dynamic" :src="staticImgSrc" alt="" />
+      <div class="content_box">
+        <div v-if="status === 'dynamic' && isReady === false" class="webagg-loading">
+          <img :src="loadingGif" alt="">
+          加载交互模式中...
+        </div>
+        <div class="static-img" v-show="status === 'static'">
+          <img type="dynamic" :src="staticImgSrc" alt="" />
+        </div>
+        <div v-show="status === 'dynamic'" id="figure"> </div>
       </div>
-      <div v-show="status === 'dynamic'" id="figure"> </div>
     </div>
-    <div id="menu"></div>
   </div>
 </template>
 
@@ -46,7 +47,6 @@ if (window.acquireVsCodeApi) {
 const vscode =  {
   postMessage: function (message) {
     message.command = 'toPlotService'
-    console.log('send:', message);
     real.postMessage(message);
   },
 };
@@ -148,7 +148,7 @@ export default {
       vscode.postMessage({ type: 'initWebaggFigure', command: "toPlotService" });
     },
     handleMessage(event) {
-      console.log('receive:', event.data);
+      console.log('前端界面收到消息', event.data);
       if (event.data.type !== "plotConnect") return
       const message = event.data.data;
       switch (message.type) {
@@ -173,7 +173,6 @@ export default {
           this.isReady=true;
           this.mouseMoveInterval = message.value.mouseMoveInterval;
           this.mouseDragInterval = message.value.mouseDragInterval;
-          console.log('webagg',message.value);
           this.initFigure();
           break;
         }
@@ -211,13 +210,11 @@ export default {
       return false;
     });
     window.addEventListener('message', this.handleMessage);
-    // vscode.postMessage({ type: 'loaded', command: "toPlotService" });
-    // vscode.postMessage({ type: 'hah', command: "toPlotService", value: 'hah1111' });
   }
 }
 </script>
 
-<style>
+<style scoped>
   @font-face {
     font-family: 'iconfont';
     /* Project id 3893161 */
@@ -225,16 +222,23 @@ export default {
     url('https://at.alicdn.com/t/c/font_3893161_zb9qpcavc8.woff?t=1676275315074') format('woff'),
     url('https://at.alicdn.com/t/c/font_3893161_zb9qpcavc8.ttf?t=1676275315074') format('truetype');
   }
-
+  .header {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
   #app {
     width: 100%;
     height: 100%;
+    font-size: 12px;
     user-select: none;
   }
 
   .content_box {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 40px);
     background-color: #f0f0f0;
   }
 
@@ -269,21 +273,6 @@ export default {
 
   .icon-sanjiaoxing:before {
     content: '\e615';
-  }
-
-  #menu {
-    position: absolute;
-    top: -500px;
-    width: 122px;
-    border: 1px solid #f3f3f3;
-    padding: 5px 0;
-    box-sizing: border-box;
-    box-shadow: 2px 2px 8px rgb(0 0 0 / 20%);
-    background-color: #f5f5f5;
-    font-size: 12px;
-    color: #333;
-    z-index: 100;
-    cursor: default;
   }
 
   .menu__item {

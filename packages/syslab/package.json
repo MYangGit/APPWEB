@@ -1,15 +1,15 @@
 {
-  "name": "haha",
-  "displayName": "haha",
-  "description": "这是一个无线波形发生器",
+  "name": "startapp",
+  "displayName": "无线demo",
+  "description": "无线demo",
   "activationEvents": [
-    "onCommand:haha"
+    "onCommand:startapp"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "haha",
-        "title": "haha"
+        "command": "startapp",
+        "title": "startapp"
       }
     ],
     "configuration": [

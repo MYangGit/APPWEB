@@ -41,7 +41,6 @@ const index_1 = __webpack_require__(5);
 function getWebViewContent(context, templatePath, urlPath) {
     const resourcePath = path.join(context.extensionPath, templatePath);
     let html = fs.readFileSync(resourcePath, 'utf-8');
-    console.log('html', resourcePath);
     let port = extension_build_json_1.default.MoHubPort;
     html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src="|url\(")(.+?)"/g, (m, $1, $2) => {
         if (extension_build_json_1.default.publishMoHub) {
@@ -52,7 +51,7 @@ function getWebViewContent(context, templatePath, urlPath) {
     return html;
 }
 function activate(context) {
-    index_1.syslabPlot.activate(context);
+    index_1.syslabPlot.SyslabFigure.activate(context, 'app');
     let startAppCommand = extension_build_json_1.default.startCommand ?? 'test-org.startTestApp';
     let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath) => {
         vscode.commands.executeCommand('start app', {
@@ -60,26 +59,22 @@ function activate(context) {
             title: extension_build_json_1.default.appTitle ?? 'TestApp',
             titleEn: extension_build_json_1.default.appTitleEn ?? 'TestApp',
             html: getWebViewContent(context, './dist/index.html', urlPath),
-            filePath: process.env.USER_DATA_DIR || '/home/tongyuan/SyslabCloud/code-server',
+            // filePath: process.env.USER_DATA_DIR || '/home/tongyuan/SyslabCloud/code-server',
+            filePath: 'C:/Users/admin/syslabCloud',
             width: extension_build_json_1.default.appWidth ?? 1080,
             height: extension_build_json_1.default.appHeight ?? 750,
             appType: extension_build_json_1.default.appType ?? 'julia',
         });
-        vscode.commands.executeCommand('plot.forward', {
-            appid: 'test-app',
-            data: {
-                type: "hahaha",
-                value: "111111"
-            }
-        });
     });
     context.subscriptions.push(disposable);
     context.subscriptions.push(vscode.commands.registerCommand('plot.receive', (message) => {
-        console.log('from-app-message', message);
+        index_1.syslabPlot.SyslabFigure.handleAppMessage(message, 'test-app');
     }));
 }
 exports.activate = activate;
-function deactivate() { }
+function deactivate() {
+    index_1.syslabPlot.deactivate();
+}
 exports.deactivate = deactivate;
 
 
@@ -109,7 +104,7 @@ module.exports = require("vscode");
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"appName":"startapp1","displayName":"无线测试","startCommand":"startapp1","startTitle":"startapp1","publishMoHub":false,"MoHubPort":49010,"icon":"app-icon.png","version":"1.0.0","description":"这是一个无线波形发生器","appTitle":"无线测试","appTitleEn":"无线测试","appHeight":850,"appWidth":1000,"appType":"python"}');
+module.exports = /*#__PURE__*/JSON.parse('{"appName":"startapp","displayName":"无线demo","startCommand":"startapp","startTitle":"startapp","publishMoHub":false,"MoHubPort":49010,"icon":"app-icon.png","version":"1.0.0","description":"这是一个无线波形发生器","appTitle":"无线demo","appTitleEn":"无线demo","appHeight":650,"appWidth":1450,"appType":"python"}');
 
 /***/ }),
 /* 5 */
@@ -161,7 +156,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.import_figure_command = exports.clearProgress = exports.showStaticImg = exports.showApp = exports.plotPaneDelAll = exports.closeJuliaPlotPanel = exports.deactivate = exports.activate = exports.restartWebaggServer = exports.initWebaggServer = exports.startWebaggServer = exports.g_mapWebviewPanels = exports.g_setting = exports.g_applyMode = exports.g_fileWatcher = exports.g_server = exports.attributeVisible = exports.active_figure = void 0;
+exports.import_figure_command = exports.clearProgress = exports.showStaticImg = exports.showApp = exports.handleAppMessage = exports.plotPaneDelAll = exports.closeJuliaPlotPanel = exports.deactivate = exports.activate = exports.restartWebaggServer = exports.initWebaggServer = exports.startWebaggServer = exports.g_mapWebviewPanels = exports.g_setting = exports.g_applyMode = exports.g_fileWatcher = exports.g_server = exports.attributeVisible = exports.active_figure = void 0;
 const vscode = __importStar(__webpack_require__(3));
 // import * as WebSocket from 'ws';
 const path = __importStar(__webpack_require__(2));
@@ -464,7 +459,7 @@ function fileWatcher(path) {
             // 判断
             console.log('fig.json文件改动，看看内容', content);
             if (exports.g_applyMode === 'app') {
-                showApp();
+                showApp(content.figId, content.title, content.fignum, content.backend);
                 return;
             }
             showStaticImg(content.figId, content.title, content.fignum, content.backend);
@@ -491,9 +486,125 @@ async function showParallelismPlot(figData) {
         // );
     });
 }
-// 我是app模式
-async function showApp() {
-    console.log('我是app模式');
+let appPlot = {};
+let appid = '';
+const handleAppMessage = async (msg, appid) => {
+    console.log('监听来自app的消息', msg, "appid", appid);
+    appid = appid;
+    switch (msg.type) {
+        case 'ws_send': {
+            if (appPlot.ws && appPlot.ws.readyState == 1) {
+                appPlot.ws.send(JSON.stringify(msg.value));
+            }
+            break;
+        }
+        case 'init_websocket': {
+            appPlot.ws = init_websocket_for_app(appPlot.websocket_url, appid);
+            break;
+        }
+        case 'loaded': {
+            if (!appPlot.figure_id) {
+                return;
+            }
+            setTimeout(() => {
+                vscode.commands.executeCommand('plot.forward', {
+                    type: 'loaded',
+                    value: appPlot.figure_id,
+                    appid,
+                    platform: process.platform,
+                    language: vscode.env.language,
+                    ISONLINE: process.env.ISONLINE,
+                    port: webagg_port,
+                    imageBaseUrl: '/vscode-remote-resource?path=' + g_context.extensionPath + '\\public\\',
+                });
+                // getStaticImg(figId, panel.webview.postMessage);
+                getHttp(`/getPngBase64?port=${webagg_port}&figId=${appPlot.figure_id}`)
+                    .then((res) => {
+                    console.log('getPngBase64', res);
+                    vscode.commands.executeCommand('plot.forward', {
+                        type: 'static_img',
+                        appid,
+                        value: res?.value,
+                    });
+                })
+                    .catch((err) => {
+                    console.log('静态绘图异常:请检查绘图代码并重新绘图', err);
+                });
+            }, 1000);
+            break;
+        }
+        case 'initWebaggFigure': {
+            let count = 0;
+            let figPklPathStr = appPlot.figPklPath ? `&figPklPath=${appPlot.figPklPath}` : "";
+            // 读取syslab-config.json
+            if (appPlot.backend === 'julia') {
+                const config = JSON.parse(fs.readFileSync(`${os.homedir().replace(/\\/g, '/')}/SyslabCloud/.syslab-oss/syslab-config.json`, 'utf-8'));
+                const userFigPath = config['user-fig-path'];
+                const res = await vscode.commands.executeCommand('language-julia.exportFigWithId', appPlot.figure_id, `${userFigPath}/figure_dir/${appPlot.figure_id}.pkl`);
+                if (!res) {
+                    vscode.commands.executeCommand('plot.forward', {
+                        type: 'mode_change',
+                        appid,
+                        value: 'static',
+                    });
+                    vscode.window.showErrorMessage('序列化文件失败');
+                    break;
+                }
+            }
+            const timer = setInterval(async () => {
+                const res = await getHttp(`/fileExists?figId=${appPlot.figure_id}&port=${webagg_port}${figPklPathStr}`);
+                count++;
+                if (res.status) {
+                    clearInterval(timer);
+                    const initRes = await getHttp(`/initFigure?port=${webagg_port}&figId=${appPlot.figure_id}${figPklPathStr}`);
+                    if (initRes.status && initRes.message === 'success') {
+                        const mouseMoveInterval = vscode.workspace
+                            .getConfiguration()
+                            .get('plot.mouseMoveInterval');
+                        const mouseDragInterval = vscode.workspace
+                            .getConfiguration()
+                            .get('plot.mouseDragInterval');
+                        vscode.commands.executeCommand('plot.forward', {
+                            type: 'initFigure',
+                            appid,
+                            value: {
+                                mouseMoveInterval,
+                                mouseDragInterval
+                            }
+                        });
+                    }
+                    else {
+                        console.log('交互模式初始化异常:请检查绘图代码并重新绘图');
+                    }
+                }
+                else {
+                    if (count >= 50) {
+                        clearInterval(timer);
+                        vscode.commands.executeCommand('plot.forward', {
+                            type: 'mode_change',
+                            appid,
+                            value: 'static',
+                        });
+                        vscode.window.showErrorMessage('交互模式初始化失败，请关闭绘图窗口后重新运行');
+                    }
+                }
+            }, 100);
+            break;
+        }
+    }
+};
+exports.handleAppMessage = handleAppMessage;
+// app模式
+async function showApp(figId, title, fignum, backend, figPklPath) {
+    const url = `ws://localhost:8080/${figId}/ws`;
+    appPlot.figure_id = figId;
+    appPlot.websocket_url = url;
+    appPlot.mode = 'static';
+    appPlot.attribute_url = `ws://localhost:8080/${figId}/attribute/ws`;
+    appPlot.backend = backend;
+    appPlot.figPklPath = figPklPath;
+    appid = figId;
+    console.log('我是app模式', appPlot);
 }
 exports.showApp = showApp;
 async function showStaticImg(figId, title, fignum, backend, figPklPath) {
@@ -1030,6 +1141,34 @@ function clearProgress() {
     }
 }
 exports.clearProgress = clearProgress;
+function init_websocket_for_app(ws_url, appid) {
+    let ws = new utils_1.SocketPlugin({ url: ws_url });
+    ws.onopen = () => {
+        vscode.commands.executeCommand('plot.forward', {
+            type: 'ws_message',
+            appid,
+            value: JSON.stringify({ type: 'init_websocket' }),
+        });
+    };
+    ws.onmessage = (e) => {
+        vscode.commands.executeCommand('plot.forward', {
+            type: 'ws_message',
+            appid,
+            value: e.data
+        });
+    };
+    ws.onclose = () => {
+        console.log('图窗连接关闭');
+    };
+    ws.onerror = (e) => {
+        console.log(`网络连接错误:${JSON.stringify(e)}`);
+    };
+    ws.onreconnect = () => { };
+    ws.ontimeout = () => {
+        console.log('网络连接超时，请关闭绘图窗口并重启绘图服务');
+    };
+    return ws;
+}
 function init_websocket(ws_url, panel) {
     let ws = new utils_1.SocketPlugin({ url: ws_url });
     ws.onopen = () => {
@@ -1069,7 +1208,7 @@ function getHttp(path) {
     return new Promise((resolve, reject) => {
         const option = {
             hostname: 'localhost',
-            port: webagg_port,
+            port: 8080,
             path,
             method: 'GET',
             headers: {

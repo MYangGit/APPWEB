@@ -22,5 +22,9 @@ package-edit.cjs
 .env.dev
 .env.prod
 jsconfig.json
-public/
+build-package.js
+extension-build.json
+tsconfig.json
+syslabApp.json
+*.md
 

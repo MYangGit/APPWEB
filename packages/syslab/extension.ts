@@ -7,15 +7,12 @@ import { syslabPlot  } from '../submodule/index';
 function getWebViewContent(context: vscode.ExtensionContext, templatePath: string, urlPath: string): string {
   const resourcePath = path.join(context.extensionPath, templatePath);
   let html = fs.readFileSync(resourcePath, 'utf-8');
-  console.log('html', resourcePath);
   
   let port = appConfig.MoHubPort;
   html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src="|url\(")(.+?)"/g, (m, $1, $2) => {
     if(appConfig.publishMoHub){
       return $1 + (urlPath || '') + `/cn-north-4/syslabonline//stable/${port}/vscode-remote-resource?path=` + context.extensionPath + '/dist' + $2 + '"';
     }
-    console.log(222222, urlPath)
-    console.log(11111, $1 + (urlPath || '') + '/vscode-remote-resource?path=' + context.extensionPath + '/dist' + $2 + '"')
     return $1 + (urlPath || '') + '/vscode-remote-resource?path=' + context.extensionPath + '/dist' + $2 + '"';
   });
 
@@ -23,7 +20,7 @@ function getWebViewContent(context: vscode.ExtensionContext, templatePath: strin
 }
 
 function activate(context: vscode.ExtensionContext) {
-  syslabPlot.activate(context, 'app');
+  syslabPlot.SyslabFigure.activate(context, 'app');
   let startAppCommand = appConfig.startCommand ?? 'test-org.startTestApp';
   let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath: string) => {
     vscode.commands.executeCommand('start app', {
@@ -41,11 +38,12 @@ function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
   context.subscriptions.push(vscode.commands.registerCommand('plot.receive', (message: any) => {
-    console.log('from-app-message', message);
-    // syslabPlot.handleAppMessage(message, 'test-app');
+    syslabPlot.SyslabFigure.handleAppMessage(message, 'test-app');
   }));
 }
 
-function deactivate() {}
+function deactivate() {
+  syslabPlot.deactivate();
+}
 
 export { activate, deactivate };
