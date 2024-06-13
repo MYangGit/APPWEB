@@ -1,5 +1,11 @@
 <template>
   <div id="plotapp">
+    <div class="header">
+      <el-select @change="handleModeChange" v-model="status" placeholder="请选择模式" size="mini" style="width: 100px;">
+        <el-option value="static">static</el-option>
+        <el-option value="dynamic">dynamic</el-option>
+      </el-select>
+    </div>
     <div class="content_box">
       <div v-if="status === 'dynamic' && isReady === false" class="webagg-loading">
         <img :src="loadingGif" alt="">
@@ -19,7 +25,7 @@ import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 
 import loadingGif from '../../../packages/submodule/syslab_online_plot/lib/webagg/_images/loading.gif';
-import '../../../packages/submodule/syslab_online_plot/lib/element/lib/theme-chalk/index.css'
+// import '../../../packages/submodule/syslab_online_plot/lib/element/lib/theme-chalk/index.css'
 import '../../../packages/submodule/syslab_online_plot/lib/lodash.js'
 import '../../../packages/submodule/syslab_online_plot/lib/webagg/mpl.js'
 import '../../../packages/submodule/syslab_online_plot/lib/webagg/color_change.js'
@@ -39,6 +45,7 @@ if (window.acquireVsCodeApi) {
 }
 const vscode =  {
   postMessage: function (message) {
+    message.command = 'toPlotService'
     console.log('send:', message);
     real.postMessage(message);
   },
@@ -85,6 +92,9 @@ export default {
     },
   },
   methods: {
+    handleModeChange(val) {
+      this.initWebaggFigure(val);
+    },
     initFigure() {
       /* It is up to the application to provide a websocket that the figure
         will use to communicate to the server.  This websocket object can
@@ -94,7 +104,10 @@ export default {
       if (this.fig) {
         return;
       }
-      vscode.postMessage({ type: 'init_websocket' });
+      vscode.postMessage({
+        type: 'init_websocket',
+        command: 'toPlotService',
+      });
       let figId = this.figureId;
       window.oncontextmenu = (e) => {
         e.preventDefault();
@@ -132,11 +145,12 @@ export default {
         }
         return;
       }
-      vscode.postMessage({ type: 'initWebaggFigure' });
+      vscode.postMessage({ type: 'initWebaggFigure', command: "toPlotService" });
     },
     handleMessage(event) {
       console.log('receive:', event.data);
-      const message = event.data;
+      if (event.data.type !== "plotConnect") return
+      const message = event.data.data;
       switch (message.type) {
         case 'loaded':{
           this.figureId = message.value;
@@ -153,10 +167,6 @@ export default {
               this.staticImgSrc = new_src;
             }
           }
-          break;
-        }
-        case 'mode_change': {
-          this.initWebaggFigure(message.value);
           break;
         }
         case 'initFigure': {
@@ -201,8 +211,8 @@ export default {
       return false;
     });
     window.addEventListener('message', this.handleMessage);
-    vscode.postMessage({ type: 'loaded' });
-    vscode.postMessage({ type: 'hah', command: "toPlotService", value: 'hah1111' });
+    // vscode.postMessage({ type: 'loaded', command: "toPlotService" });
+    // vscode.postMessage({ type: 'hah', command: "toPlotService", value: 'hah1111' });
   }
 }
 </script>

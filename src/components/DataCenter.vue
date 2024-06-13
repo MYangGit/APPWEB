@@ -7,8 +7,9 @@ import ActionPythonSet from './ActionPythonSet.vue';
 import StateWatch from './StateWatch.vue';
 import LanguageSwitch from './module/LanguageSwitch.vue';
 import { useProgramLanguage } from '@/hooks/useProgramLanguage';
+import { ref } from 'vue';
 const Language = useProgramLanguage();
-
+const activeName = ref('state');
 </script>
 <template>
   <div class="data-center-panel">
