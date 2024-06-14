@@ -35,9 +35,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.deactivate = exports.activate = void 0;
 const fs = __importStar(__webpack_require__(1));
 const path = __importStar(__webpack_require__(2));
-const vscode = __importStar(__webpack_require__(3));
-const extension_build_json_1 = __importDefault(__webpack_require__(4));
-const index_1 = __webpack_require__(5);
+const cp = __importStar(__webpack_require__(3));
+const vscode = __importStar(__webpack_require__(4));
+const extension_build_json_1 = __importDefault(__webpack_require__(5));
+const index_1 = __webpack_require__(6);
 function getWebViewContent(context, templatePath, urlPath) {
     const resourcePath = path.join(context.extensionPath, templatePath);
     let html = fs.readFileSync(resourcePath, 'utf-8');
@@ -55,7 +56,7 @@ function activate(context) {
     let startAppCommand = extension_build_json_1.default.startCommand ?? 'test-org.startTestApp';
     let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath) => {
         vscode.commands.executeCommand('start app', {
-            id: 'test-app',
+            id: extension_build_json_1.default.appName,
             title: extension_build_json_1.default.appTitle ?? 'TestApp',
             titleEn: extension_build_json_1.default.appTitleEn ?? 'TestApp',
             html: getWebViewContent(context, './dist/index.html', urlPath),
@@ -67,8 +68,20 @@ function activate(context) {
         });
     });
     context.subscriptions.push(disposable);
-    context.subscriptions.push(vscode.commands.registerCommand('plot.receive', (message) => {
-        index_1.syslabPlot.SyslabFigure.handleAppMessage(message, 'test-app');
+    // 接收来自app的消息
+    context.subscriptions.push(vscode.commands.registerCommand('syslabApp.sendToPlotService', (message) => {
+        console.log('sendToPlotService: ', message);
+        index_1.syslabPlot.SyslabFigure.handleAppMessage(message, extension_build_json_1.default.appName);
+    }));
+    // 执行python脚本
+    context.subscriptions.push(vscode.commands.registerCommand('syslab.excutePython', (pythonCode, workspace) => {
+        const pythonFilePath = `${workspace}/temp.py`;
+        fs.writeFileSync(pythonFilePath, pythonCode);
+        return new Promise((resolve) => {
+            cp.exec(`python ${pythonFilePath}`, (error) => {
+                resolve(error?.message);
+            });
+        });
     }));
 }
 exports.activate = activate;
@@ -97,17 +110,24 @@ module.exports = require("path");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("vscode");
+module.exports = require("child_process");
 
 /***/ }),
 /* 4 */
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"appName":"startapp","displayName":"无线demo","startCommand":"startapp","startTitle":"startapp","publishMoHub":false,"MoHubPort":49010,"icon":"app-icon.png","version":"1.0.0","description":"这是一个无线波形发生器","appTitle":"无线demo","appTitleEn":"无线demo","appHeight":650,"appWidth":1450,"appType":"python"}');
+module.exports = require("vscode");
 
 /***/ }),
 /* 5 */
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"appName":"lala","displayName":"lala","startCommand":"lala","startTitle":"lala","publishMoHub":false,"MoHubPort":47736,"icon":"app-icon.png","version":"1.0.0","description":"这是一个无线波形发生器","appTitle":"lala","appTitleEn":"lala","appHeight":600,"appWidth":1000,"appType":"python"}');
+
+/***/ }),
+/* 6 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -116,7 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   syslabPlot: () => (/* binding */ syslabPlot)
 /* harmony export */ });
-/* harmony import */ var _syslab_online_plot_src_figure_syslab_figure_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _syslab_online_plot_src_figure_syslab_figure_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
 /* harmony import */ var _syslab_online_plot_src_extension_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(70);
 
 
@@ -127,7 +147,7 @@ const syslabPlot = {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -157,14 +177,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.import_figure_command = exports.clearProgress = exports.showStaticImg = exports.showApp = exports.handleAppMessage = exports.plotPaneDelAll = exports.closeJuliaPlotPanel = exports.deactivate = exports.activate = exports.restartWebaggServer = exports.initWebaggServer = exports.startWebaggServer = exports.g_mapWebviewPanels = exports.g_setting = exports.g_applyMode = exports.g_fileWatcher = exports.g_server = exports.attributeVisible = exports.active_figure = void 0;
-const vscode = __importStar(__webpack_require__(3));
+const vscode = __importStar(__webpack_require__(4));
 // import * as WebSocket from 'ws';
 const path = __importStar(__webpack_require__(2));
-const portfinder = __importStar(__webpack_require__(7));
-const http = __importStar(__webpack_require__(21));
-const child_process_1 = __webpack_require__(22);
+const portfinder = __importStar(__webpack_require__(8));
+const http = __importStar(__webpack_require__(22));
+const child_process_1 = __webpack_require__(3);
 const fs = __importStar(__webpack_require__(1));
-const os = __importStar(__webpack_require__(8));
+const os = __importStar(__webpack_require__(9));
 const FormData = __webpack_require__(23);
 const utils_1 = __webpack_require__(43);
 const syslab_attribute_1 = __webpack_require__(69);
@@ -487,10 +507,13 @@ async function showParallelismPlot(figData) {
     });
 }
 let appPlot = {};
-let appid = '';
+const sendMessageToApp = (msg) => {
+    if (!msg.appid)
+        msg.appid = appPlot.appid;
+    vscode.commands.executeCommand('syslabApp.sendToApp', msg);
+};
 const handleAppMessage = async (msg, appid) => {
-    console.log('监听来自app的消息', msg, "appid", appid);
-    appid = appid;
+    appPlot.appid = appid;
     switch (msg.type) {
         case 'ws_send': {
             if (appPlot.ws && appPlot.ws.readyState == 1) {
@@ -499,7 +522,7 @@ const handleAppMessage = async (msg, appid) => {
             break;
         }
         case 'init_websocket': {
-            appPlot.ws = init_websocket_for_app(appPlot.websocket_url, appid);
+            appPlot.ws = init_websocket_for_app(appPlot.websocket_url);
             break;
         }
         case 'loaded': {
@@ -507,10 +530,9 @@ const handleAppMessage = async (msg, appid) => {
                 return;
             }
             setTimeout(() => {
-                vscode.commands.executeCommand('plot.forward', {
+                sendMessageToApp({
                     type: 'loaded',
                     value: appPlot.figure_id,
-                    appid,
                     platform: process.platform,
                     language: vscode.env.language,
                     ISONLINE: process.env.ISONLINE,
@@ -520,10 +542,8 @@ const handleAppMessage = async (msg, appid) => {
                 // getStaticImg(figId, panel.webview.postMessage);
                 getHttp(`/getPngBase64?port=${webagg_port}&figId=${appPlot.figure_id}`)
                     .then((res) => {
-                    console.log('getPngBase64', res);
-                    vscode.commands.executeCommand('plot.forward', {
+                    sendMessageToApp({
                         type: 'static_img',
-                        appid,
                         value: res?.value,
                     });
                 })
@@ -542,9 +562,8 @@ const handleAppMessage = async (msg, appid) => {
                 const userFigPath = config['user-fig-path'];
                 const res = await vscode.commands.executeCommand('language-julia.exportFigWithId', appPlot.figure_id, `${userFigPath}/figure_dir/${appPlot.figure_id}.pkl`);
                 if (!res) {
-                    vscode.commands.executeCommand('plot.forward', {
+                    sendMessageToApp({
                         type: 'mode_change',
-                        appid,
                         value: 'static',
                     });
                     vscode.window.showErrorMessage('序列化文件失败');
@@ -564,9 +583,8 @@ const handleAppMessage = async (msg, appid) => {
                         const mouseDragInterval = vscode.workspace
                             .getConfiguration()
                             .get('plot.mouseDragInterval');
-                        vscode.commands.executeCommand('plot.forward', {
+                        sendMessageToApp({
                             type: 'initFigure',
-                            appid,
                             value: {
                                 mouseMoveInterval,
                                 mouseDragInterval
@@ -580,9 +598,8 @@ const handleAppMessage = async (msg, appid) => {
                 else {
                     if (count >= 50) {
                         clearInterval(timer);
-                        vscode.commands.executeCommand('plot.forward', {
+                        sendMessageToApp({
                             type: 'mode_change',
-                            appid,
                             value: 'static',
                         });
                         vscode.window.showErrorMessage('交互模式初始化失败，请关闭绘图窗口后重新运行');
@@ -603,8 +620,6 @@ async function showApp(figId, title, fignum, backend, figPklPath) {
     appPlot.attribute_url = `ws://localhost:8080/${figId}/attribute/ws`;
     appPlot.backend = backend;
     appPlot.figPklPath = figPklPath;
-    appid = figId;
-    console.log('我是app模式', appPlot);
 }
 exports.showApp = showApp;
 async function showStaticImg(figId, title, fignum, backend, figPklPath) {
@@ -656,9 +671,6 @@ async function showStaticImg(figId, title, fignum, backend, figPklPath) {
             retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
         });
         panel.webview.html = (0, utils_1.getWebViewContent)(g_context, 'view/webagg.html', panel.webview);
-        // 单独构建一个div的容器显示webview的html
-        // 打印webview的html
-        console.log('webview的html', panel.webview.html);
         // 执行命令
         const url = `ws://localhost:${webagg_port}/${figId}/ws`;
         const webviewPanel = {};
@@ -676,7 +688,6 @@ async function showStaticImg(figId, title, fignum, backend, figPklPath) {
         // g_figures.set(figId, url);
         // 设置Typlot绘图窗口激活状态
         const viewStateListener = panel.onDidChangeViewState((changePanel) => {
-            console.log('对窗口切换的回调changePanel', changePanel);
             // active_figure = webviewPanel;
             if (changePanel.webviewPanel.active) {
                 updateActiveFigure();
@@ -1141,19 +1152,17 @@ function clearProgress() {
     }
 }
 exports.clearProgress = clearProgress;
-function init_websocket_for_app(ws_url, appid) {
+function init_websocket_for_app(ws_url) {
     let ws = new utils_1.SocketPlugin({ url: ws_url });
     ws.onopen = () => {
-        vscode.commands.executeCommand('plot.forward', {
+        sendMessageToApp({
             type: 'ws_message',
-            appid,
             value: JSON.stringify({ type: 'init_websocket' }),
         });
     };
     ws.onmessage = (e) => {
-        vscode.commands.executeCommand('plot.forward', {
+        sendMessageToApp({
             type: 'ws_message',
-            appid,
             value: e.data
         });
     };
@@ -1385,7 +1394,7 @@ exports.import_figure_command = import_figure_command;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -1399,12 +1408,12 @@ exports.import_figure_command = import_figure_command;
 
 
 var fs = __webpack_require__(1),
-    os = __webpack_require__(8),
-    net = __webpack_require__(9),
+    os = __webpack_require__(9),
+    net = __webpack_require__(10),
     path = __webpack_require__(2),
-    _async = __webpack_require__(10),
-    debug = __webpack_require__(11),
-    mkdirp = (__webpack_require__(20).mkdirp);
+    _async = __webpack_require__(11),
+    debug = __webpack_require__(12),
+    mkdirp = (__webpack_require__(21).mkdirp);
 
 var debugTestPort = debug('portfinder:testPort'),
     debugGetPort = debug('portfinder:getPort'),
@@ -1895,21 +1904,21 @@ exports._defaultHosts = (function() {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("os");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("net");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* module decorator */ module = __webpack_require__.nmd(module);
@@ -7527,7 +7536,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -7538,15 +7547,15 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(12);
+  module.exports = __webpack_require__(13);
 } else {
-  module.exports = __webpack_require__(15);
+  module.exports = __webpack_require__(16);
 }
 
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ ((module, exports, __webpack_require__) => {
 
 "use strict";
@@ -7716,7 +7725,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(13)(exports);
+module.exports = __webpack_require__(14)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -7733,7 +7742,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -7750,7 +7759,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(14);
+  createDebug.humanize = __webpack_require__(15);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -7989,7 +7998,7 @@ module.exports = setup;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ ((module) => {
 
 /**
@@ -8157,7 +8166,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ ((module, exports, __webpack_require__) => {
 
 "use strict";
@@ -8166,9 +8175,9 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(16);
+var tty = __webpack_require__(17);
 
-var util = __webpack_require__(17);
+var util = __webpack_require__(18);
 /**
  * This is the Node.js implementation of `debug()`.
  */
@@ -8189,7 +8198,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
   // Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
   // eslint-disable-next-line import/no-extraneous-dependencies
-  var supportsColor = __webpack_require__(18);
+  var supportsColor = __webpack_require__(19);
 
   if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
     exports.colors = [20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 214, 215, 220, 221];
@@ -8315,7 +8324,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(13)(exports);
+module.exports = __webpack_require__(14)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -8341,28 +8350,28 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("tty");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("util");
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
-const os = __webpack_require__(8);
-const tty = __webpack_require__(16);
-const hasFlag = __webpack_require__(19);
+const os = __webpack_require__(9);
+const tty = __webpack_require__(17);
+const hasFlag = __webpack_require__(20);
 
 const {env} = process;
 
@@ -8497,7 +8506,7 @@ module.exports = {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ ((module) => {
 
 "use strict";
@@ -8512,7 +8521,7 @@ module.exports = (flag, argv = process.argv) => {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var path = __webpack_require__(2);
@@ -8620,27 +8629,20 @@ mkdirP.sync = function sync (p, opts, made) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("http");
 
 /***/ }),
-/* 22 */
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
-
-/***/ }),
 /* 23 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var CombinedStream = __webpack_require__(24);
-var util = __webpack_require__(17);
+var util = __webpack_require__(18);
 var path = __webpack_require__(2);
-var http = __webpack_require__(21);
+var http = __webpack_require__(22);
 var https = __webpack_require__(27);
 var parseUrl = (__webpack_require__(28).parse);
 var fs = __webpack_require__(1);
@@ -9144,7 +9146,7 @@ FormData.prototype.toString = function () {
 /* 24 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-var util = __webpack_require__(17);
+var util = __webpack_require__(18);
 var Stream = (__webpack_require__(25).Stream);
 var DelayedStream = __webpack_require__(26);
 
@@ -9366,7 +9368,7 @@ module.exports = require("stream");
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var Stream = (__webpack_require__(25).Stream);
-var util = __webpack_require__(17);
+var util = __webpack_require__(18);
 
 module.exports = DelayedStream;
 function DelayedStream() {
@@ -10186,7 +10188,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateRandomString = exports.SocketPlugin = exports.getWebViewContent = exports.registerCommand = void 0;
-const vscode = __importStar(__webpack_require__(3));
+const vscode = __importStar(__webpack_require__(4));
 const fs = __importStar(__webpack_require__(1));
 const path = __importStar(__webpack_require__(2));
 const ws_1 = __webpack_require__(44);
@@ -10444,8 +10446,8 @@ module.exports = WebSocket;
 
 const EventEmitter = __webpack_require__(46);
 const https = __webpack_require__(27);
-const http = __webpack_require__(21);
-const net = __webpack_require__(9);
+const http = __webpack_require__(22);
+const net = __webpack_require__(10);
 const tls = __webpack_require__(47);
 const { randomBytes, createHash } = __webpack_require__(48);
 const { Readable } = __webpack_require__(25);
@@ -12488,7 +12490,7 @@ if (typeof process.addon === 'function') { // if the platform supports native re
 
 var fs = __webpack_require__(1)
 var path = __webpack_require__(2)
-var os = __webpack_require__(8)
+var os = __webpack_require__(9)
 
 // Workaround to fix webpack's build warnings: 'the request of a dependency is an expression'
 var runtimeRequire =  true ? require : 0 // eslint-disable-line
@@ -13668,7 +13670,7 @@ module.exports = isValidUTF8;
 
 
 
-const net = __webpack_require__(9);
+const net = __webpack_require__(10);
 const tls = __webpack_require__(47);
 const { randomFillSync } = __webpack_require__(48);
 
@@ -14829,9 +14831,9 @@ module.exports = createWebSocketStream;
 
 
 const EventEmitter = __webpack_require__(46);
-const http = __webpack_require__(21);
+const http = __webpack_require__(22);
 const https = __webpack_require__(27);
-const net = __webpack_require__(9);
+const net = __webpack_require__(10);
 const tls = __webpack_require__(47);
 const { createHash } = __webpack_require__(48);
 
@@ -15461,7 +15463,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.readyAttributeView = exports.closeSyslabAttributeView = exports.createWebSocketConnect = exports.activate = exports.g_SyslabAttributeViewProvider = exports.g_SyslabAttributeView = void 0;
-const vscode = __importStar(__webpack_require__(3));
+const vscode = __importStar(__webpack_require__(4));
 const utils_1 = __webpack_require__(43);
 let g_websocket;
 function activate(context) {
@@ -15681,9 +15683,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.deactivate = exports.activate = void 0;
 // import * as WebSocket from 'ws';
-const SyslabFigure = __importStar(__webpack_require__(6));
+const SyslabFigure = __importStar(__webpack_require__(7));
 const SyslabAttribute = __importStar(__webpack_require__(69));
-const syslab_figure_1 = __webpack_require__(6);
+const syslab_figure_1 = __webpack_require__(7);
 // websocket服务，port：9899
 function activate(context) {
     SyslabFigure.activate(context);

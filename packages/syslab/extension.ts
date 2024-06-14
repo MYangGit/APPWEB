@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as cp from 'child_process';
 import * as vscode from 'vscode';
 import appConfig from './extension-build.json';
 import { syslabPlot  } from '../submodule/index';
@@ -24,7 +25,7 @@ function activate(context: vscode.ExtensionContext) {
   let startAppCommand = appConfig.startCommand ?? 'test-org.startTestApp';
   let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath: string) => {
     vscode.commands.executeCommand('start app', {
-      id: 'test-app',
+      id: appConfig.appName,
       title: appConfig.appTitle ?? 'TestApp',
       titleEn: appConfig.appTitleEn ?? 'TestApp',
       html: getWebViewContent(context, './dist/index.html', urlPath),
@@ -37,8 +38,20 @@ function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(disposable);
-  context.subscriptions.push(vscode.commands.registerCommand('plot.receive', (message: any) => {
-    syslabPlot.SyslabFigure.handleAppMessage(message, 'test-app');
+  // 接收来自app的消息
+  context.subscriptions.push(vscode.commands.registerCommand('syslabApp.sendToPlotService', (message: any) => {
+    console.log('sendToPlotService: ', message);
+    syslabPlot.SyslabFigure.handleAppMessage(message, appConfig.appName);
+  }));
+  // 执行python脚本
+  context.subscriptions.push(vscode.commands.registerCommand('syslab.excutePython', (pythonCode: string, workspace: string) => {
+    const pythonFilePath = `${workspace}/temp.py`;
+		fs.writeFileSync(pythonFilePath, pythonCode);
+		return new Promise((resolve: (value: string | undefined) => void) => {
+			cp.exec(`python ${pythonFilePath}`, (error: any) => {
+				resolve(error?.message);
+			})
+		})
   }));
 }
 

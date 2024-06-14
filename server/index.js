@@ -36,8 +36,10 @@ app.post('/buildAppVsix', (req, res) => {
   // appConfig
   const appConfig = JSON.parse(appConfigJson)
   fs.writeFile(jsonFilePath, appJson).then(() => {
+    console.log(111111)
     // 删除旧的dist目录
     fs.removeSync('./packages/syslab/dist');
+    console.log(2222222)
     enterDirAndExecCommand('npm run build:app', './').then(() =>{
       console.log('dist构建完成')
       writePackageJson(appConfig)

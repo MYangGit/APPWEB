@@ -1,15 +1,15 @@
 {
-  "name": "startapp",
-  "displayName": "无线demo",
-  "description": "无线demo",
+  "name": "lala",
+  "displayName": "lala",
+  "description": "lala",
   "activationEvents": [
-    "onCommand:startapp"
+    "onCommand:lala"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "startapp",
-        "title": "startapp"
+        "command": "lala",
+        "title": "lala"
       }
     ],
     "configuration": [
