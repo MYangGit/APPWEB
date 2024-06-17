@@ -17,6 +17,7 @@
         </div>
         <div v-show="status === 'dynamic'" id="figure"> </div>
       </div>
+      <div id="menu"></div>
     </div>
   </div>
 </template>
@@ -47,6 +48,7 @@ if (window.acquireVsCodeApi) {
 const vscode =  {
   postMessage: function (message) {
     message.command = 'toPlotService'
+    console.log('前端界面发送消息', message);
     real.postMessage(message);
   },
 };
