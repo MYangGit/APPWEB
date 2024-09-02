@@ -25,19 +25,7 @@
 <script>
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
-
-import loadingGif from '../../../packages/submodule/syslab_online_plot/lib/webagg/_images/loading.gif';
-// import '../../../packages/submodule/syslab_online_plot/lib/element/lib/theme-chalk/index.css'
-import '../../../packages/submodule/syslab_online_plot/lib/lodash.js'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/mpl.js'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/color_change.js'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/text_editor.js'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/confirm_box.js'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/_static/css/page.css'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/_static/css/boilerplate.css'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/_static/css/fbm.css'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/_static/css/mpl.css'
-import '../../../packages/submodule/syslab_online_plot/lib/webagg/_static/css/color_change.css'
+import '../../../packages/submodule/index'
 
 let real = null
 if (window.acquireVsCodeApi) {
@@ -83,6 +71,9 @@ export default {
   computed: {
     host() {
       return `${window.location.host}/syslabPlot`;
+    },
+    loadingGift() {
+      return loadingGif;
     },
     srcUrl: {
       get() {

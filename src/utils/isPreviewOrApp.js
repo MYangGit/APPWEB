@@ -5,7 +5,12 @@ const isPreview = () => {
 const isSyslabApp = () => {
   return import.meta.env.VITE_NODE_ENV === 'SyslabApp'
 }
+
+const isUseVInteractPlot = () => {
+  return false
+}
 export {
   isPreview,
-  isSyslabApp
+  isSyslabApp,
+  isUseVInteractPlot,
 }
