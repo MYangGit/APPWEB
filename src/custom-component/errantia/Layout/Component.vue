@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div :class="{'layout-css': editMode == 'edit'}">
+    <div :class="{'layout-css': editMode == 'edit' || !isEmpty(element.style.fixedHeight) }">
         <erLayout
             :outStyleHeader="{
                 height: propValue.showHeader ? `${propValue.heightHeader}px`: '0px',
@@ -113,6 +113,7 @@
 </template>
 
 <script>
+import { isEmpty } from '@/utils/utils';
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
 import { rootStore } from '@/stores/rootStore';
@@ -164,6 +165,9 @@ export default {
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
         },
+    },
+    methods: {
+        isEmpty,
     },
     mounted() {
         if (this.element.tabs) {

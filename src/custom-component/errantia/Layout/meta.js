@@ -26,6 +26,8 @@ export default {
     backgroundColor: '#fff',
     display: 'block',
     borderWidth: 0,
+    fixedWidth: '',
+    fixedHeight: '',
     borderColor: '#ffffff',
     borderStyle: 'solid',
   },

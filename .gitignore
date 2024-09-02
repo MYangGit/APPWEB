@@ -34,3 +34,7 @@ packages/submodule/syslab_online_plot/
 packages/syslab/extension-build.json
 packages/syslab/extensionDist/extension.js
 *.vsix
+packages/syslab/extension-build.json
+packages/syslab/extensionDist/extension.js
+packages/syslab/extensionDist/extension.js.map
+packages/syslab/syslabApp.json

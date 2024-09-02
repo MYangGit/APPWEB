@@ -1,15 +1,15 @@
 {
-  "name": "lala",
-  "displayName": "lala",
-  "description": "lala",
+  "name": "test123",
+  "displayName": "test23",
+  "description": "test23",
   "activationEvents": [
-    "onCommand:lala"
+    "onCommand:test123"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "lala",
-        "title": "lala"
+        "command": "test123",
+        "title": "test123"
       }
     ],
     "configuration": [
@@ -48,5 +48,8 @@
   "main": "./extensionDist/extension.js",
   "version": "1.0.0",
   "private": true,
-  "icon": "app-icon.png"
+  "icon": "app-icon.png",
+  "devDependencies": {
+    "@types/node": "^22.5.2"
+  }
 }
