@@ -1,50 +1,51 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div class="input-wrap" :class="{activate: isEmpty(activateText) ? activate : activate == activateText }">
-        <el-dropdown 
-            ref="dropdown1" 
-            :trigger="propValue.trigger"
-            @visible-change="handleVisible2"
-        >
-            <div class="dropdown-title" :class="{disabledClick: disabled}" :style="{ width: propValue.titleWidth + 'px'}">
-                <erPicText
-                    :disabled="disabled"
-                    :hasSubscript="propValue.hasSubscript"
-                    :horizontal="propValue.horizontal"
-                    :iconPath="useIcon(propValue.iconPath)"
-                    :title="propValue.title"
-                    @onAction="handleAction"
-                    @onContextMenu="onContextMenu"
-                />
-            </div>
-            <template #dropdown>
-                <div 
-                    :class="{'dropdown-content': propValue.marginLeft !== 0, hideOrgin: propValue.marginLeft !== 0}"
-                    :style="{
-                        width: propValue.floatWidth + 'px',
-                        height: propValue.floatHeight + 'px',
-                        marginLeft: propValue.marginLeft + 'px'
-                    }"
-                >
-                    <div @contextmenu.prevent v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
-                        <Container
-                            :element="element"
-                            :name="element.id"
-                            :childs="childs"
-                        >
-                        </Container>
-                    </div>
-                    <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
-                        <PreviewContainer
-                            :element="element"
-                            :name="element.id"
-                            :childs="childs"
-                        />
-                    </div>
+    <div class="input-wrap">
+        <div style="height: 100%;" :class="{activateStyle: isActivated, disabledClick: disabled}">
+            <el-dropdown 
+                ref="dropdown1" 
+                :trigger="propValue.trigger"
+            >
+                <div class="dropdown-title" :style="{ width: propValue.titleWidth + 'px'}">
+                    <erPicText
+                        :disabled="disabled"
+                        :hasSubscript="propValue.hasSubscript"
+                        :horizontal="propValue.horizontal"
+                        :iconPath="useIcon(propValue.iconPath)"
+                        :title="propValue.title"
+                        @onAction="handleAction"
+                        @onContextMenu="onContextMenu"
+                    />
                 </div>
-            </template>
-        </el-dropdown>
-    </div> 
+                <template #dropdown>
+                    <div 
+                        :class="{'dropdown-content': propValue.marginLeft !== 0, hideOrgin: propValue.marginLeft !== 0}"
+                        :style="{
+                            width: propValue.floatWidth + 'px',
+                            height: propValue.floatHeight + 'px',
+                            marginLeft: propValue.marginLeft + 'px'
+                        }"
+                    >
+                        <div @contextmenu.prevent v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
+                            <Container
+                                :element="element"
+                                :name="element.id"
+                                :childs="childs"
+                            >
+                            </Container>
+                        </div>
+                        <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
+                            <PreviewContainer
+                                :element="element"
+                                :name="element.id"
+                                :childs="childs"
+                            />
+                        </div>
+                    </div>
+                </template>
+            </el-dropdown>
+        </div> 
+    </div>
 </template>
 
 <script>
@@ -54,9 +55,10 @@ import { rootStore } from '@/stores/rootStore';
 import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
-import { WIRELESS } from '@/assets/AppResources/index.js';
+import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
 const useIconS = {
-    wireless: WIRELESS
+    wireless: WIRELESS,
+    radar: Radar
 }
 const { onClickOther } = useEventCentre();
 export default {
@@ -89,9 +91,7 @@ export default {
         }
     },
     data() {
-        return {
-            isShowVisible: false,
-        };
+        return {};
     },
     computed: {
         disabled: {
@@ -124,6 +124,9 @@ export default {
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
         },
+        isActivated() {
+            return this.isEmpty(this.activateText) ? this.activate : this.activate == this.activateText
+        },
     },
     methods: {
         isEmpty,
@@ -133,9 +136,6 @@ export default {
         },
         onContextMenu() {
             this.showClick()
-        },
-        handleVisible2(visible) {
-            this.isShowVisible = visible
         },
         showClick() {
             if (!this.$refs.dropdown1) return
@@ -174,9 +174,9 @@ export default {
 }
 .disabledClick {
     cursor: not-allowed;    
-    pointer-events: none;
+    pointer-events:none;
 }
-.activate {
+.activateStyle {
     cursor: pointer;
     background-color: #cbe8fe;
     border-radius: 4px;

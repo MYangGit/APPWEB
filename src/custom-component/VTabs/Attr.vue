@@ -2,6 +2,12 @@
     <div class="attr-list">
         <CommonAttr>
             <div class="attr-title">选项卡</div>
+            <el-form-item label="选中tab名">
+                <el-input v-model="curComponent.propValue.autoActiveName" size="small" />
+            </el-form-item>
+            <el-form-item label="禁用tab名">
+                <el-input v-model="curComponent.propValue.visibleName" size="small" />
+            </el-form-item>
             <div v-for="(tab, index) in curComponent.tabs" :key="tab.name" class="tab-item">
                 <el-input v-model="tab.label" />
                 <i class="el-icon-close" @click="handleDelete(index)"></i>

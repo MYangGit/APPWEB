@@ -43,7 +43,7 @@ export const excuteJsAction = (actionName, eventParams = {}) => {
  */
 export const useEventCentre = () => {
    // 事件触发
-   const onChange = ({ element, newValue }) => {
+   const onChange = ({ element, newValue, oldValue }) => {
       let { change } = element.actionBinds;
       if (!change) return
       let fn = getFunction(change)
@@ -53,8 +53,9 @@ export const useEventCentre = () => {
             globalUtils: useGlobalUtils()
          },
          {
-            property: element.dataBinds.value,
-            newValue: newValue
+            property: element.dataBinds.value ?? element.propValue,
+            newValue: newValue,
+            oldValue: oldValue
          }
       )
    }

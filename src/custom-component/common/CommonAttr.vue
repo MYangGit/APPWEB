@@ -365,7 +365,10 @@ export default {
         },
         unbindData(key, type = 'normal') {
             if (type === 'visiable') {
-                rootStore.dataCenter.curComponent.visiable[this.form.key] = ''
+                rootStore.dataCenter.curComponent.visiable = {
+                    key: '',
+                    value: ''
+                }
             }
             if (type === 'normal') {
                 delete rootStore.dataCenter.curComponent.dataBinds[key]

@@ -40,7 +40,7 @@ export default {
     },
     watch: {
         watchRegisters: {
-            handler (val) {
+            handler(val) {
                 if (!val) return
                 this.initWatch()
             },
@@ -70,6 +70,7 @@ export default {
                     return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
                 }, (value) => {
                     excuteJsAction(action, {
+                        property: state,
                         value
                     })
                 }, { deep: true });

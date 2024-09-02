@@ -14,6 +14,9 @@
                 <el-form-item label="可选中行：">
                     <el-checkbox v-model="curComponent.propValue.activeClickRow" size="small" />
                 </el-form-item>
+                <el-form-item label="选中uuid：">
+                    <el-input v-model="curComponent.propValue.currUuid" size="small" />
+                </el-form-item>
                 <el-form-item label="操作：">
                     <el-checkbox 
                         v-model="curComponent.propValue.showOperate" 

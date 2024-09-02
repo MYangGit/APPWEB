@@ -16,6 +16,7 @@ import App from './App.vue'
 import AppSyslab from './AppSyslab.vue';
 import router from './router/index.js'
 import { isSyslabApp } from '@/utils/isPreviewOrApp'
+import sizeDirect from './directives/sizeDirect'
 
 const EnterApp = isSyslabApp() ? AppSyslab : App
 
@@ -26,6 +27,7 @@ if (!isSyslabApp()) {
 }
 
 app.use(pinia)
+app.directive('size-ob', sizeDirect)
 app.use(ElementPlus)
 app.use(CustomComponent)
 app.use(Errantia)

@@ -2,7 +2,8 @@ export default {
   component: 'VButton',
   label: '按钮',
   propValue: {
-    value: '按钮'
+    value: '按钮',
+    disabled: false
   },
   icon: 'button',
   type: 'common',

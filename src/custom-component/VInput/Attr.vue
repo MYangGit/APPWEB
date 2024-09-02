@@ -8,6 +8,9 @@
                 <el-form-item label="value">
                     <el-input v-model="curComponent.propValue.value" size="small" />
                 </el-form-item>
+                <el-form-item label="禁用">
+                    <el-checkbox v-model="curComponent.propValue.disabled" size="small" />
+                </el-form-item>
             </el-form>
         </CommonAttr>
     </div>

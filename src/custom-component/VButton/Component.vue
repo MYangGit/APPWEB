@@ -1,5 +1,5 @@
 <template>
-    <button class="v-button">{{ value }}</button>
+    <button :class="{disabledStyle: disabled}" class="v-button">{{ value }}</button>
 </template>
 
 <script>
@@ -10,9 +10,10 @@ export default {
     props: {
         propValue: {
             type: Object,
-            default: () => {
-                value: ''
-            },
+            default: () => ({
+                value: '',
+                disabled: false
+            }),
         },
         element: {
             type: Object,
@@ -26,6 +27,14 @@ export default {
             },
             set(val) {
                 getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        disabled: {
+            get() {
+                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     }
@@ -62,5 +71,12 @@ export default {
         background-color: #ecf5ff;
         color: #3a8ee6;
     }
+}
+.disabledStyle {
+    cursor: not-allowed;
+    background-color: #f5f7fa;
+    color: #c0c4cc;
+    border-color: #ebeef5;
+    pointer-events: none;
 }
 </style>

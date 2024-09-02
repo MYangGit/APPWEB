@@ -2,6 +2,9 @@
     <div class="attr-list">
         <CommonAttr>
             <el-form>
+                <el-form-item label="禁用">
+                    <el-switch v-model="curComponent.propValue.disabled" />
+                </el-form-item>
                 <el-form-item label="内容">
                     <el-input v-model="curComponent.propValue.value" type="textarea" :rows="3" />
                 </el-form-item>

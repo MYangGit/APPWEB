@@ -1,9 +1,4 @@
 import cryptoJs from 'crypto-js';
-import { cloneDeep } from 'lodash';
-
-export function deepCopy(target) {
-  return cloneDeep(target);
-}
 
 export function swap(arr, i, j) {
   const temp = arr[i];
@@ -128,7 +123,7 @@ export function getValueByDotKey(obj, dotKey) {
   return value;
 }
 
-function setValueByDotKey(obj, dotKey, value) {
+export function setValueByDotKey(obj, dotKey, value) {
   const keys = dotKey.split('.');
   const lastKey = keys.pop();
   let currentObj = obj;
@@ -186,11 +181,23 @@ export const isEmpty = (key) => {
  * @param {arr} list
  * @returns string
  */
+function insertBeforeLastBracket(str, insertStr) {
+  // 找到最后一个 `-[` 的位置
+  const lastIndex = str.lastIndexOf('-[');
+  // 如果找到 `-[`
+  if (lastIndex !== -1) {
+      // 在 `-[` 前面插入 `insertStr`
+      const newStr = str.slice(0, lastIndex) + insertStr + str.slice(lastIndex);
+      return newStr;
+  }
+  // 如果没有找到 `-[`，将 `insertStr` 添加到字符串末尾
+  return str + insertStr;
+}
 export const nameRepeat = (name, list, tag = '_') => {
   let newName = name;
   let ext = 1;
   while (list.some(item => item.name === newName)) {
-    newName = `${name}${tag}${ext}`;
+    newName = insertBeforeLastBracket(name, `${tag}${ext}`);
     ext++;
   }
   return newName;
@@ -203,4 +210,43 @@ export const nameRepeat = (name, list, tag = '_') => {
  */
 export const getObjValue = (obj, path) => {
   return path.split('.').reduce((o, key) => (o && o[key] !== undefined) ? o[key] : undefined, obj);
+}
+
+/**
+ * @description: 深拷贝
+ * @param {Object} obj
+ * @returns  Object
+ */
+export const deepCopy = (obj, map = new WeakMap() ) => {
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (map.get(obj)) return map.get(obj);
+  let newObj = Array.isArray(obj) ? [] : {};
+  map.set(obj, newObj);
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      newObj[key] = deepCopy(obj[key], map);
+    }
+  }
+  return newObj;
+}
+
+export function extractReIm(defaultTimeYR) {
+  if(typeof defaultTimeYR[0] !== 'object') {
+    return {
+      re: defaultTimeYR,
+      im: []
+     };
+  }
+  // 使用 map 方法提取 re 和 im 值
+  const reArray = defaultTimeYR.map(item => item.re);
+  const imArray = defaultTimeYR.map(item => item.im);
+  return {
+    re: reArray,
+    im: imArray
+  };
+}
+
+export function flattenImData(imData) {
+  // 使用 flat 方法将嵌套的数组结构展平
+  return imData.map(innerArray => innerArray.flat());
 }

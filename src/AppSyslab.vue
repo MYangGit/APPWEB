@@ -15,4 +15,16 @@
   }
   init()
 </script>
+<style>
+button:focus {
+  outline: none !important;
+}
+</style>
 
+<style>
+button:focus {
+  outline: none !important;
+}
+</style>
+
+ 

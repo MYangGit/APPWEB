@@ -1,15 +1,17 @@
 <template>
-    <div>
-        <erPlot
-            style="width: 100%; height: 100%; display: block;"
-            :dataSource="dataSource"
-            :layout="layout"
-        />
-    </div>
+   <div>
+    <erPlot
+        id="chartPlot"
+        v-size-ob="handleResize"
+        style="width: 100%; height: 100%; display: flex;"
+        :dataSource="dataSource"
+        :layout="layout"
+    />
+   </div>
 </template>
 
 <script>
-import { getComputedGet } from '../../../utils/utils'
+import { getComputedGet, getComputedSet} from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 
 export default {
@@ -28,13 +30,17 @@ export default {
     },
     data () {
         return {
-            resizeTimer: null
+            resizeTimer: null,
+            dataSourceTrue: [],
         }
     },
     computed: {
         dataSource: {
             get () {
                 return getComputedGet('dataSource', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue) || []
+            },
+            set(val) {
+                getComputedSet('dataSource', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
         layout: {
@@ -43,16 +49,18 @@ export default {
             }
         },
     },
-    mounted() {
-        // const targetDiv = document.getElementById('chart');
-        // const observer = new ResizeObserver(entries => {
-        //     clearTimeout(this.resizeTimer);
-        //     this.resizeTimer = setTimeout(() => {
-        //         this.renderChart()
-        //     }, 200);
-        // });
-        // observer.observe(targetDiv);
-    }
+    methods: {
+        renderChart() {
+            let tempData = this.dataSource
+            this.dataSource = []
+            this.$nextTick(() => {
+                this.dataSource = tempData
+            })
+        },
+        handleResize() {
+            this.renderChart()
+        }
+    },
 }
 </script>
 

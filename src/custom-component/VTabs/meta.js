@@ -3,7 +3,10 @@ export default {
   label: '标签页',
   icon: 'tabs',
   type: 'box',
-  propValue: [],
+  propValue: {
+    visibleName: 'visibleName',
+    autoActiveName: "autoActiveName"
+  },
   style: {
     width: 400,
     height: 200,

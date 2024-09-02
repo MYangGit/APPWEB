@@ -5,13 +5,15 @@ import {
   initFilePath, 
   checkValHas,
   importDesignFile,
-  exportDesignFile
+  exportDesignFile,
+  closeApp,
+  generateReport,
+  commonImportFile
 } from '@/services/request/connectBase'
-import { returnData } from '@/constant'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { rootStore } from '@/stores/rootStore'
-import { isEmpty, nameRepeat, createUuid, getObjValue } from '@/utils/utils'
+import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
 
 /**
  * @description 全局公共方法暴露中心
@@ -19,11 +21,17 @@ import { isEmpty, nameRepeat, createUuid, getObjValue } from '@/utils/utils'
 */
 export const useGlobalUtils = () => {
   return {
-    returnData,
     getObjValue,
     createUuid,
+    deepCopy,
+    commonImportFile,
+    getObjValue,
+    generateReport,
+    createUuid,
+    closeApp,
     importDesignFile,
     exportDesignFile,
+    commonImportFile,
     post,
     postMessage,
     getFilePath,

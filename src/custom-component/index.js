@@ -56,6 +56,8 @@ import ErAutoDrop from './errantia/AutoDrop/Component.vue'
 import ErAutoDropAttr from './errantia/AutoDrop/Attr.vue'
 import ErHandCoding from './errantia/HandCoding/Component.vue'
 import ErHandCodingAttr from './errantia/HandCoding/Attr.vue'
+import ErResourceShow from './errantia/ResourceShow/Component.vue'
+import ErResourceShowAttr from './errantia/ResourceShow/Attr.vue'
 
 const components = {
     VText,
@@ -85,7 +87,8 @@ const components = {
     VTableTemp,
     VInteractivePlot,
     ErAutoDrop,
-    ErHandCoding
+    ErHandCoding,
+    ErResourceShow,
 };
 const attrs = {
     VTextAttr,
@@ -115,7 +118,8 @@ const attrs = {
     VTableTempAttr,
     VInteractivePlotAttr,
     ErAutoDropAttr,
-    ErHandCodingAttr
+    ErHandCodingAttr,
+    ErResourceShowAttr,
 }
 
 export const install = function (app) {

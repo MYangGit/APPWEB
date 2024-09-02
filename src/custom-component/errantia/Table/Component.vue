@@ -24,17 +24,17 @@
                     type="text"
                     v-model="newName"
                 >
-                <div v-else >
+                <div v-else :class="{'active-row': row?.uuid === currUuid}">
                     <el-tooltip
                         effect="dark"
                         :content="row.name"
                         placement="bottom"
                     >
-                       <div 
+                       <div                 
                           class="nameText" 
                           :style="{ width: `${column.width}px` }" 
                         >
-                           {{ row.name }}
+                           {{ row.name }} 
                        </div> 
                     </el-tooltip>
                 </div>
@@ -71,6 +71,7 @@ export default {
                 dataSource: [],
                 reName: '',
                 newName: '',
+                currUuid: '',
             }),
         },
         element: {
@@ -117,6 +118,14 @@ export default {
                 getComputedSet('reName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
+        currUuid: {
+            get() {
+                return getComputedGet('currUuid', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('currUuid', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
         serialNumber () {
             return getComputedGet('serialNumber', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
         },
@@ -154,5 +163,13 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.active-row {
+    background-color: #dee2e6;
+    margin: -5px;
+    padding: 5px;
+    &:hover {
+        background-color: #e9ecef;
+    }
 }
 </style>

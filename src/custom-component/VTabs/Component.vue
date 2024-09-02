@@ -11,6 +11,7 @@
                 :key="tab.name" 
                 :label="tab.label" 
                 :name="tab.name"
+                :disabled="tab.label === visibleName"
                 class="use-tabs-active"
             >
                 <Container
@@ -34,6 +35,7 @@
                 :key="tab.name" 
                 :label="tab.label" 
                 :name="tab.name"
+                :disabled="tab.label === visibleName"
             >
                 <PreviewContainer
                     :element="element"
@@ -50,6 +52,7 @@ import { keycodes } from '@/utils/shortcutKey.js';
 import Container from '../common/Container.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
 import { rootStore } from '@/stores/rootStore';
+import { getComputedGet, getComputedSet } from '@/utils/utils';
 
 export default {
     components: {
@@ -58,8 +61,11 @@ export default {
     },
     props: {
         propValue: {
-            type: Array,
-            default: () => [],
+            type: Object,
+            default: () => ({
+                visibleName: 'visibleName',
+                autoActiveName: "autoActiveName"
+            }),
         },
         element: {
             type: Object,
@@ -79,6 +85,22 @@ export default {
         };
     },
     computed: {
+        visibleName: {
+            get() {
+                return getComputedGet('visibleName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('visibleName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        autoActiveName: {
+            get() {
+                return getComputedGet('autoActiveName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('autoActiveName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
         editMode () {
             return rootStore.editor.editMode
         },
@@ -92,6 +114,9 @@ export default {
     mounted() {
         if (this.element.tabs && this.element.tabs.length) {
             this.activeName = this.element.tabs[0].name;
+            if (this.autoActiveName === 'OFDM 网格' || this.autoActiveName === '星座图') {
+                this.activeName = this.element.tabs.find((i) => i.label === this.autoActiveName)?.name;
+            }
         }
     },
     methods: {
@@ -168,6 +193,13 @@ export default {
             range.selectNodeContents(element);
             selection.removeAllRanges();
             selection.addRange(range);
+        },
+    },
+    watch: {
+        autoActiveName(val) {
+            if (val === 'OFDM 网格' || val === '星座图') {
+                this.activeName = this.element.tabs.find((i) => i.label === val)?.name;
+            }
         },
     },
 };

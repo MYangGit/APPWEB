@@ -1,5 +1,5 @@
 import defer from 'defer-promise'
-
+import { rootStore } from '@/stores/rootStore'
 let vscode;
 if (window.acquireVsCodeApi) {
   vscode = window.acquireVsCodeApi();
@@ -11,7 +11,13 @@ if (window.acquireVsCodeApi) {
 // 目前只实现了单个请求发起
 let deferred = defer();
 export const post = async (config) => {
+  if(!config.lang){
+    config.lang = 'julia'
+  }
   config.filePath = filePath
+  if(!config.lang){
+    config.lang = 'julia'
+  }
   vscode.postMessage(config)
   deferred = defer();
   let res;
@@ -41,6 +47,10 @@ window.addEventListener('message', event => {
       return
     }
     if (message.result && message.result.inline && message.result.inline.indexOf('ERROR') > -1) {
+      rootStore.confirmBox.openConfirmBox({
+        title: '错误',
+        message: message.result.inline ?? "程序繁忙，请稍后重试。"
+      })
       deferred.resolve(false)
       return
     }
@@ -85,7 +95,7 @@ export const checkValHas = async (varNames) => {
   }
 }
 
-// 导出设计文件
+// 导入设计文件，仅支持sdf
 export const importDesignFile = async () => {
   let message = await post({
     key: 'importTextFile',
@@ -103,7 +113,7 @@ export const importDesignFile = async () => {
   return JSON.parse(fileContent);
 }
 
-// 加载 syslab 文件 param 必须满足JSON格式
+// 导出设计文件，仅支持sdf
 export const exportDesignFile = (param) => {
   let text = JSON.stringify(param, null, "\t");
   // 执行导出获取返回
@@ -113,4 +123,38 @@ export const exportDesignFile = (param) => {
     content: `${text}\n${(window).md5(text)}`,
     filePath: getFilePath(),
   })
+}
+
+// 关闭app
+export const closeApp = () => {
+  postMessage({
+    key: 'closeApp',
+    command: 'closeApp'
+  })
+}
+
+// 导出文件
+export const generateReport = (param, ext = 'jl' ) => {
+  param.content = JSON.stringify((param?.content ?? param), null, "\t");
+  // 执行导出获取返回
+  postMessage({
+    key: 'export',
+    command: 'commonExportFile',
+    content: param.content,
+    title: 'Generate Report',
+    postfix: ext,
+    defaultName: 'untitled',
+    filePath: getFilePath(),
+  })
+}
+
+// 导入文件
+export const commonImportFile = async () => {
+  let message = await post({
+    key: 'commonImportFile',
+    command: 'commonImportFile',
+    filePath: getFilePath()
+  })
+  let fileContent = message.data.value;
+  return JSON.parse(fileContent);
 }

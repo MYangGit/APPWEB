@@ -28,6 +28,7 @@ import VInteractivePlot from './VInteractivePlot/meta';
 import VTableTemp from './VTableTemp/meta';
 import ErAutoDrop from './errantia/AutoDrop/meta';
 import ErForList from './errantia/HandCoding/meta';
+import ErResourceShow from './errantia/ResourceShow/meta';
 
 
 // 编辑器左侧组件列表
@@ -60,7 +61,8 @@ const componentList = [
     // 临时业务组件
     VTableTemp,
     ErAutoDrop,
-    ErForList
+    ErForList,
+    ErResourceShow,
 ];
 
 export const commonStyle = {

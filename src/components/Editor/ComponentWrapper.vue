@@ -50,7 +50,19 @@ export default {
             }
             // 如果第一个字符是！，则取反
             if (config.visiable.value.startsWith('!')) {
-                return value !== config.visiable.value.slice(1)
+                let userValues = config.visiable.value.slice(1)
+                if (userValues.includes(',')) {
+                    return !userValues.split(',').includes(value)
+                }
+                return value !== userValues
+            }
+            // 如果是,则是多个值
+            if (config.visiable.value.includes(',')) {
+                return config.visiable.value.split(',').includes(value)
+            }
+            // 如果是,则是多个值
+            if (config.visiable.value.includes(',')) {
+                return config.visiable.value.split(',').includes(value)
             }
             // 如果是,则是多个值
             if (config.visiable.value.includes(',')) {

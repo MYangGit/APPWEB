@@ -4,6 +4,7 @@ export default {
   propValue: {
     value: '',
     label: '字段名',
+    disabled: false,
   },
   exposeAttr: ['value'],
   icon: 'input',

@@ -5,6 +5,7 @@ export default {
     options: [],
     value: '',
     label: '字段名',
+    disabled: false,
   },
   icon: 'select',
   type: 'common',

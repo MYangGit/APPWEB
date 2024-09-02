@@ -2,8 +2,10 @@
     <div class="input-wrap">
         <label v-show="label">{{ label }}：</label>
         <el-input 
-            v-model="value" 
-            size="small" 
+            v-model.lazy="value" 
+            size="small"
+            :disabled="disabled"
+            @focus="handleFocus"
             @change="handleValueChange"
             @blur="handleValublur"
         />
@@ -23,6 +25,7 @@ export default {
             default: () => ({
                 label: '',
                 value: '',
+                disabled: false,
             }),
         },
         element: {
@@ -31,8 +34,8 @@ export default {
         },
     },
     methods: {
-        handleValueChange(newVal) {
-          onChange({element: this.element, newValue: newVal})
+        handleFocus() {
+            this.oldValue = this.value
         },
         handleValublur() {
            onClickOther({element: this.element, clickName: 'blur', params: { newVal: this.value }})
@@ -54,7 +57,15 @@ export default {
             set(val) {
                 getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
-        }
+        },
+        disabled: {
+            get() {
+                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
     },
 }
 </script>

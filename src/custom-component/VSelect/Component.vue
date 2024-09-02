@@ -6,6 +6,7 @@
             size="small" 
             placeholder="请选择"
             @change="handleValueChange"
+            :disabled="disabled"
         >
             <el-option
                 v-for="item, index in options"
@@ -30,6 +31,7 @@ export default {
             type: Object,
             default: () => ({
                 value: '',
+                disabled: false,
                 options: [],
             }),
         },
@@ -66,6 +68,14 @@ export default {
             },
             set(val) {
                 getComputedSet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        disabled: {
+            get() {
+                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     }

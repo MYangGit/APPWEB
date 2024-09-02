@@ -7,6 +7,7 @@ export default {
     showOperate: false,
     serialNumber: false,
     textAlign: 'left',
+    currUuid: '',
     columns: [
         {
           title: '姓名',

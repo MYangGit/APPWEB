@@ -24,4 +24,7 @@ export default {
   position: 'top',
   childs: [],
   items: [],
+  actionBinds: {
+    onClickTab: '',
+  }
 }
