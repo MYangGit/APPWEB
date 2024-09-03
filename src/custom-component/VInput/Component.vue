@@ -39,7 +39,10 @@ export default {
         },
         handleValublur() {
            onClickOther({element: this.element, clickName: 'blur', params: { newVal: this.value }})
-        }
+        },
+        handleValueChange(newVal) {
+          onChange({element: this.element, newValue: newVal, oldValue: this.oldValue})
+        },
     },
     computed: {
         label: {

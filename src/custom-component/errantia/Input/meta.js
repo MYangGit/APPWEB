@@ -4,6 +4,8 @@ export default {
   propValue: {
     value: '',
     label: '字段名',
+    disabled: false,
+    marginLeft: 6,
   },
   icon: 'input',
   type: 'errantia',
@@ -17,8 +19,10 @@ export default {
     textAlign: '',
     color: '',
     backgroundColor: '',
+    marginLeft: 0,
   },
   actionBinds: {
-    change: ''
+    change: '',
+    blur: '',
   }
 }

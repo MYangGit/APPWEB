@@ -1,39 +1,33 @@
 <template>
     <div class="input-wrap">
-        <erFormItem :label="label" >
-            <erInput 
-                :placeholder="Placeholder"
-                :disabled="disabled"
-                :type="type" 
-                :val="value"
-                @onChangeValue="value = $event"
-                @change="handleValueChange"
-            />
-        </erFormItem>
+        <label v-show="label">{{ label }}</label>
+        <el-input 
+            :style="{marginLeft: `${marginLeft}px`}"
+            v-model.lazy="value" 
+            size="small"
+            :disabled="disabled"
+            @focus="handleFocus"
+            @change="handleValueChange"
+            @blur="handleValublur"
+        />
     </div>
 </template>
 
 <script>
 import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
-import { erFormItem, erInput } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
-const { onChange } = useEventCentre();
+const { onChange, onClickOther } = useEventCentre();
 export default {
-    components: {
-        erFormItem,
-        erInput,
-    },
     props: {
         propValue: {
             type: Object,
             default: () => ({
-                disabled: false,
-                Placeholder: '',
-                type: 'text',
                 label: '',
                 value: '',
+                disabled: false,
+                marginLeft: 6,
             }),
         },
         element: {
@@ -42,17 +36,31 @@ export default {
         },
     },
     methods: {
-        handleValueChange() {
-            onChange({element: this.element, newValue: this.value})
+        handleFocus() {
+            this.oldValue = this.value
+        },
+        handleValublur() {
+           onClickOther({element: this.element, clickName: 'blur', params: { newVal: this.value }})
+        },
+        handleValueChange(newVal) {
+          onChange({element: this.element, newValue: newVal, oldValue: this.oldValue})
         },
     },
     computed: {
-        Placeholder: {
+        label: {
             get() {
-                return getComputedGet('Placeholder', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                return getComputedGet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
             set(val) {
-                getComputedSet('Placeholder', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+                getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
         disabled: {
@@ -63,30 +71,14 @@ export default {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
-        label: {
+        marginLeft: {
             get() {
-                return getComputedGet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                return getComputedGet('marginLeft', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
             set(val) {
-                getComputedSet('label', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+                getComputedSet('marginLeft', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
-        type: {
-            get() {
-                return getComputedGet('type', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
-            },
-            set(val) {
-                getComputedSet('type', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
-            }
-        },
-        value: {
-            get() {
-                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
-            },
-            set(val) {
-                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
-            }
-        }
     },
 }
 </script>
@@ -98,6 +90,7 @@ export default {
     label {
         word-break: keep-all;
         white-space: nowrap;
+        margin-bottom: 0;
     }
 }
 </style>
