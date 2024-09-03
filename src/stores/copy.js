@@ -46,16 +46,21 @@ export const useCopyStore = defineStore('copy', () => {
         }
 
         const data = copyData.value.data
-
+        let hasParent = false
         if (rootStore.compose.isActiveContainer) {
-            const parent = rootStore.dataCenter.componentData.find(i => i.items?.some(j => j.name === state.isActiveContainer) || i.tabs?.some(j => j.name === state.isActiveContainer) || i.id === state.isActiveContainer);
+            const parent = rootStore.dataCenter.componentData.find(
+                i => i.items?.some(j => j.name === rootStore.compose.isActiveContainer) 
+                || i.tabs?.some(j => j.name === rootStore.compose.isActiveContainer) 
+                || i.id === rootStore.compose.isActiveContainer
+            );
             if (parent) {
+                hasParent = true;
                 data.activeName = rootStore.compose.isActiveContainer;
                 data.pid = parent.id;
             }
         }
 
-        if (isMouse || rootStore.compose.isActiveContainer) {
+        if ((isMouse || rootStore.compose.isActiveContainer) && !hasParent) {
             data.style.top = rootStore.contextmenu.menuTop
             data.style.left = rootStore.contextmenu.menuLeft
         } else {
@@ -74,19 +79,19 @@ export const useCopyStore = defineStore('copy', () => {
                 label: i.label,
             }));
         }
-        if (component.component === 'ErGrid') {
-            component.items = new Array(2).fill(1).map((i, j) => ({
+        if (data.component === 'ErGrid') {
+            data.items = new Array(2).fill(1).map((i, j) => ({
                 name: generateID(),
                 label: `ErGrid${j + 1}`,
             }));
         }
-        if (component.component === 'ErTabs') {
-            component.items = new Array(1).fill(1).map((i, j) => ({
+        if (data.component === 'ErTabs') {
+            data.items = new Array(1).fill(1).map((i, j) => ({
                 name: generateID(),
                 label: `ErTabs${j + 1}`,
             }));
         }
-        if(component.component === 'ErLayout') {
+        if(data.component === 'ErLayout') {
             const itemFlag = [
               { name: 'header', label: '页眉' },
               { name: 'leftSidebar', label: '左边栏' },
@@ -94,18 +99,18 @@ export const useCopyStore = defineStore('copy', () => {
               { name: 'rightSidebar', label: '右边栏' },
               { name: 'footer', label: '页脚' },
             ]
-            component.items = new Array(5).fill(1).map((i, j) => ({
+            data.items = new Array(5).fill(1).map((i, j) => ({
               name: generateID(),
               label: `ErLayout${itemFlag[j].name}`,
             }));
         }
 
-        if(component.component === 'ErCollapse') {
+        if(data.component=== 'ErCollapse') {
             const itemFlag = [
                 { name: 'only', label: '剩余空间' },
                 { name: '1', label: '第一个cord' },
             ]
-            component.items = new Array(itemFlag.length).fill(1).map((i, j) => ({
+            data.items = new Array(itemFlag.length).fill(1).map((i, j) => ({
                 name: generateID(),
                 label:  `ErCollapse${itemFlag[j].name}`,
             }));
