@@ -23,6 +23,7 @@ import ErGrid from './errantia/Grid/meta';
 import ErCheckBox from './errantia/Checkbox/meta';
 import ErTabs from './errantia/Tabs/meta';
 import VInteractivePlot from './VInteractivePlot/meta';
+import ErLine from './errantia/Line/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -63,6 +64,7 @@ const componentList = [
     ErAutoDrop,
     ErForList,
     ErResourceShow,
+    ErLine,
 ];
 
 export const commonStyle = {

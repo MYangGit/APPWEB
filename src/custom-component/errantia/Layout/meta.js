@@ -1,5 +1,3 @@
-import { h } from "vue";
-
 export default {
   component: 'ErLayout',
   label: 'Layout容器',

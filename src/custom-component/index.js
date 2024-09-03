@@ -48,6 +48,8 @@ import ErTabs from './errantia/Tabs/Component.vue'
 import ErTabsAttr from './errantia/Tabs/Attr.vue'
 import VInteractivePlot from './VInteractivePlot/Component.vue'
 import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
+import ErLine from './errantia/Line/Component.vue'
+import ErLineAttr from './errantia/Line/Attr.vue'
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -89,6 +91,7 @@ const components = {
     ErAutoDrop,
     ErHandCoding,
     ErResourceShow,
+    ErLine,
 };
 const attrs = {
     VTextAttr,
@@ -120,6 +123,7 @@ const attrs = {
     ErAutoDropAttr,
     ErHandCodingAttr,
     ErResourceShowAttr,
+    ErLineAttr,
 }
 
 export const install = function (app) {

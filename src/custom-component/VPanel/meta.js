@@ -7,8 +7,6 @@ export default {
   style: {
     width: 400,
     height: 400,
-    fixedWidth: '100%',
-    fixedHeight: '100%',
     backgroundColor: '#fff',
     display: 'block',
     borderWidth: 0,
