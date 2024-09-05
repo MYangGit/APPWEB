@@ -20,6 +20,7 @@ export default {
     fixedWidth: '',
     fixedHeight: '',
     display: 'block',
+    backgroundColor: '#ffffff',
   },
   position: 'top',
   childs: [],

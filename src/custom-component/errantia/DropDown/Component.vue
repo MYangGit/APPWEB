@@ -132,7 +132,8 @@ export default {
         isEmpty,
         handleAction(val) {
             val.e.stopPropagation();
-            onClickOther({element: this.element, clickName: 'click', params: { val }})
+            const { activateText } = this;
+            onClickOther({element: this.element, clickName: 'click', params: { val, activateText }})
         },
         onContextMenu() {
             this.showClick()
