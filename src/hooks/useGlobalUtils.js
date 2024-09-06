@@ -14,6 +14,7 @@ import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { rootStore } from '@/stores/rootStore'
 import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
+import { returnData } from '@/constant'
 
 /**
  * @description 全局公共方法暴露中心
@@ -21,6 +22,7 @@ import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/
 */
 export const useGlobalUtils = () => {
   return {
+    returnData,
     getObjValue,
     createUuid,
     deepCopy,

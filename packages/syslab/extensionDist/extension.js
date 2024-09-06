@@ -127,7 +127,7 @@ module.exports = require("vscode");
 /* 5 */
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"appName":"lala","displayName":"lala","startCommand":"lala","startTitle":"lala","publishMoHub":false,"MoHubPort":47736,"icon":"app-icon.png","version":"1.0.0","description":"这是一个无线波形发生器","appTitle":"lala","appTitleEn":"lala","appHeight":600,"appWidth":1000,"appType":"julia"}');
+module.exports = /*#__PURE__*/JSON.parse('{"appName":"antennaDesigner","displayName":"antennaDesigner","startCommand":"antennaDesigner","startTitle":"antennaDesigner","publishMoHub":false,"MoHubPort":47736,"icon":"app-icon.png","version":"1.0.0","description":"这是一个天线设计器","appTitle":"天线设计器","appTitleEn":"antennaDesigner","appHeight":750,"appWidth":1200,"appType":"julia"}');
 
 /***/ }),
 /* 6 */

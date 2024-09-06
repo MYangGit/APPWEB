@@ -15,9 +15,6 @@ export const post = async (config) => {
     config.lang = 'julia'
   }
   config.filePath = filePath
-  if(!config.lang){
-    config.lang = 'julia'
-  }
   vscode.postMessage(config)
   deferred = defer();
   let res;
@@ -40,7 +37,7 @@ export const postMessage = (config) => {
 // 处理消息返回
 window.addEventListener('message', event => {
   const message = event.data;
-  // console.log('message', message)
+  console.log('message', message)
   if (message.type === 'receiveData') {
     if (!message.result) {
       deferred.resolve(false)

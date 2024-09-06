@@ -48,7 +48,6 @@ export default {
     methods:{
         isEmpty,
         displaySrc(srcPath) {
-            console.log('srcPath', srcPath)
             if (srcPath.startsWith('http')) {
                 return srcPath
             }

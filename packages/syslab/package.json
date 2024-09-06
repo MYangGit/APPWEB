@@ -1,15 +1,15 @@
 {
-  "name": "test123",
-  "displayName": "test23",
-  "description": "test23",
+  "name": "antennaDesigner",
+  "displayName": "antennaDesigner",
+  "description": "这是一个天线设计器",
   "activationEvents": [
-    "onCommand:test123"
+    "onCommand:antennaDesigner"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "test123",
-        "title": "test123"
+        "command": "antennaDesigner",
+        "title": "antennaDesigner"
       }
     ],
     "configuration": [
