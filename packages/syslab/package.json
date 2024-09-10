@@ -1,15 +1,15 @@
 {
-  "name": "antennaDesigner",
-  "displayName": "antennaDesigner",
-  "description": "这是一个天线设计器",
+  "name": "antennaArrayDesigner",
+  "displayName": "antennaArrayDesigner",
+  "description": "这是一个天线阵列设计器",
   "activationEvents": [
-    "onCommand:antennaDesigner"
+    "onCommand:antennaArrayDesigner"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "antennaDesigner",
-        "title": "antennaDesigner"
+        "command": "antennaArrayDesigner",
+        "title": "antennaArrayDesigner"
       }
     ],
     "configuration": [
