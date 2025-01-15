@@ -196,7 +196,7 @@ function insertBeforeLastBracket(str, insertStr) {
 export const nameRepeat = (name, list, tag = '_') => {
   let newName = name;
   let ext = 1;
-  while (list.some(item => item.name === newName)) {
+  while (list?.some(item => item.name === newName)) {
     newName = insertBeforeLastBracket(name, `${tag}${ext}`);
     ext++;
   }

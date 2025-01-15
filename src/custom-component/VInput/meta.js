@@ -13,6 +13,8 @@ export default {
     width: 200,
     height: 34,
     fontSize: '',
+    fixedWidth: '',
+    fixedHeight: '',
     fontWeight: 400,
     lineHeight: '',
     letterSpacing: 0,

@@ -88,7 +88,7 @@ export default {
     },
     computed: {
         autoActiveName() {
-            if (this.tabsItem.filter((i) => i.visible).length === 1) {
+            if (this.tabsItem?.filter((i) => i.visible).length === 1) {
                 return this.tabsItem.filter((i) => i.visible)[0].name;
             }
             return this.activeName;

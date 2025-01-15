@@ -13,6 +13,8 @@ export default {
     borderWidth: 1,
     borderColor: '',
     borderRadius: '',
+    fixedWidth: "",
+    fixedHeight: "",
     fontSize: '',
     fontWeight: 400,
     lineHeight: '',

@@ -12,9 +12,11 @@
             :dataSource="dataSource"
         >   <template v-if="showOperate" v-slot:operate="{ row, index }">
                 <el-icon><Delete @click.stop="handleDelete(row, index)" /></el-icon>
+                <el-icon style="margin-left: 10px;"><Setting /></el-icon>
             </template>
-            <template v-if="serialNumber" v-slot:serialNumber="{ index }">
-               <span>{{ index }}</span>
+            <template v-if="serialNumber" v-slot:serialNumber="{ index, row }">
+               <el-checkbox v-if="row?.checkbox !== undefined" v-model="row.checkbox" />
+               <span v-else>{{ index }}</span>
             </template>
             <template v-slot:name="{ row, index, column }">
                 <input 

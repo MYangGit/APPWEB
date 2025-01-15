@@ -9,7 +9,8 @@ export default {
     textAlign: 'left',
     currUuid: '',
     columns: [
-        {
+        { 
+          type: 'selection',
           title: '姓名',
           key: 'name',
         },

@@ -12,6 +12,9 @@ import Generate from './wireless/Generate.svg'
 import EnvLoss from './radar/EnvLosses.svg'
 import PdvsRange from './radar/PdvsRange.svg'
 import metric from './radar/metric.svg'
+import add from './pulse/add.svg'
+import copy from './pulse/copy.svg'
+import deletes from './pulse/delete.svg'
 
 
 export const WIRELESS = {
@@ -25,7 +28,10 @@ export const WIRELESS = {
     Impairments,
     Visualize,
     exportIcon,
-    Generate
+    Generate,
+    add,
+    copy,
+    deletes
 }
 
 export const Radar = {
@@ -37,3 +43,4 @@ export const Radar = {
     metric,
     exportIcon
 }
+
