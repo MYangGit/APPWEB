@@ -3,6 +3,7 @@
         <label v-show="label">{{ label }}：</label>
         <el-checkbox-group  
           v-model="value"
+          :disabled="disabled"
           @change="handleValueChange"
         >
             <el-checkbox 
@@ -10,6 +11,7 @@
                 :key="index"
                 :value="item.value"
                 :label="item.label"
+                :disabled="item.disabled"
             ></el-checkbox>
         </el-checkbox-group>
     </div>
@@ -27,6 +29,7 @@ export default {
             type: Object,
             default: () => ({
                 label: '',
+                disabled: false,
                 value: [],
                 options: [],
             }),
@@ -64,6 +67,14 @@ export default {
             },
             set(val) {
                 getComputedSet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        disabled: {
+            get() {
+                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     },

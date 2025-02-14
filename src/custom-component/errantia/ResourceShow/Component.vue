@@ -11,8 +11,11 @@
 <script>
 import { getComputedGet, getComputedSet, isEmpty} from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
-
-
+import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
+const useIconS = {
+    wireless: WIRELESS,
+    radar: Radar
+}
 export default {
     props: {
         propValue: {
@@ -53,6 +56,11 @@ export default {
             }
             if (this.base64) {
                 return `data:image/png;base64,${srcPath}`
+            }
+            // 内部icon
+            const iconPathArr = srcPath.split('.')
+            if (iconPathArr.length === 2) {
+                return useIconS[iconPathArr[0]] ? useIconS[iconPathArr[0]][iconPathArr[1]] : srcPath
             }
             return srcPath
         }

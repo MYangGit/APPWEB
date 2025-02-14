@@ -16,6 +16,8 @@ export default {
     fontWeight: 400,
     lineHeight: '',
     letterSpacing: 0,
+    fixedWidth: '',
+    fixedHeight: '',
     textAlign: '',
     color: '',
     backgroundColor: '',
