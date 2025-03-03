@@ -11,6 +11,9 @@
                 <el-form-item label="禁用">
                     <el-checkbox v-model="curComponent.propValue.disabled" size="small" />
                 </el-form-item>
+                <el-form-item label="密码框">
+                    <el-checkbox v-model="curComponent.propValue.showPassword" size="small" />
+                </el-form-item>
             </el-form>
         </CommonAttr>
     </div>
