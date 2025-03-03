@@ -24,6 +24,10 @@ import ErCheckBox from './errantia/Checkbox/meta';
 import ErTabs from './errantia/Tabs/meta';
 import VInteractivePlot from './VInteractivePlot/meta';
 import ErLine from './errantia/Line/meta';
+import ErTreeSelect from './errantia/TreeSelect/meta';
+import ErTree from './errantia/Tree/meta';
+import ErDialogPro from './errantia/DialogPro/meta';
+import ErFileSelection from './errantia/FileSelection/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -65,6 +69,10 @@ const componentList = [
     ErForList,
     ErResourceShow,
     ErLine,
+    ErTreeSelect,
+    ErTree,
+    ErDialogPro,
+    ErFileSelection
 ];
 
 export const commonStyle = {

@@ -3,25 +3,27 @@ export default {
   label: '按钮',
   propValue: {
     value: '按钮',
-    disabled: false
+    activateText: '',
+    disabled: false,
+    activate: false
   },
   icon: 'button',
   type: 'common',
   style: {
     width: 100,
     height: 34,
-    borderWidth: 1,
-    borderColor: '',
+    borderWidth: 0,
+    borderBottomWidth: 0,
+    borderColor: '#ffffff',
+    borderStyle: 'solid',
     borderRadius: '',
     fixedWidth: "",
     fixedHeight: "",
     fontSize: '',
     fontWeight: 400,
-    lineHeight: '',
     letterSpacing: 0,
-    textAlign: '',
     color: '',
-    backgroundColor: '',
+    backgroundColor: '#ffffff',
   },
   actionBinds: {
     click: ''

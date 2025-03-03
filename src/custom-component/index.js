@@ -50,6 +50,14 @@ import VInteractivePlot from './VInteractivePlot/Component.vue'
 import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
 import ErLine from './errantia/Line/Component.vue'
 import ErLineAttr from './errantia/Line/Attr.vue'
+import ErTreeSelect from './errantia/TreeSelect/Component.vue'
+import ErTreeSelectAttr from './errantia/TreeSelect/Attr.vue'
+import ErTree from './errantia/Tree/Component.vue'
+import ErTreeAttr from './errantia/Tree/Attr.vue'
+import ErDialogPro from './errantia/DialogPro/Component.vue'
+import ErDialogProAttr from './errantia/DialogPro/Attr.vue'
+import ErFileSelection from './errantia/FileSelection/Component.vue'
+import ErFileSelectionAttr from './errantia/FileSelection/Attr.vue'
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -92,6 +100,10 @@ const components = {
     ErHandCoding,
     ErResourceShow,
     ErLine,
+    ErTreeSelect,
+    ErTree,
+    ErDialogPro,
+    ErFileSelection
 };
 const attrs = {
     VTextAttr,
@@ -124,6 +136,10 @@ const attrs = {
     ErHandCodingAttr,
     ErResourceShowAttr,
     ErLineAttr,
+    ErTreeSelectAttr,
+    ErTreeAttr,
+    ErDialogProAttr,
+    ErFileSelectionAttr
 }
 
 export const install = function (app) {

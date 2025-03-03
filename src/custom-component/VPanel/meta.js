@@ -3,7 +3,9 @@ export default {
   label: '面板',
   icon: 'VPanel',
   type: 'box',
-  propValue: {},
+  propValue: {
+    srcPath: ''
+  },
   style: {
     width: 400,
     height: 400,

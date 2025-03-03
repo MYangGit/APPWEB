@@ -2,10 +2,10 @@
     <div @mouseenter="onMouseEnter">
         <component
             :is="config.component"
+            v-if="getShowState(config)"
             ref="component"
             :class="layoutType === 'flex' ? 'flex-component' : 'component'"
             @click="handleActionClick"
-            v-if="getShowState(config)"
             :style="getStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
@@ -17,10 +17,9 @@
 import { getStyle } from '@/utils/style';
 import runAnimation from '@/utils/runAnimation';
 import { mixins } from '@/utils/events';
-import { getValueByDotKey } from '@/utils/utils'
+import { getValueByDotKey, isEmpty } from '@/utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
-import { isEmpty } from '@/utils/utils';
 
 const { onClick } = useEventCentre();
 export default {
@@ -55,14 +54,6 @@ export default {
                     return !userValues.split(',').includes(value)
                 }
                 return value !== userValues
-            }
-            // 如果是,则是多个值
-            if (config.visiable.value.includes(',')) {
-                return config.visiable.value.split(',').includes(value)
-            }
-            // 如果是,则是多个值
-            if (config.visiable.value.includes(',')) {
-                return config.visiable.value.split(',').includes(value)
             }
             // 如果是,则是多个值
             if (config.visiable.value.includes(',')) {

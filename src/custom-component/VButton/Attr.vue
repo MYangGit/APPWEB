@@ -5,6 +5,12 @@
                 <el-form-item label="禁用">
                     <el-switch v-model="curComponent.propValue.disabled" />
                 </el-form-item>
+                <el-form-item label="选中：">
+                    <el-checkbox v-model="curComponent.propValue.activate"  size="small" />
+                </el-form-item>
+                <el-form-item label="匹配内容选中：">
+                    <el-input  v-model="curComponent.propValue.activateText"  size="small" />
+                </el-form-item>
                 <el-form-item label="内容">
                     <el-input v-model="curComponent.propValue.value" type="textarea" :rows="3" />
                 </el-form-item>

@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div :style="displaySrcUseCss(srcPath)">
        <img 
-        v-if="!isEmpty(srcPath)"
+        v-if="!isEmpty(srcPath) && !cssBg"
         class="resource-show"
         :src="displaySrc(srcPath)"
        >
@@ -12,6 +12,7 @@
 import { getComputedGet, getComputedSet, isEmpty} from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
+
 const useIconS = {
     wireless: WIRELESS,
     radar: Radar
@@ -23,6 +24,7 @@ export default {
             default: () => ({
                 srcPath: '',
                 base64: false,
+                cssBg: false
             }),
         },
         element: {
@@ -47,6 +49,14 @@ export default {
                 getComputedSet('base64', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
+        cssBg: {
+            get() {
+                return getComputedGet('cssBg', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('cssBg', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
     },
     methods:{
         isEmpty,
@@ -62,8 +72,25 @@ export default {
             if (iconPathArr.length === 2) {
                 return useIconS[iconPathArr[0]] ? useIconS[iconPathArr[0]][iconPathArr[1]] : srcPath
             }
-            return srcPath
+            return srcPath 
+        },
+        displaySrcUseCss(srcPath) {
+            if (this.cssBg) {
+                let cssPath = srcPath
+                if (this.base64) {
+                    cssPath = `data:image/png;base64,${srcPath}`
+                }
+                return {
+                    backgroundImage: `url(${cssPath})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: '50% center',
+                    width: '100%'
+                }
+            }
+            return {}
         }
+        
     }
 }
 </script>

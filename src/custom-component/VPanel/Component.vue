@@ -1,6 +1,10 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div v-if="editMode == 'edit'" class="v-tabs">
+    <div 
+        v-if="editMode == 'edit'" 
+        class="v-tabs"
+        :style="displaySrcUseCss(srcPath)"
+    >
         <Container
             :element="element"
             :name="element.id"
@@ -8,7 +12,11 @@
         >
         </Container>
     </div>
-    <div v-else class="v-tabs preview">
+    <div 
+        v-else 
+        class="v-tabs preview"
+        :style="displaySrcUseCss(srcPath)"
+    >
         <PreviewContainer
             :element="element"
             :name="element.id"
@@ -21,6 +29,7 @@
 import Container from '../common/Container.vue';
 import PreviewContainer from '../common/PreviewContainer.vue';
 import { rootStore } from '@/stores/rootStore';
+import { getComputedGet, getComputedSet, isEmpty} from '../../utils/utils'
 
 export default {
     components: {
@@ -30,7 +39,9 @@ export default {
     props: {
         propValue: {
             type: Object,
-            default: () => {},
+            default: () => ({
+                srcPath: '',
+            }),
         },
         element: {
             type: Object,
@@ -57,11 +68,29 @@ export default {
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
         },
-    },
-    mounted() {
+        srcPath: {
+            get() {
+                return getComputedGet('srcPath', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('srcPath', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
     },
     methods: {
-
+        isEmpty,
+        displaySrcUseCss(srcPath) {
+            if (!isEmpty(srcPath)) {
+                return {
+                    backgroundImage: `url(${srcPath})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: '50% center',
+                    width: '100%'
+                }
+            }
+            return {}
+        }
     },
 };
 </script>

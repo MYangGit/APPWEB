@@ -1,6 +1,15 @@
 <template>
     <div class="attr-list">
         <CommonAttr>
+            <el-form>
+                <el-form-item label="背景图片地址：">
+                        <el-input 
+                            v-model="curComponent.propValue.srcPath" 
+                            size="small" 
+                            type="textarea" 
+                        />
+                </el-form-item>
+            </el-form>
         </CommonAttr>
     </div>
 </template>
@@ -15,8 +24,6 @@ export default {
         curComponent() {
             return rootStore.dataCenter.curComponent
         },
-    },
-    methods: {
     },
 };
 </script>
