@@ -168,10 +168,7 @@ const deselectCurComponent = (e) => {
         >
           <Editor />
         </div>
-        <div
-          v-if="mode === 'code'"
-          class="content"
-        >
+        <div v-if="mode === 'code'" class="content">
           <CodeEdit />
         </div>
         <DataCenter v-if="mode === 'dataCenter'" />

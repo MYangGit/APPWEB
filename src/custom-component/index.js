@@ -58,6 +58,10 @@ import ErDialogPro from './errantia/DialogPro/Component.vue'
 import ErDialogProAttr from './errantia/DialogPro/Attr.vue'
 import ErFileSelection from './errantia/FileSelection/Component.vue'
 import ErFileSelectionAttr from './errantia/FileSelection/Attr.vue'
+import ErForm from './errantia/Form/Component.vue'
+import ErFormAttr from './errantia/Form/Attr.vue'
+import ErIcon from "./errantia/Icon/Component.vue"
+import ErIconAttr from "./errantia/Icon/Attr.vue"
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -103,7 +107,9 @@ const components = {
     ErTreeSelect,
     ErTree,
     ErDialogPro,
-    ErFileSelection
+    ErFileSelection,
+    ErForm,
+    ErIcon
 };
 const attrs = {
     VTextAttr,
@@ -139,7 +145,9 @@ const attrs = {
     ErTreeSelectAttr,
     ErTreeAttr,
     ErDialogProAttr,
-    ErFileSelectionAttr
+    ErFileSelectionAttr,
+    ErFormAttr,
+    ErIconAttr
 }
 
 export const install = function (app) {

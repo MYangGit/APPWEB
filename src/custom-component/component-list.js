@@ -28,6 +28,8 @@ import ErTreeSelect from './errantia/TreeSelect/meta';
 import ErTree from './errantia/Tree/meta';
 import ErDialogPro from './errantia/DialogPro/meta';
 import ErFileSelection from './errantia/FileSelection/meta';
+import ErForm from './errantia/Form/meta';
+import ErIcon from './errantia/Icon/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -72,7 +74,9 @@ const componentList = [
     ErTreeSelect,
     ErTree,
     ErDialogPro,
-    ErFileSelection
+    ErFileSelection,
+    ErForm,
+    ErIcon
 ];
 
 export const commonStyle = {
