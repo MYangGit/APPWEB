@@ -36,6 +36,9 @@ export default {
         },
         watchRegisters () {
             return rootStore.dataConfig.watchRegisters
+        },
+        actionSet () {
+            return rootStore.dataConfig.actionSet
         }
     },
     watch: {
@@ -43,6 +46,14 @@ export default {
             handler(val) {
                 if (!val) return
                 this.initWatch()
+            },
+            deep: true,
+            immediate: true
+        },
+        actionSet:{
+            handler(val) {
+                if (!val) return
+                this.initialize()
             },
             deep: true,
             immediate: true

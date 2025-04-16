@@ -26,7 +26,16 @@ export default defineConfig(({mode}) => {
       extensions: ['.vue', '.js', '.ts']
     },
     build: {
-      outDir: mode === 'app' ? 'packages/syslab/dist' : 'dist',
+      outDir: mode === 'app' ? 'packages/syslab/dist' : mode === 'web' ? 'packages/web/dist' : 'dist',
+    },
+    server: {
+      proxy: {
+        '/gateway': {
+          target: 'http://172.16.3.156:8080', // 后端地址
+          changeOrigin: true, // 修改请求头中的 Origin 为目标域名
+          rewrite: (path) => path.replace(/^\/api/, ''), // 移除路径中的 /api 前缀
+        }
+      }
     }
   }
 })

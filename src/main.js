@@ -15,10 +15,11 @@ import '../node_modules/errantia/dist/style.css'
 import App from './App.vue'
 import AppSyslab from './AppSyslab.vue';
 import router from './router/index.js'
-import { isSyslabApp } from '@/utils/isPreviewOrApp'
-import sizeDirect from './directives/sizeDirect'
+import { isSyslabApp, isWebApp } from '@/utils/isPreviewOrApp'
+import { sizeDirect, dialogDragAndZoom } from './directives/index.js'
 
-const EnterApp = isSyslabApp() ? AppSyslab : App
+
+const EnterApp = (isSyslabApp() || isWebApp()) ? AppSyslab : App
 
 const app = createApp(EnterApp);
 
@@ -28,6 +29,7 @@ if (!isSyslabApp()) {
 
 app.use(pinia)
 app.directive('size-ob', sizeDirect)
+app.directive('dialogDragAndZoom', dialogDragAndZoom)
 app.use(ElementPlus)
 app.use(CustomComponent)
 app.use(Errantia)

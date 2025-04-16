@@ -12,24 +12,22 @@ import {
 } from '@/services/request/connectBase'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
+import { useAxios } from '@/hooks/useAxios'
 import { rootStore } from '@/stores/rootStore'
 import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
-import { returnData } from '@/constant'
 
 /**
  * @description 全局公共方法暴露中心
  * @returns 
 */
 export const useGlobalUtils = () => {
+  const { axios } = useAxios()
   return {
-    returnData,
+    axios,
     getObjValue,
     createUuid,
     deepCopy,
-    commonImportFile,
-    getObjValue,
     generateReport,
-    createUuid,
     closeApp,
     importDesignFile,
     exportDesignFile,
