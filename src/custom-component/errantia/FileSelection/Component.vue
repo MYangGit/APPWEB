@@ -5,6 +5,7 @@
             type="file"
             :disabled="disabled"
             :style="{marginLeft: `${marginLeft}px`}"
+            @change="handleFileChange"
         />
     </div>
 </template>
@@ -14,7 +15,7 @@ import { rootStore } from '@/stores/rootStore';
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
-const { onChange, onClickOther } = useEventCentre();
+const { onChange } = useEventCentre();
 export default {
     props: {
         propValue: {
@@ -32,15 +33,10 @@ export default {
         },
     },
     methods: {
-        handleFocus() {
-            this.oldValue = this.value
-        },
-        handleValublur() {
-           onClickOther({element: this.element, clickName: 'blur', params: { newVal: this.value }})
-        },
-        handleValueChange(newVal) {
-          onChange({element: this.element, newValue: newVal, oldValue: this.oldValue})
-        },
+        handleFileChange(newVal) {
+          this.value = newVal.target.files[0];
+          onChange({element: this.element, newValue: newVal})
+        }
     },
     computed: {
         label: {

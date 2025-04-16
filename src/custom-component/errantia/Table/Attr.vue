@@ -8,14 +8,26 @@
                     <el-radio value="center" size="large">居中</el-radio>
                     <el-radio value="right" size="large">靠右</el-radio>
                 </el-radio-group>
+                <el-form-item label="表头溢出不换行：">
+                    <el-checkbox  v-model="curComponent.propValue.overflowWrap"  size="small" />
+                </el-form-item>
+                <el-form-item label="匹配内容选中：">
+                    <el-input  v-model="curComponent.propValue.activateText"  size="small" />
+                </el-form-item>
                 <el-form-item label="显示边框：">
                     <el-checkbox v-model="curComponent.propValue.showBorder" size="small" />
                 </el-form-item>
                 <el-form-item label="可选中行：">
                     <el-checkbox v-model="curComponent.propValue.activeClickRow" size="small" />
                 </el-form-item>
+                <el-form-item label="无数据提示：">
+                    <el-checkbox v-model="curComponent.propValue.noDataHints" size="small" />
+                </el-form-item>
                 <el-form-item label="选中uuid：">
                     <el-input v-model="curComponent.propValue.currUuid" size="small" />
+                </el-form-item>
+                <el-form-item label="数据uuid：">
+                    <el-input v-model="curComponent.propValue.dataUuid" size="small" />
                 </el-form-item>
                 <el-form-item label="操作：">
                     <el-checkbox 
@@ -58,6 +70,13 @@
                                     size="small" 
                                 />
                             </el-form-item>
+                            <el-form-item label="type:">
+                                <el-input 
+                                    type="text" 
+                                    v-model="item.type" 
+                                    size="small" 
+                                />
+                            </el-form-item>
                             <el-form-item label="key:">
                                 <el-input 
                                     type="text" 
@@ -75,6 +94,12 @@
                             <el-form-item label="slot:">
                                 <el-input 
                                     v-model="item.slot" 
+                                    size="small" 
+                                />
+                            </el-form-item>
+                            <el-form-item label="openOperate:">
+                                <el-input 
+                                    v-model="item.openOperate" 
                                     size="small" 
                                 />
                             </el-form-item>

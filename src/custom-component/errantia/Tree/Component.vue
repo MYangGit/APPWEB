@@ -1,12 +1,16 @@
 <template>
     <div class="input-wrap">
         <el-tree
+            ref="treeRef"
             style="width: 100%; height: 100%;"
-            :data="options"
             show-checkbox
-            node-key="id"
+            :data="options"
+            :default-checked-keys="value"
+            :node-key="propValue.nodeKey"
             :props="defaultProps"
+            @check-change="handleValueChange"
         />
+        
     </div>
 </template>
 
@@ -15,7 +19,7 @@ import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';   
 
-const { onChange } = useEventCentre();
+const { onClickOther } = useEventCentre();
 export default {
     data() {
         return {
@@ -29,6 +33,9 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                nodeKey: "id",
+                value:[],
+                activateText: "",
                 disabled: false,
                 options: [
                     {
@@ -74,8 +81,8 @@ export default {
         },
     },
     methods: {
-        handleValueChange(newVal) {
-            onChange({element: this.element, newValue: newVal})
+        handleValueChange(data, checked, indeterminate) {
+            onClickOther({element: this.element, clickName: 'click', params: { data, checked, indeterminate, activateText:this.activateText, treeRef: this.$refs.treeRef}})
         },
     },
     computed: {
@@ -93,6 +100,23 @@ export default {
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        activateText: {
+            get() {
+                return getComputedGet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        value: {
+            get() {
+                return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                this.updateCheckedKeys(val)
+                getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     }

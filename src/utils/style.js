@@ -17,7 +17,7 @@ export function getShapeStyle(style) {
     return result;
 }
 
-const needUnit = ['fontSize', 'width', 'height', 'top', 'left', 'borderWidth', 'borderBottomWidth', 'letterSpacing', 'borderRadius', 'marginLeft'];
+const needUnit = ['fontSize', 'width', 'height', 'top', 'left', 'borderWidth', 'borderBottomWidth', 'letterSpacing', 'borderRadius', 'marginLeft', 'padding'];
 
 export function getSVGStyle(style, filter = []) {
     const result = {

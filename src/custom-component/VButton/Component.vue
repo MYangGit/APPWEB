@@ -2,7 +2,6 @@
     <div :class="{disabledStyle: disabled, checkStyle: isActivated }"  >
         <div 
             class="v-button" 
-            
             @click="handleAction"
         >
             {{ value }}

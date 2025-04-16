@@ -9,16 +9,15 @@
             <el-checkbox 
                 v-for="item, index in options"
                 :key="index"
-                :value="item.value"
                 :label="item.label"
-                :disabled="item.disabled"
+                :value="item.value"
             ></el-checkbox>
         </el-checkbox-group>
     </div>
 </template>
 
 <script>
-import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
@@ -28,6 +27,7 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                disabledText: "",
                 label: '',
                 disabled: false,
                 value: [],
@@ -40,6 +40,7 @@ export default {
         },
     },
     methods: {
+        isEmpty,
         handleValueChange(newVal) {
             onChange({element: this.element, newValue: newVal})
         },
@@ -71,7 +72,17 @@ export default {
         },
         disabled: {
             get() {
-                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                if(typeof disVal === "boolean"){
+                    if(this.propValue.disabledText === "!"){
+                       return !disVal
+                    }
+                    return disVal
+                }
+                if(!this.isEmpty(this.propValue.disabledText)){
+                    return (disVal === this.propValue.disabledText)
+                }
+                return this.isEmpty(disVal)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

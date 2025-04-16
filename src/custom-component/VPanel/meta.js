@@ -16,6 +16,7 @@ export default {
     borderStyle: 'solid',
     fixedWidth: '',
     fixedHeight: '',
+    padding: 0
   },
   childs: [],
   position: 'top',

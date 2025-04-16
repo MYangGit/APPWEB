@@ -1,6 +1,12 @@
 <template>
     <div class="attr-list">
         <CommonAttr>
+            <el-form-item label="固定name板内容:">
+                <el-input v-model="curComponent.propValue.fixed" size="small" />
+            </el-form-item>
+            <el-form-item label="匹配内容选中：">
+                <el-input  v-model="curComponent.propValue.activateText"  size="small" />
+            </el-form-item>
             <div class="attr-title">位置</div>
             <el-radio-group v-model="curComponent.position" style="margin-bottom: 30px">
                 <el-radio-button value="top">top</el-radio-button>
@@ -28,6 +34,14 @@
                     </template>
                     <el-form>
                         <br/>
+                        <el-form-item label="name:">
+                            <el-input
+                                disabled
+                                type="text" 
+                                v-model="item.name" 
+                                size="small" 
+                            />
+                        </el-form-item>
                         <el-form-item label="禁用:">
                             <el-checkbox v-model="item.disabled"  size="small" />
                         </el-form-item>

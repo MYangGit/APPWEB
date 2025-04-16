@@ -161,6 +161,10 @@ export const getComputedSet = (key, dataBinds, stateSet, propValue, val) => {
  * @returns {boolean}
  */
 export const isEmpty = (key) => {
+  // 处理 File 对象（判断 size）
+  if (key instanceof File) {
+    return key.size === 0;
+  }
   switch (typeof key) {
     case 'string':
       return key.trim().length === 0;

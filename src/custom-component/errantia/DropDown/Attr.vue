@@ -11,6 +11,9 @@
                 <el-form-item label="匹配内容选中：">
                     <el-input  v-model="curComponent.propValue.activateText"  size="small" />
                 </el-form-item>
+                <el-form-item label="禁用文本：">
+                    <el-input v-model="curComponent.propValue.disabledText" size="small" />
+                </el-form-item>
                 <el-form-item label="标题：">
                     <el-input  v-model="curComponent.propValue.title"  size="small" />
                 </el-form-item>

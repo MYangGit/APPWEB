@@ -3,7 +3,7 @@
     <div :class="{'layout-css': editMode == 'edit' || !isEmpty(element.style.fixedHeight) }">
         <erLayout
             :outStyleHeader="{
-                height: propValue.showHeader ? `${propValue.heightHeader}px`: '0px',
+                height: showHeader ? `${propValue.heightHeader}px`: '0px',
                 backgroundColor: propValue.headerColor,
             }"
             :outStyleLeftSidebar="{
@@ -171,6 +171,14 @@ export default {
             },
             set(val) {
                 getComputedSet('showFooter', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        showHeader: {
+            get() {
+                return getComputedGet('showHeader', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('showHeader', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     },

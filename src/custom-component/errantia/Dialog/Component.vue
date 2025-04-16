@@ -2,7 +2,7 @@
 <template>
     <div v-show="isShowVisible || propValue.showVisible" :class="{'erdialog-header': propValue.showDialogHeader, 'erdialog-footer': true}">
         <erDialog 
-            :title="propValue.title"
+            :title="title"
             :width="propValue.width + 'px'"
             :outStyleBody="{height: propValue.height + 'px', flex: 'none'}"
             :isVisible="isShowVisible || propValue.showVisible"
@@ -75,6 +75,14 @@ export default {
             },
             set(val) {
                 getComputedSet('isShowVisible', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        title: {
+            get() {
+                return getComputedGet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         }
     },

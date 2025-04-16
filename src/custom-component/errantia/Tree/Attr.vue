@@ -5,6 +5,15 @@
                 <el-form-item label="禁用">
                     <el-switch v-model="curComponent.propValue.disabled" size="small" />
                 </el-form-item>
+                <el-form-item label="匹配内容选中：">
+                    <el-input  v-model="curComponent.propValue.activateText"  size="small" />
+                </el-form-item>
+                <el-form-item label="value">
+                    <el-input  v-model="curComponent.propValue.value"  size="small" />
+                </el-form-item>
+                <el-form-item label="树形节点key">
+                    <el-input  v-model="curComponent.propValue.nodeKey"  size="small" />
+                </el-form-item>
                 <el-form-item label="树形列表">
                     <el-button size="small" @click="add">+</el-button>
                 </el-form-item>

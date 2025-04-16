@@ -39,6 +39,9 @@ export default {
         }, 
     ],
     disabled: false,
+    activateText: "",
+    value:[],
+    nodeKey: "id"
   },
   icon: 'select',
   type: 'errantia',
@@ -56,6 +59,6 @@ export default {
     backgroundColor: '',
   },
   actionBinds: {
-    change: ''
+    click: ''
   }
 }

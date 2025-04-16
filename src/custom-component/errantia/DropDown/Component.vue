@@ -12,7 +12,7 @@
                         :hasSubscript="propValue.hasSubscript"
                         :horizontal="propValue.horizontal"
                         :iconPath="useIcon(propValue.iconPath)"
-                        :title="propValue.title"
+                        :title="title"
                         @onAction="handleAction"
                         @onContextMenu="onContextMenu"
                     />
@@ -56,6 +56,7 @@ import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
+import { re } from 'mathjs';
 const useIconS = {
     wireless: WIRELESS,
     radar: Radar
@@ -71,6 +72,7 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                disabledText: '',
                 title: '标题',
                 titleWidth: 100,
                 disabled: false,
@@ -94,9 +96,30 @@ export default {
         return {};
     },
     computed: {
+        title: {
+            get() {
+                return getComputedGet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
         disabled: {
             get() {
-                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                if(typeof disVal === "boolean"){
+                    if(this.propValue?.disabledText === "!"){
+                       return !disVal
+                    }
+                    return disVal
+                }
+                if(!this.isEmpty(this.propValue?.disabledText)){
+                    if(this.propValue?.disabledText.startsWith("!")){
+                        return disVal !== this.propValue.disabledText.substring(1)
+                    }
+                    return (disVal === this.propValue.disabledText)
+                }
+                return this.isEmpty(disVal)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

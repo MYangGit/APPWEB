@@ -8,6 +8,9 @@
                 <el-form-item label="全部禁用：">
                     <el-checkbox v-model="curComponent.propValue.disabled" size="small" />
                 </el-form-item>
+                <el-form-item label="禁用文本：">
+                    <el-input v-model="curComponent.propValue.disabledText" size="small" />
+                </el-form-item>
                 <el-form-item label="多选框列表">
                     <el-button size="small" @click="add">+</el-button>
                     <el-form v-for="item, index in options" :key="index" :inline="true" size="small" style="padding: 10px 0">

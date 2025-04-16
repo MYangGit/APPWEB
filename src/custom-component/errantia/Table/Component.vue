@@ -4,44 +4,70 @@
             :style="{'text-align': propValue.textAlign}"
             :borders="propValue.showBorder"
             :activeClickRow="propValue.activeClickRow"
+            :outStyleHeader="{position: 'sticky', zIndex: 99, top: '0px',  ...(propValue.overflowWrap ? { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'} : {})}" 
+            :columns="columns"
+            :dataSource="dataSource"
             @onContextMenuRow="handleContextMenuRow"
             @onDbClickRow="handleDbClickRow"
             @onClickRow="handleClickRow"
-            :outStyleHeader="{position: 'sticky', top: '0px'}"
-            :columns="columns"
-            :dataSource="dataSource"
-        >   <template v-if="showOperate" v-slot:operate="{ row, index }">
-                <el-icon><Delete @click.stop="handleDelete(row, index)" /></el-icon>
-                <el-icon style="margin-left: 10px;"><Setting /></el-icon>
+        >   <template v-if="showOperate" v-slot:operate="{ row, index, column }">
+                <erFlex justify="space-around" aligns="center" >
+                    <el-icon v-if="column['openOperate']?.includes('delete')"><Delete @click.stop="handleOperate(row, index, 'delete' )" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('edit')"><Edit @click.stop="handleOperate(row, index, 'edit')" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('pause')"><VideoPause @click.stop="handleOperate(row, index, 'pause')" /></el-icon>
+                </erFlex>
             </template>
-            <template v-if="serialNumber" v-slot:serialNumber="{ index, row }">
-               <el-checkbox v-if="row?.checkbox !== undefined" v-model="row.checkbox" />
-               <span v-else>{{ index }}</span>
+            <template v-if="serialNumber" v-slot:serialNumber="{ index }">
+               <span>{{ index }}</span>
             </template>
             <template v-slot:name="{ row, index, column }">
                 <input 
-                    v-if="reName == row.name"
+                    v-if="reName == row[column.key]"
                     @blur="handNameBlur(row, index)" 
                     style="width: 100%;" 
                     type="text"
                     v-model="newName"
                 >
-                <div v-else :class="{'active-row': row?.uuid === currUuid}">
+                <div v-else :class="{'active-row': row[propValue.dataUuid] === currUuid}">
                     <el-tooltip
                         effect="dark"
-                        :content="row.name"
+                        :content="row[column.key]"
                         placement="bottom"
                     >
                        <div                 
                           class="nameText" 
-                          :style="{ width: `${column.width}px` }" 
+                          :style="{ width: `${column?.width}px` }" 
                         >
-                           {{ row.name }} 
+                           {{ row[column.key] }}
                        </div> 
                     </el-tooltip>
                 </div>
             </template>
+            <template v-slot:custom="{ row, index, column }">
+                <div @click.stop :class="{'active-row1': row[propValue.dataUuid] === currUuid}">
+                    <el-checkbox 
+                        v-if="column?.type === 'checkbox'" 
+                        v-model="row[column.key]" 
+                        @change="handleRowCheckbox(row, index, column)"
+                    />
+                    <el-input
+                        v-else-if="column?.type === 'input'"
+                        type="text"
+                        style="width: 100%;" 
+                        v-model="row[column.key]"
+                    />
+                    <el-tooltip
+                        v-else
+                        effect="dark"
+                        :content="row[column.key]"
+                        placement="bottom"
+                    >
+                       <div class="nameText" :style="{ width: `${column?.width}px` }"  >{{row[column.key]}}</div>
+                   </el-tooltip>
+                </div>
+            </template> 
         </erTable>
+        <div v-if="isEmpty(dataSource) && propValue.noDataHints" style="height: 100px; margin: 0 auto;">暂无数据</div>
     </div>
 </template>
 
@@ -50,12 +76,13 @@ import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
 import { getComputedGet, getComputedSet, isEmpty } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
-import { erTable } from 'errantia';
+import { erFlex, erTable } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
 
 const { onClickOther } = useEventCentre();
 export default {
     components: {
+        erFlex,
         erTable,
         Container,
         PreviewContainer,
@@ -64,6 +91,9 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                noDataHints: false,
+                overflowWrap: false,
+                activateText: "",
                 showBorder: false,
                 activeClickRow: false,
                 showOperate: false,
@@ -74,6 +104,7 @@ export default {
                 reName: '',
                 newName: '',
                 currUuid: '',
+                dataUuid: '',
             }),
         },
         element: {
@@ -82,26 +113,30 @@ export default {
         },
     },
     methods: {
+        isEmpty,
         handNameBlur(row, index) {
-            onClickOther({element: this.element, clickName: 'onNameBlur', params: { newName: this.newName, row, index}})
+            onClickOther({element: this.element, clickName: 'onNameBlur', params: { newName: this.newName, row, index, activateText: this.activateText}})
             this.reName = ''
             if(isEmpty(this.newName)) return
             this.dataSource[index].name = this.newName
         },
         handleClickRow(e, row, index) {
-            onClickOther({element: this.element, clickName:'onClickRow', params: { e, row, index } })
+            onClickOther({element: this.element, clickName:'onClickRow', params: { e, row, index, activateText: this.activateText } })
         },
         handleDbClickRow(e, row, index, col, colIndex) {
             this.reName = row.name
             this.newName = row.name
-            onClickOther({element: this.element, clickName:'onDbClickRow', params: { e, row, index, col, colIndex } })
+            onClickOther({element: this.element, clickName:'onDbClickRow', params: { e, row, index, col, colIndex, activateText: this.activateText} })
         },
         handleContextMenuRow(e, row, index) {
-            onClickOther({element: this.element, clickName:'onContextMenuRow', params: { e, row, index } })
+            onClickOther({element: this.element, clickName:'onContextMenuRow', params: { e, row, index, activateText: this.activateText} })
         },
-        handleDelete(row, index) {
-            onClickOther({element: this.element, clickName:'onClickDelete', params: { row, index } })
-        }
+        handleRowCheckbox(row, index, column) {
+          onClickOther({element: this.element, clickName:'onClickCheckbox', params: { row, index, column, activateText: this.activateText }})
+        },
+        handleOperate(row, index, operate) {
+            onClickOther({element: this.element, clickName:'onClickOperate', params: { row, index, operate, activateText: this.activateText }})
+        },
     },
     computed: {
         newName: {
@@ -126,6 +161,14 @@ export default {
             },
             set(val) {
                 getComputedSet('currUuid', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        activateText: {
+            get() {
+                return getComputedGet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('activateText', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
         serialNumber () {
@@ -157,9 +200,11 @@ export default {
 <style lang="less" scoped>
 .input-wrap {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     overflow-y: auto;
+    user-select: text !important;
 }
 .nameText {
     overflow: hidden;
@@ -170,6 +215,14 @@ export default {
     background-color: #dee2e6;
     margin: -5px;
     padding: 5px;
+    &:hover {
+        background-color: #e9ecef;
+    }
+}
+.active-row1 {
+    margin: -7px;
+    padding-left: 4px;
+    background-color: #dee2e6;
     &:hover {
         background-color: #e9ecef;
     }
