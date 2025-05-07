@@ -43,7 +43,7 @@
                     </el-tooltip>
                 </div>
             </template>
-            <template v-slot:custom="{ row, index, column }">
+            <template v-slot:custom="{ row, index, column, colIdx }">
                 <div @click.stop :class="{'active-row1': row[propValue.dataUuid] === currUuid}">
                     <el-checkbox 
                         v-if="column?.type === 'checkbox'" 
@@ -55,6 +55,7 @@
                         type="text"
                         style="width: 100%;" 
                         v-model="row[column.key]"
+                        @paste.stop="handlePaste($event, index, colIdx)"
                     />
                     <el-tooltip
                         v-else
@@ -74,7 +75,7 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import { getComputedGet, getComputedSet, isEmpty } from '../../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty, createUuid } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { erFlex, erTable } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
@@ -114,6 +115,37 @@ export default {
     },
     methods: {
         isEmpty,
+        handlePaste(event, rowIndex, colIndex) {
+            event.preventDefault()
+            event.stopPropagation()
+            const clipboardData = event.clipboardData
+            const text = clipboardData.getData('text/plain');
+            const pastedText = text.split('\n').map(line => line.split('\t').map(item => item.replace('\r', '')))
+            // 动态添加缺失的行
+            const neededRows = rowIndex + pastedText.length;
+            if (neededRows > this.dataSource.length) {
+                const addCount = neededRows - this.dataSource.length;
+                for (let i = 0; i < addCount; i++) {
+                    const newRow = {
+                        uuid: createUuid()
+                    };
+                    this.columns.forEach(col => {
+                        newRow[col.key] = '';
+                    });
+                    this.dataSource.push(newRow);
+                }
+            }
+            // 遍历粘贴的文本行和列
+            pastedText.forEach((pastedRow, rowOffset) => {
+                const targetRowIndex = rowIndex + rowOffset;
+                if (targetRowIndex >= this.dataSource.length) return;
+                pastedRow.forEach((cell, colOffset) => {
+                    const targetColIndex = colIndex + colOffset;
+                    if (targetColIndex >= this.columns.length) return;
+                    this.dataSource[targetRowIndex][this.columns[targetColIndex].key] = cell;
+                });
+            });
+        },
         handNameBlur(row, index) {
             onClickOther({element: this.element, clickName: 'onNameBlur', params: { newName: this.newName, row, index, activateText: this.activateText}})
             this.reName = ''
