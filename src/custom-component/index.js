@@ -54,8 +54,8 @@ import ErTreeSelect from './errantia/TreeSelect/Component.vue'
 import ErTreeSelectAttr from './errantia/TreeSelect/Attr.vue'
 import ErTree from './errantia/Tree/Component.vue'
 import ErTreeAttr from './errantia/Tree/Attr.vue'
-import ErDialogPro from './errantia/DialogPro/Component.vue'
-import ErDialogProAttr from './errantia/DialogPro/Attr.vue'
+import ErWindow from './errantia/Window/Component.vue'
+import ErWindowAttr from './errantia/Window/Attr.vue'
 import ErFileSelection from './errantia/FileSelection/Component.vue'
 import ErFileSelectionAttr from './errantia/FileSelection/Attr.vue'
 import ErForm from './errantia/Form/Component.vue'
@@ -106,7 +106,7 @@ const components = {
     ErLine,
     ErTreeSelect,
     ErTree,
-    ErDialogPro,
+    ErWindow,
     ErFileSelection,
     ErForm,
     ErIcon
@@ -144,7 +144,7 @@ const attrs = {
     ErLineAttr,
     ErTreeSelectAttr,
     ErTreeAttr,
-    ErDialogProAttr,
+    ErWindowAttr,
     ErFileSelectionAttr,
     ErFormAttr,
     ErIconAttr

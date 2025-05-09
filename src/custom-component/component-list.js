@@ -26,7 +26,7 @@ import VInteractivePlot from './VInteractivePlot/meta';
 import ErLine from './errantia/Line/meta';
 import ErTreeSelect from './errantia/TreeSelect/meta';
 import ErTree from './errantia/Tree/meta';
-import ErDialogPro from './errantia/DialogPro/meta';
+import ErWindow from './errantia/Window/meta';
 import ErFileSelection from './errantia/FileSelection/meta';
 import ErForm from './errantia/Form/meta';
 import ErIcon from './errantia/Icon/meta';
@@ -73,7 +73,7 @@ const componentList = [
     ErLine,
     ErTreeSelect,
     ErTree,
-    ErDialogPro,
+    ErWindow,
     ErFileSelection,
     ErForm,
     ErIcon
