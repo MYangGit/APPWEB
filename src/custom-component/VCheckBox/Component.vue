@@ -20,8 +20,10 @@
 import { getComputedGet, getComputedSet, isEmpty } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
+import { useUtilsCentre } from '@/hooks/useUtilsCentre';
 
 const { onChange } = useEventCentre();
+const { disablePro } = useUtilsCentre();
 export default {
     props: {
         propValue: {
@@ -73,16 +75,7 @@ export default {
         disabled: {
             get() {
                 let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
-                if(typeof disVal === "boolean"){
-                    if(this.propValue.disabledText === "!"){
-                       return !disVal
-                    }
-                    return disVal
-                }
-                if(!this.isEmpty(this.propValue.disabledText)){
-                    return (disVal === this.propValue.disabledText)
-                }
-                return this.isEmpty(disVal)
+                return disablePro(disVal, this.propValue?.disabledText)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

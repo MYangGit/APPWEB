@@ -121,6 +121,10 @@ export default {
             const clipboardData = event.clipboardData
             const text = clipboardData.getData('text/plain');
             const pastedText = text.split('\n').map(line => line.split('\t').map(item => item.replace('\r', '')))
+            // 如果最后一行没有数据，则删除
+            if (pastedText[pastedText.length - 1].length === 1 && pastedText[pastedText.length - 1][0] === '') {
+                pastedText.pop()
+            }
             // 动态添加缺失的行
             const neededRows = rowIndex + pastedText.length;
             if (neededRows > this.dataSource.length) {

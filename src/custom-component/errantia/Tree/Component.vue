@@ -5,12 +5,11 @@
             style="width: 100%; height: 100%;"
             show-checkbox
             :data="options"
-            :default-checked-keys="value"
             :node-key="propValue.nodeKey"
             :props="defaultProps"
+            :disabled="disabled"
             @check-change="handleValueChange"
         />
-        
     </div>
 </template>
 
@@ -18,14 +17,17 @@
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';   
+import { useUtilsCentre } from '@/hooks/useUtilsCentre';
 
 const { onClickOther } = useEventCentre();
+const { disablePro } = useUtilsCentre();
 export default {
     data() {
         return {
             defaultProps: {
                 children: 'children',
                 label: 'label',
+                disable: 'disabled',
             },
         }
     },
@@ -82,7 +84,7 @@ export default {
     },
     methods: {
         handleValueChange(data, checked, indeterminate) {
-            onClickOther({element: this.element, clickName: 'click', params: { data, checked, indeterminate, activateText:this.activateText, treeRef: this.$refs.treeRef}})
+            onClickOther({element: this.element, clickName: 'clickTree', params: { data, checked, indeterminate, activateText:this.activateText, treeRef: this.$refs.treeRef}})
         },
     },
     computed: {
@@ -96,7 +98,17 @@ export default {
         },
         disabled: {
             get() {
-                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                disVal = disablePro(disVal, this.propValue?.disabledText)
+                this.options.forEach((item) => {
+                    item.disabled = disVal
+                    if (item.children) {
+                        item.children.forEach((child) => {
+                            child.disabled = disVal
+                        })
+                    }
+                })
+                return disVal
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
@@ -119,7 +131,7 @@ export default {
                 getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
-    }
+    },
 }
 </script>
 

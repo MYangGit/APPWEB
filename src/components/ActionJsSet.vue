@@ -101,6 +101,8 @@ const handleAdd = () => {
   display: flex;
   .action-list {
     width: 200px;
+    height: 98%;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     margin-right: 10px;

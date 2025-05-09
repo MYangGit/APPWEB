@@ -56,12 +56,13 @@ import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
-import { re } from 'mathjs';
+import { useUtilsCentre } from '@/hooks/useUtilsCentre';
 const useIconS = {
     wireless: WIRELESS,
     radar: Radar
 }
 const { onClickOther } = useEventCentre();
+const { disablePro } = useUtilsCentre();
 export default {
     components: {
         Container,
@@ -107,19 +108,7 @@ export default {
         disabled: {
             get() {
                 let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
-                if(typeof disVal === "boolean"){
-                    if(this.propValue?.disabledText === "!"){
-                       return !disVal
-                    }
-                    return disVal
-                }
-                if(!this.isEmpty(this.propValue?.disabledText)){
-                    if(this.propValue?.disabledText.startsWith("!")){
-                        return disVal !== this.propValue.disabledText.substring(1)
-                    }
-                    return (disVal === this.propValue.disabledText)
-                }
-                return this.isEmpty(disVal)
+                return disablePro(disVal, this.propValue?.disabledText)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

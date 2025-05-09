@@ -5,7 +5,8 @@
             :key="index" 
             :config="item" 
         />
-        <ConfirmBox></ConfirmBox>
+        <!--  代码调用弹窗 -->
+        <ConfirmBox/>
     </div>
 </template>
 
@@ -17,6 +18,7 @@ import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
 import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 import { excuteJsAction } from '@/hooks/useEventCentre';
+import { isSyslabApp } from '@/utils/isPreviewOrApp'
 
 const { initFilePath } = useGlobalUtils();
 export default {
@@ -64,6 +66,7 @@ export default {
         this.initialize();
     },
     methods: {
+        isSyslabApp,
         pageInitAction () {
             let initActionNames = []
             for (const key in rootStore.dataConfig.actionSet) {
@@ -88,7 +91,9 @@ export default {
            })
         },
         async initialize() {
-            await initFilePath();
+            if(isSyslabApp()){
+                await initFilePath();
+            }
             this.pageInitAction()
         },
     },

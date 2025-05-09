@@ -6,7 +6,11 @@
                     <el-checkbox v-model="curComponent.propValue.disabled" size="small" />
                 </el-form-item>
                 <el-form-item label="图标">
-                    <el-input v-model="curComponent.propValue.className" size="small" />
+                    <el-input 
+                        type="textarea"
+                        v-model="curComponent.propValue.className" 
+                        size="small" 
+                    />
                 </el-form-item>
                 <el-form-item label="图标库">
                     <a href="https://element-plus.org/zh-CN/component/icon.html" target="_blank">更多图标</a>

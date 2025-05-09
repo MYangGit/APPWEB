@@ -59,6 +59,6 @@ export default {
     backgroundColor: '',
   },
   actionBinds: {
-    click: ''
+    clickTree: ''
   }
 }

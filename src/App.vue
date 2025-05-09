@@ -11,9 +11,3 @@ button:focus {
 }
 </style>
 
-<style>
-button:focus {
-  outline: none !important;
-}
-</style>
-
