@@ -1,15 +1,29 @@
 <template>
     <div @mouseenter="onMouseEnter">
-        <component
-            :is="config.component"
-            v-if="getShowState(config)"
-            ref="component"
-            :class="layoutType === 'flex' ? 'flex-component' : 'component'"
-            @click="handleActionClick"
-            :style="getStyle(config.style)"
-            :prop-value="config.propValue"
-            :element="config"
-        />
+        <div v-if="isShow">
+            <component
+                :is="config.component"
+                v-show="getShowState(config)"
+                ref="component"
+                :class="layoutType === 'flex' ? 'flex-component' : 'component'"
+                @click="handleActionClick"
+                :style="getStyle(config.style)"
+                :prop-value="config.propValue"
+                :element="config"
+            />
+      </div>
+      <div v-else>
+            <component
+                :is="config.component"
+                v-if="getShowState(config)"
+                ref="component"
+                :class="layoutType === 'flex' ? 'flex-component' : 'component'"
+                @click="handleActionClick"
+                :style="getStyle(config.style)"
+                :prop-value="config.propValue"
+                :element="config"
+            />
+      </div>
     </div>
 </template>
 
@@ -28,6 +42,10 @@ export default {
         layoutType: {
             type: String,
             default: 'normal',
+        },
+        isShow: {
+            type: Boolean,
+            default: false,
         },
         config: {
             type: Object,

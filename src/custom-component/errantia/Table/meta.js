@@ -2,6 +2,7 @@ export default {
   component: 'ErTable',
   label: '表格',
   propValue: {
+    noDataHints: false,
     activateText: "",
     overflowWrap: false,
     showBorder: false,

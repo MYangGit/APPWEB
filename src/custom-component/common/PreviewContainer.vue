@@ -9,6 +9,7 @@
             v-for="(item, index) in childs" 
             :key="index" 
             :config="item" 
+            :isShow="item.propValue?.isShow"
         />
     </div>
 </template>

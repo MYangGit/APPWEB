@@ -66,11 +66,14 @@
             <el-collapse-item v-if="showDevelopFunction" title="显示状态绑定" name="visiablebind">
                 <div class="v-common-design">
                     <div class="data-bind-item">
+                        <el-checkbox v-if="curComponent.visiable" v-model="curComponent.propValue.isShow">保留Dom</el-checkbox>
+                    </div>
+                    <div class="data-bind-item">
                         <el-button v-if="!(curComponent.visiable && curComponent.visiable.key)" size="small" @click="bindData('key', 'visiable')">绑定数据</el-button>
                         <el-tag closable @close="unbindData('key', 'visiable')" v-else>{{ curComponent.visiable && curComponent.visiable.key.join('.') }}</el-tag>
                     </div>
                     <div class="data-bind-item">
-                        <el-input type="text" v-if="curComponent.visiable" v-model="curComponent.visiable.value" />
+                        <el-input type="text" v-if="curComponent.visiable" v-model="curComponent.visiable.value" /> 
                     </div>
                 </div>
             </el-collapse-item>

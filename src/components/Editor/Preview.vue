@@ -3,7 +3,9 @@
         <ComponentWrapper 
             v-for="(item, index) in componentList.filter((i) => !i.pid)" 
             :key="index" 
-            :config="item" 
+            :config="item"
+            :isShow="item.propValue?.isShow"
+            :layoutType="layoutType" 
         />
         <!--  代码调用弹窗 -->
         <ConfirmBox/>
@@ -27,6 +29,10 @@ export default {
         isScreenshot: {
             type: Boolean,
             default: false,
+        },
+        layoutType: {
+            type: String,
+            default: 'normal',
         },
     },
     data() {
