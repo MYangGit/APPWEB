@@ -57,6 +57,17 @@
                         v-model="row[column.key]"
                         @paste.stop="handlePaste($event, index, colIdx)"
                     />
+                    <div v-else-if="column?.type === 'table'" style="display: flex;">
+                        <el-tooltip  
+                            v-if="!isEmpty(row[column.key])"
+                            effect="dark"
+                            :content="showTable(column, row[column.key])"
+                            placement="bottom"
+                        >
+                          <div style="max-width: 100px;">{{ showTable(column, row[column.key]) }}</div>
+                        </el-tooltip>
+                        <!-- <el-icon @click.stop="handTable($event, row, column)" :size="20"><Grid /></el-icon> -->
+                    </div> 
                     <el-tooltip
                         v-else
                         effect="dark"
@@ -79,8 +90,10 @@ import { getComputedGet, getComputedSet, isEmpty, createUuid } from '../../../ut
 import { rootStore } from '@/stores/rootStore';
 import { erFlex, erTable } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
+import { useUtilsCentre}  from '@/hooks/useUtilsCentre';
 
 const { onClickOther } = useEventCentre();
+const { transformToValueArray } = useUtilsCentre();
 export default {
     components: {
         erFlex,
@@ -115,6 +128,18 @@ export default {
     },
     methods: {
         isEmpty,
+        showTable(column, data) {
+            if (!isEmpty(column.config)) {
+                column = JSON.parse(column.config)?.columns
+            }
+            data = JSON.parse(data)
+            return transformToValueArray(column, data)  
+        },
+        handTable(event, row, column) {
+            event.stopPropagation()
+            event.preventDefault()
+            onClickOther({element: this.element, clickName:'onClickTable', params: { row, column, activateText: this.activateText} })
+        },
         handlePaste(event, rowIndex, colIndex) {
             event.preventDefault()
             event.stopPropagation()

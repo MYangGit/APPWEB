@@ -5,6 +5,19 @@ import vue from '@vitejs/plugin-vue'
 import vitePluginString from 'vite-plugin-string'
 import { viteAwesomeSvgLoader } from "vite-awesome-svg-loader";
 
+const getOutputDir = (mode) => {
+  switch (mode) {
+    case 'app':
+      return 'packages/syslab/dist';
+    case 'web':
+      return 'packages/web/dist';
+    case 'desktop':
+      return 'packages/desktop/out/renderer';
+    default:
+      return 'dist';
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
   return {
@@ -26,7 +39,7 @@ export default defineConfig(({mode}) => {
       extensions: ['.vue', '.js', '.ts']
     },
     build: {
-      outDir: mode === 'app' ? 'packages/syslab/dist' : mode === 'web' ? 'packages/web/dist' : 'dist',
+      outDir: getOutputDir(mode),
     },
     server: {
       proxy: {

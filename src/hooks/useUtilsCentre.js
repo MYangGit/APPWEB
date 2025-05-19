@@ -26,8 +26,20 @@ export const useUtilsCentre = () => {
         }
         return isEmpty(disVal)
     }
+
+    // 表格数组转换为值数组
+    function transformToValueArray(columns, dataSource, formatter = (val) => val) {
+        if(!Array.isArray(columns) || !Array.isArray(dataSource)) {
+            return [];
+        }
+        const keys = columns.map(col => col.key);
+        return dataSource.map(item => 
+            keys.map(key => formatter(item[key], key))
+        );
+    }
     
     return {
         disablePro,
+        transformToValueArray,
     }
 }

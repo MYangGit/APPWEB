@@ -51,6 +51,7 @@ export default {
     padding: 0
   },
   actionBinds: {
+    onClickTable: '',
     onClickRow: '',
     onClickOperate:'',
     onNameBlur:'',
