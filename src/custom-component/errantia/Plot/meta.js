@@ -4,6 +4,7 @@ export default {
   propValue: {
     dataSource: [],
     layout: {},
+    domId: 'chartPlot',
   },
   icon: 'chart-line',
   type: 'errantia',

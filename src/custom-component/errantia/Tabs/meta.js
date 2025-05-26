@@ -4,6 +4,7 @@ export default {
   icon: 'tabs',
   type: 'errantia',
   propValue: {
+    autoActiveName: "ErTabs1",
     fixed: "",
     activateText: "",
     tabsItem: [

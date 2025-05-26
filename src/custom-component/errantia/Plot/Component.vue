@@ -1,9 +1,9 @@
 <template>
    <div>
     <erPlot
-        id="chartPlot"
-        v-size-ob="handleResize"
         style="width: 100%; height: 100%; display: flex;"
+        v-size-ob="handleResize"
+        :id="propValue.domId"
         :dataSource="dataSource"
         :layout="layout"
     />
@@ -21,6 +21,7 @@ export default {
             default: () => ({
                 dataSource: [],
                 layout: {},
+                domId: 'chartPlot',
             }),
         },
         element: {

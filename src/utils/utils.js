@@ -179,6 +179,11 @@ export const isEmpty = (key) => {
   }
 };
 
+// 数组扁平化，默认全部扁平化，传入数字表示扁平化层数
+export function flattenArray(arr = [], depth = Infinity) {
+  return arr.flat(depth);
+}
+
 /**
  * @description: 命名判重
  * @param {string} name

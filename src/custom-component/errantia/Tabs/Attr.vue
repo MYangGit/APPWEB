@@ -1,6 +1,9 @@
 <template>
     <div class="attr-list">
         <CommonAttr>
+            <el-form-item label="选中tab名">
+                <el-input v-model="curComponent.propValue.autoActiveName" size="small" />
+            </el-form-item>
             <el-form-item label="固定name板内容:">
                 <el-input v-model="curComponent.propValue.fixed" size="small" />
             </el-form-item>

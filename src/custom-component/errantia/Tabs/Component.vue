@@ -69,6 +69,7 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                autoActiveName: "ErTabs1",
                 fixed: "",
                 activateText: "",
                 tabsItem: [
@@ -106,9 +107,10 @@ export default {
                 if (this.tabsItem?.filter((i) => i.visible).length === 1) {
                     return this.tabsItem.filter((i) => i.visible)[0].name;
                 }
-                return this.activeName;
+                return getComputedGet('autoActiveName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
             set(newValue) {
+                getComputedSet('autoActiveName', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
                 this.activeName = newValue;
             }
         },
