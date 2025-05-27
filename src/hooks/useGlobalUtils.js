@@ -14,6 +14,7 @@ import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { useAxios } from '@/hooks/useAxios'
 import { rootStore } from '@/stores/rootStore'
+import { useAllDrawCenter } from '@/hooks/useAllDrawCenter'
 import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
 
 /**
@@ -22,6 +23,7 @@ import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/
 */
 export const useGlobalUtils = () => {
   const { axios } = useAxios()
+  const { copyChart, uploadPlotlyToBlob } = useAllDrawCenter()
   return {
     axios,
     getObjValue,
@@ -41,6 +43,8 @@ export const useGlobalUtils = () => {
     handleJuliaCode,
     handlePythonCode,
     isEmpty,
-    nameRepeat
+    nameRepeat,
+    copyChart,
+    uploadPlotlyToBlob,
   }
 }

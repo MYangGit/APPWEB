@@ -8,6 +8,9 @@
                 <el-form-item label="匹配内容选中：">
                     <el-input  v-model="curComponent.propValue.activateText"  size="small" />
                 </el-form-item>
+                <el-form-item label="展开所有节点：">
+                    <el-checkbox  v-model="curComponent.propValue.defaultExpandAll"  size="small" />
+                </el-form-item>
                 <el-form-item label="value">
                     <el-input  v-model="curComponent.propValue.value"  size="small" />
                 </el-form-item>

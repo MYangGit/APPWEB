@@ -7,7 +7,7 @@
         :key="item.uuid"
         :style="getItemStyle(item.uuid, item.style)"
         @dblclick.stop="selectComponent(item, $event)"
-        @mousedown.passive="handleDragStart(item.style, $event)"
+        @mousedown.passive="handleCurDragStart(item.style, $event)"
       >
         <div class="header">
           <div>
@@ -35,7 +35,7 @@
           />
           <erTable
             v-else-if="item.contentType === 'table'"
-            style="width: 100%; height: 100%;"
+            style="width: 100%; height: 100%; background-color: #fff;"
             :prop-value="item.propValue"
             :element="{
               dataBinds: {},
@@ -223,6 +223,15 @@ const {
 
 const { onClickOther } = useEventCentre()
 
+// 过滤操作内容点击
+const handleCurDragStart = (style, event) => {
+  const target = event.target;
+  if (target.closest(".window-content")) {
+    return;
+  }
+  handleDragStart(style, event);
+};
+
 // 双击选中切换要操作的组件
 function selectComponent(item, event) {
   event.stopPropagation(); // 阻止事件冒泡
@@ -331,6 +340,7 @@ init()
       
     }
     .window-content {
+      cursor: auto;
       background-color: @content-color;
       overflow: hidden;
       padding: 5px;

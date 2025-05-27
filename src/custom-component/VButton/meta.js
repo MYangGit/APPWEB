@@ -12,9 +12,9 @@ export default {
   style: {
     width: 100,
     height: 34,
-    borderWidth: 0,
-    borderBottomWidth: 0,
-    borderColor: '#ffffff',
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
     borderStyle: 'solid',
     borderRadius: '',
     fixedWidth: "",

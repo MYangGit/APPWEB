@@ -4,6 +4,7 @@
             ref="treeRef"
             style="width: 100%; height: 100%;"
             show-checkbox
+            :default-expand-all="propValue.defaultExpandAll"
             :data="options"
             :node-key="propValue.nodeKey"
             :props="defaultProps"
@@ -36,6 +37,7 @@ export default {
             type: Object,
             default: () => ({
                 nodeKey: "id",
+                defaultExpandAll: false,
                 value:[],
                 activateText: "",
                 disabled: false,
@@ -99,15 +101,6 @@ export default {
         disabled: {
             get() {
                 let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
-                disVal = disablePro(disVal, this.propValue?.disabledText)
-                this.options.forEach((item) => {
-                    item.disabled = disVal
-                    if (item.children) {
-                        item.children.forEach((child) => {
-                            child.disabled = disVal
-                        })
-                    }
-                })
                 return disVal
             },
             set(val) {
