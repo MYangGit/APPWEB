@@ -5,17 +5,27 @@ import vue from '@vitejs/plugin-vue'
 import vitePluginString from 'vite-plugin-string'
 import { viteAwesomeSvgLoader } from "vite-awesome-svg-loader";
 
-const getOutputDir = (mode) => {
+const getbuildOption = (mode) => {
+  const Option = {}
   switch (mode) {
     case 'app':
-      return 'packages/syslab/dist';
+      Reflect.set(Option, 'outDir', 'packages/syslab/dist');
+      break;
     case 'web':
-      return 'packages/web/dist';
+      Reflect.set(Option, 'outDir', 'packages/web/dist');
+      break;
+    case 'qt':
+      Reflect.set(Option, 'outDir', 'packages/web/dist');
+      Reflect.set(Option, 'target', 'chrome77');
+      break;
     case 'desktop':
-      return 'packages/desktop/out/renderer';
+      Reflect.set(Option, 'outDir', 'packages/desktop/dist');
+      break;
     default:
-      return 'dist';
+      Reflect.set(Option, 'outDir', 'dist');
+      break;
   }
+  return Option
 }
 
 // https://vitejs.dev/config/
@@ -39,7 +49,7 @@ export default defineConfig(({mode}) => {
       extensions: ['.vue', '.js', '.ts']
     },
     build: {
-      outDir: getOutputDir(mode),
+      ...getbuildOption(mode),
     },
     server: {
       proxy: {

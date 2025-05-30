@@ -8,6 +8,7 @@
     "dev": "vite --mode dev",
     "build": "vite build --mode pro",
     "build:web": "vite build --mode web",
+    "build:qt": "vite build --mode qt",
     "dev:app": "vite --mode app",
     "dev:web": "vite --mode web",
     "build:app": "webpack --config ./packages/syslab/webpack.config.js && vite build --mode app",

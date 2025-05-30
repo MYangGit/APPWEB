@@ -10,6 +10,10 @@ const isWebApp = () => {
   return import.meta.env.VITE_NODE_ENV === 'WebApp'
 }
 
+const isQt = () => {
+  return import.meta.env.VITE_NODE_ENV === 'qt'
+}
+
 const isUseVInteractPlot = () => {
   return false
 }
@@ -18,4 +22,5 @@ export {
   isPreview,
   isSyslabApp,
   isUseVInteractPlot,
+  isQt
 }

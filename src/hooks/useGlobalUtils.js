@@ -10,6 +10,7 @@ import {
   generateReport,
   commonImportFile
 } from '@/services/request/connectBase'
+import { postQt } from '@/services/qtchannel/index'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { useAxios } from '@/hooks/useAxios'
@@ -26,6 +27,7 @@ export const useGlobalUtils = () => {
   const { copyChart, uploadPlotlyToBlob } = useAllDrawCenter()
   return {
     axios,
+    postQt,
     getObjValue,
     createUuid,
     deepCopy,
