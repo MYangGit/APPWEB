@@ -4,32 +4,41 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vitePluginString from 'vite-plugin-string'
 import { viteAwesomeSvgLoader } from "vite-awesome-svg-loader";
+import { createHtmlPlugin } from 'vite-plugin-html';
+
 
 const getbuildOption = (mode) => {
-  const Option = {}
+  const build = {}
+  let HtmlPlugin = []
   switch (mode) {
     case 'app':
-      Reflect.set(Option, 'outDir', 'packages/syslab/dist');
+      Reflect.set(build, 'outDir', 'packages/syslab/dist');
+      HtmlPlugin = ["/md5.min.js", "/lodash.js"]
       break;
     case 'web':
-      Reflect.set(Option, 'outDir', 'packages/web/dist');
+      Reflect.set(build, 'outDir', 'packages/web/dist');
       break;
     case 'qt':
-      Reflect.set(Option, 'outDir', 'packages/web/dist');
-      Reflect.set(Option, 'target', 'chrome77');
+      Reflect.set(build, 'outDir', 'packages/web/dist');
+      Reflect.set(build, 'target', 'chrome77');
+      HtmlPlugin = ["/qwebchannel.js"]
       break;
     case 'desktop':
-      Reflect.set(Option, 'outDir', 'packages/desktop/dist');
+      Reflect.set(build, 'outDir', 'packages/desktop/dist');
       break;
     default:
-      Reflect.set(Option, 'outDir', 'dist');
+      Reflect.set(build, 'outDir', 'dist');
       break;
   }
-  return Option
+  return {
+    build,
+    HtmlPlugin
+  }
 }
 
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
+  let customOption = getbuildOption(mode);
   return {
     plugins: [
       vue(),
@@ -40,6 +49,13 @@ export default defineConfig(({mode}) => {
       }),
       viteAwesomeSvgLoader({
         defaultImport: "source-data-uri"
+      }),
+      createHtmlPlugin({
+        inject: {
+          data: {
+            dynamicScripts: customOption.HtmlPlugin
+          }
+        }
       })
     ],
     resolve: {
@@ -49,7 +65,7 @@ export default defineConfig(({mode}) => {
       extensions: ['.vue', '.js', '.ts']
     },
     build: {
-      ...getbuildOption(mode),
+      ...customOption.build,
     },
     server: {
       proxy: {

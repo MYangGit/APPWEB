@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Designer</title>
-    <script src="/md5.min.js"></script>
-    <script src="/lodash.js"></script>
-    <script src="/qwebchannel.js"></script>
+    <% for (let script of dynamicScripts) { %>
+      <script src="<%= script %>"></script>
+    <% } %>
   </head>
   <body>
     <div id="app"></div>
