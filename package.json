@@ -11,6 +11,7 @@
     "build:qt": "vite build --mode qt",
     "dev:app": "vite --mode app",
     "dev:web": "vite --mode web",
+    "build:dp": "vite build --mode desktop",
     "build:app": "webpack --config ./packages/syslab/webpack.config.js && vite build --mode app",
     "package:app": "vite build --mode app && webpack --config ./packages/syslab/webpack.config.js && node ./packages/syslab/build-package.js",
     "compile": "webpack --config ./packages/syslab/webpack.config.js",
