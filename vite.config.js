@@ -10,6 +10,7 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 const getbuildOption = (mode) => {
   const build = {}
   let HtmlPlugin = []
+  let base = '/'
   switch (mode) {
     case 'app':
       Reflect.set(build, 'outDir', 'packages/syslab/dist');
@@ -22,9 +23,11 @@ const getbuildOption = (mode) => {
       Reflect.set(build, 'outDir', 'packages/web/dist');
       Reflect.set(build, 'target', 'chrome77');
       HtmlPlugin = ["/qwebchannel.js"]
+      base = 'qrc:/html2/dist'
       break;
-    case 'desktop':
-      Reflect.set(build, 'outDir', 'packages/desktop/dist');
+    case 'dp':
+      Reflect.set(build, 'outDir', 'packages/desktop/out/renderer');
+      base = './'
       break;
     default:
       Reflect.set(build, 'outDir', 'dist');
@@ -32,7 +35,8 @@ const getbuildOption = (mode) => {
   }
   return {
     build,
-    HtmlPlugin
+    HtmlPlugin,
+    base,
   }
 }
 
@@ -40,6 +44,7 @@ const getbuildOption = (mode) => {
 export default defineConfig(({mode}) => {
   let customOption = getbuildOption(mode);
   return {
+    base: customOption.base,
     plugins: [
       vue(),
       vitePluginString({

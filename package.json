@@ -4,14 +4,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "vite --mode dev",
+    "dev": "vite --mode dev",  
+    "dev:app": "vite --mode app",
+    "dev:web": "vite --mode web",
+    "dev:dp": "lerna run dev --scope=desktop",
     "build": "vite build --mode pro",
     "build:web": "vite build --mode web",
     "build:qt": "vite build --mode qt",
-    "dev:app": "vite --mode app",
-    "dev:web": "vite --mode web",
-    "build:dp": "vite build --mode desktop",
+    "build:dp": "vite build --mode dp && lerna run package:win --scope=desktop",
+    "package:dp": "lerna run build:win --scope=desktop",
     "build:app": "webpack --config ./packages/syslab/webpack.config.js && vite build --mode app",
     "package:app": "vite build --mode app && webpack --config ./packages/syslab/webpack.config.js && node ./packages/syslab/build-package.js",
     "compile": "webpack --config ./packages/syslab/webpack.config.js",
@@ -55,6 +60,7 @@
   "devDependencies": {
     "@types/vscode": "^1.75.1",
     "@vitejs/plugin-vue": "^5.0.3",
+    "lerna": "^8.2.2",
     "less": "^4.2.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
