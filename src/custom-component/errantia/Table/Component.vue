@@ -15,6 +15,8 @@
                     <el-icon v-if="column['openOperate']?.includes('delete')"><Delete @click.stop="handleOperate(row, index, 'delete' )" /></el-icon>
                     <el-icon v-if="column['openOperate']?.includes('edit')"><Edit @click.stop="handleOperate(row, index, 'edit')" /></el-icon>
                     <el-icon v-if="column['openOperate']?.includes('pause')"><VideoPause @click.stop="handleOperate(row, index, 'pause')" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('download')"><Download @click.stop="handleOperate(row, index, 'download')" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('view')"><View @click.stop="handleOperate(row, index, 'view')" /></el-icon>
                 </erFlex>
             </template>
             <template v-if="serialNumber" v-slot:serialNumber="{ index }">
@@ -64,9 +66,8 @@
                             :content="showTable(column, row[column.key])"
                             placement="bottom"
                         >
-                          <div style="max-width: 100px;">{{ showTable(column, row[column.key]) }}</div>
+                          <div :style="{ width: `${column?.width}px` }">{{ showTable(column, row[column.key]) }}</div>
                         </el-tooltip>
-                        <!-- <el-icon @click.stop="handTable($event, row, column)" :size="20"><Grid /></el-icon> -->
                     </div> 
                     <el-tooltip
                         v-else
@@ -86,7 +87,7 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import { getComputedGet, getComputedSet, isEmpty, createUuid } from '../../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty, flattenArray, createUuid } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { erFlex, erTable } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
@@ -128,12 +129,13 @@ export default {
     },
     methods: {
         isEmpty,
+        flattenArray,
         showTable(column, data) {
             if (!isEmpty(column.config)) {
                 column = JSON.parse(column.config)?.columns
             }
             data = JSON.parse(data)
-            return transformToValueArray(column, data)  
+            return flattenArray(transformToValueArray(column, data)) 
         },
         handTable(event, row, column) {
             event.stopPropagation()

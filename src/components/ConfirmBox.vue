@@ -1,7 +1,7 @@
 <template>
   <erDialog 
     :title="confirmBoxState.title"
-    width="400px"
+    :width="confirmBoxState.width + 'px'"
     :isVisible="confirmBoxState.isShow"
     :okBtn="confirmBoxState.sureText"
     :cancelBtn="confirmBoxState.cancelText"
@@ -10,13 +10,15 @@
     @cancel="cancel"
     @confirm="sure"
   >
-    <p>{{ confirmBoxState.message }}</p>
+    <div v-if="isEmpty(confirmBoxState.message)" :style="{ height: confirmBoxState.height + 'px' }">暂无数据</div>
+    <div v-else :style="{ height: confirmBoxState.height + 'px' }" class="custom-content">{{confirmBoxState.message}}</div>
   </erDialog>
 </template>
 
 <script setup>
 import { rootStore } from '@/stores/rootStore';
 import { computed } from 'vue';
+import { isEmpty } from '@/utils/utils'
 
 const confirmBoxState = computed(() => rootStore.confirmBox.confirmBoxState)
 
@@ -109,5 +111,16 @@ const cancel = () => {
   .btn:hover {
     background-color: #F7FCFF;
   }
+}
+
+.custom-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  overflow-y: scroll;
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
 }
 </style>
