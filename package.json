@@ -4,11 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "vite --mode dev",  
+    "dev": "vite --mode dev",
     "dev:app": "vite --mode app",
     "dev:web": "vite --mode web",
     "dev:dp": "lerna run dev --scope=desktop",
@@ -50,6 +47,7 @@
     "marked-highlight": "^2.1.4",
     "mathjs": "^12.4.0",
     "monaco-editor": "^0.50.0",
+    "nanoid": "^5.1.5",
     "pinia": "^2.1.7",
     "plotly.js-dist-min": "^2.30.1",
     "thememirror": "^2.0.1",
