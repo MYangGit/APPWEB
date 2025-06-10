@@ -14,13 +14,14 @@ const isQt = () => {
   return import.meta.env.VITE_NODE_ENV === 'qt'
 }
 
-const isUseVInteractPlot = () => {
-  return false
+const isDesktop = () => {
+  return import.meta.env.VITE_NODE_ENV === 'DesktopApp'
 }
+
 export {
   isWebApp,
   isPreview,
   isSyslabApp,
-  isUseVInteractPlot,
-  isQt
+  isQt,
+  isDesktop,
 }

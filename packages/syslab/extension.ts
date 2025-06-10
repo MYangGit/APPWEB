@@ -3,7 +3,6 @@ import * as path from 'path';
 import * as cp from 'child_process';
 import * as vscode from 'vscode';
 import appConfig from './extension-build.json';
-import { syslabPlot  } from '../submodule/index';
 
 function getWebViewContent(context: vscode.ExtensionContext, templatePath: string, urlPath: string): string {
   const resourcePath = path.join(context.extensionPath, templatePath);
@@ -24,9 +23,6 @@ function getWebViewContent(context: vscode.ExtensionContext, templatePath: strin
 function activate(context: vscode.ExtensionContext) {
   let startAppCommand = appConfig.startCommand ?? 'test-org.startTestApp';
   let disposable = vscode.commands.registerCommand(startAppCommand, (urlPath: string) => {
-    if(syslabPlot){
-      syslabPlot.SyslabFigure.activate(context, 'app');
-    }
     vscode.commands.executeCommand('start app', {
       id: appConfig.appName,
       title: appConfig.appTitle ?? 'TestApp',
@@ -44,9 +40,6 @@ function activate(context: vscode.ExtensionContext) {
   // 接收来自app的消息
   context.subscriptions.push(vscode.commands.registerCommand('syslabApp.sendToPlotService', (message: any) => {
     if (message.command === 'closeApp') { deactivate(); return; }
-    if(syslabPlot){
-      syslabPlot.SyslabFigure.handleAppMessage(message, appConfig.appName);
-    }
   }));
   // 执行python脚本
   context.subscriptions.push(vscode.commands.registerCommand('syslab.excutePython', (pythonCode: string, workspace: string) => {
@@ -60,9 +53,5 @@ function activate(context: vscode.ExtensionContext) {
   }));
 }
 
-function deactivate() {
-  if(syslabPlot){
-     syslabPlot.deactivate("app");
-  }
-}
+function deactivate() {}
 export { activate, deactivate };

@@ -46,8 +46,6 @@ import ErCheckBox from './errantia/Checkbox/Component.vue'
 import ErCheckBoxAttr from './errantia/Checkbox/Attr.vue'
 import ErTabs from './errantia/Tabs/Component.vue'
 import ErTabsAttr from './errantia/Tabs/Attr.vue'
-import VInteractivePlot from './VInteractivePlot/Component.vue'
-import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
 import ErLine from './errantia/Line/Component.vue'
 import ErLineAttr from './errantia/Line/Attr.vue'
 import ErTreeSelect from './errantia/TreeSelect/Component.vue'
@@ -101,7 +99,6 @@ const components = {
     ErCheckBox,
     ErTabs,
     VTableTemp,
-    VInteractivePlot,
     ErAutoDrop,
     ErHandCoding,
     ErResourceShow,
@@ -141,7 +138,6 @@ const attrs = {
     ErCheckBoxAttr,
     ErTabsAttr,
     VTableTempAttr,
-    VInteractivePlotAttr,
     ErAutoDropAttr,
     ErHandCodingAttr,
     ErResourceShowAttr,

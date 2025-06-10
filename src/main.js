@@ -15,11 +15,10 @@ import '../node_modules/errantia/dist/style.css'
 import App from './App.vue'
 import AppSyslab from './AppSyslab.vue';
 import router from './router/index.js'
-import { isSyslabApp, isWebApp, isQt } from '@/utils/isPreviewOrApp'
 import { sizeDirect } from './directives/index.js'
+import { isSyslabApp, isWebApp, isDesktop, isQt } from '@/utils/isPreviewOrApp'
 
-const EnterApp = (isSyslabApp() || isWebApp() || isQt()) ? AppSyslab : App
-
+const EnterApp = (isSyslabApp() || isWebApp() || isQt() || isDesktop()) ? AppSyslab : App
 const app = createApp(EnterApp);
 
 if (!isSyslabApp()) {
