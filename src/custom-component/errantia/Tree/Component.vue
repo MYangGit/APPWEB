@@ -4,11 +4,12 @@
             ref="treeRef"
             style="width: 100%; height: 100%;"
             show-checkbox
+            check-on-click-node
+            :expand-on-click-node = "false"
             :default-expand-all="propValue.defaultExpandAll"
             :data="options"
             :node-key="propValue.nodeKey"
             :props="defaultProps"
-            :disabled="disabled"
             @check-change="handleValueChange"
         />
     </div>
@@ -17,11 +18,9 @@
 <script>
 import { getComputedGet, getComputedSet } from '@/utils/utils';
 import { rootStore } from '@/stores/rootStore';
-import { useEventCentre } from '@/hooks/useEventCentre';   
-import { useUtilsCentre } from '@/hooks/useUtilsCentre';
+import { useEventCentre } from '@/hooks/useEventCentre'; 
 
 const { onClickOther } = useEventCentre();
-const { disablePro } = useUtilsCentre();
 export default {
     data() {
         return {

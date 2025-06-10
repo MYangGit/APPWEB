@@ -31,7 +31,7 @@
     "crypto-js": "^4.2.0",
     "defer-promise": "^3.0.0",
     "element-plus": "^2.6.1",
-    "errantia": "^0.0.22",
+    "errantia": "^0.0.24",
     "express": "^4.19.2",
     "express-fileupload": "^1.5.0",
     "fs-extra": "^11.2.0",

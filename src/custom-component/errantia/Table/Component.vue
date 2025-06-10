@@ -7,6 +7,8 @@
             :outStyleHeader="{position: 'sticky', zIndex: 99, top: '0px',  ...(propValue.overflowWrap ? { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'} : {})}" 
             :columns="columns"
             :dataSource="dataSource"
+            :uuIdOnly="currUuid"
+            :uuIdName="propValue.uuIdName"
             @onContextMenuRow="handleContextMenuRow"
             @onDbClickRow="handleDbClickRow"
             @onClickRow="handleClickRow"
@@ -15,6 +17,8 @@
                     <el-icon v-if="column['openOperate']?.includes('delete')"><Delete @click.stop="handleOperate(row, index, 'delete' )" /></el-icon>
                     <el-icon v-if="column['openOperate']?.includes('edit')"><Edit @click.stop="handleOperate(row, index, 'edit')" /></el-icon>
                     <el-icon v-if="column['openOperate']?.includes('pause')"><VideoPause @click.stop="handleOperate(row, index, 'pause')" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('download')"><Download @click.stop="handleOperate(row, index, 'download')" /></el-icon>
+                    <el-icon v-if="column['openOperate']?.includes('view')"><View @click.stop="handleOperate(row, index, 'view')" /></el-icon>
                 </erFlex>
             </template>
             <template v-if="serialNumber" v-slot:serialNumber="{ index }">
@@ -28,7 +32,7 @@
                     type="text"
                     v-model="newName"
                 >
-                <div v-else :class="{'active-row': row[propValue.dataUuid] === currUuid}">
+                <div v-else>
                     <el-tooltip
                         effect="dark"
                         :content="row[column.key]"
@@ -44,7 +48,7 @@
                 </div>
             </template>
             <template v-slot:custom="{ row, index, column, colIdx }">
-                <div @click.stop :class="{'active-row1': row[propValue.dataUuid] === currUuid}">
+                <div @click.stop>
                     <el-checkbox 
                         v-if="column?.type === 'checkbox'" 
                         v-model="row[column.key]" 
@@ -64,9 +68,8 @@
                             :content="showTable(column, row[column.key])"
                             placement="bottom"
                         >
-                          <div style="max-width: 100px;">{{ showTable(column, row[column.key]) }}</div>
+                          <div :style="{ width: `${column?.width}px` }">{{ showTable(column, row[column.key]) }}</div>
                         </el-tooltip>
-                        <!-- <el-icon @click.stop="handTable($event, row, column)" :size="20"><Grid /></el-icon> -->
                     </div> 
                     <el-tooltip
                         v-else
@@ -86,7 +89,7 @@
 <script>
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
-import { getComputedGet, getComputedSet, isEmpty, createUuid } from '../../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty, flattenArray, createUuid } from '../../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { erFlex, erTable } from 'errantia';
 import { useEventCentre } from '@/hooks/useEventCentre';
@@ -118,7 +121,7 @@ export default {
                 reName: '',
                 newName: '',
                 currUuid: '',
-                dataUuid: '',
+                uuIdName: '',
             }),
         },
         element: {
@@ -128,12 +131,13 @@ export default {
     },
     methods: {
         isEmpty,
+        flattenArray,
         showTable(column, data) {
             if (!isEmpty(column.config)) {
                 column = JSON.parse(column.config)?.columns
             }
             data = JSON.parse(data)
-            return transformToValueArray(column, data)  
+            return flattenArray(transformToValueArray(column, data)) 
         },
         handTable(event, row, column) {
             event.stopPropagation()
@@ -271,21 +275,5 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-.active-row {
-    background-color: #dee2e6;
-    margin: -5px;
-    padding: 5px;
-    &:hover {
-        background-color: #e9ecef;
-    }
-}
-.active-row1 {
-    margin: -7px;
-    padding-left: 4px;
-    background-color: #dee2e6;
-    &:hover {
-        background-color: #e9ecef;
-    }
 }
 </style>

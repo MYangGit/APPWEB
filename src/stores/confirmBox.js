@@ -10,7 +10,9 @@ export const useConfirmBoxStore = defineStore('confirmBox', () => {
     title: '',
     message: '',
     sureText: '',
-    cancelText: ''
+    cancelText: '',
+    width: 400,
+    height: 50,
   });
   const openConfirmBox = async (options) => {
     deferred = defer();
@@ -23,10 +25,14 @@ export const useConfirmBoxStore = defineStore('confirmBox', () => {
   }
   const rejectConfirmBox = () => {
     confirmBoxState.value.isShow = false
+    confirmBoxState.value.height = 50;
+    confirmBoxState.value.width = 400;
     deferred.reject();
   }
   const resolveConfirmBox = () => {
     confirmBoxState.value.isShow = false
+    confirmBoxState.value.height = 50;
+    confirmBoxState.value.width = 400;
     deferred.resolve();
   }
   return {

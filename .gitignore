@@ -38,3 +38,7 @@ packages/syslab/extension-build.json
 packages/syslab/extensionDist/extension.js
 packages/syslab/extensionDist/extension.js.map
 packages/syslab/syslabApp.json
+
+packages/desktop/dist
+packages/desktop/node_modules
+packages/desktop/out

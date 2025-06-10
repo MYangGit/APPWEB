@@ -11,7 +11,7 @@ export default {
     serialNumber: false,
     textAlign: 'left',
     currUuid: '',
-    dataUuid: '',
+    uuIdName: '',
     columns: [
         { 
           type: 'select',

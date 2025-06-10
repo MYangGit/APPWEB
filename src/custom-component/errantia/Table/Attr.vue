@@ -26,8 +26,8 @@
                 <el-form-item label="选中uuid：">
                     <el-input v-model="curComponent.propValue.currUuid" size="small" />
                 </el-form-item>
-                <el-form-item label="数据uuid：">
-                    <el-input v-model="curComponent.propValue.dataUuid" size="small" />
+                <el-form-item label="数据uuid名称：">
+                    <el-input v-model="curComponent.propValue.uuIdName" size="small" />
                 </el-form-item>
                 <el-form-item label="操作：">
                     <el-checkbox 

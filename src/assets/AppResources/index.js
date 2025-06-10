@@ -15,6 +15,7 @@ import metric from './radar/metric.svg'
 import add from './pulse/add.svg'
 import copy from './pulse/copy.svg'
 import deletes from './pulse/delete.svg'
+import uca from './sensor/UCA.svg'
 
 
 export const WIRELESS = {
@@ -31,7 +32,8 @@ export const WIRELESS = {
     Generate,
     add,
     copy,
-    deletes
+    deletes,
+    uca
 }
 
 export const Radar = {
