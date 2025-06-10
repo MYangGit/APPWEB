@@ -7,6 +7,8 @@
             :outStyleHeader="{position: 'sticky', zIndex: 99, top: '0px',  ...(propValue.overflowWrap ? { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'} : {})}" 
             :columns="columns"
             :dataSource="dataSource"
+            :uuIdOnly="currUuid"
+            :uuIdName="propValue.uuIdName"
             @onContextMenuRow="handleContextMenuRow"
             @onDbClickRow="handleDbClickRow"
             @onClickRow="handleClickRow"
@@ -30,7 +32,7 @@
                     type="text"
                     v-model="newName"
                 >
-                <div v-else :class="{'active-row': row[propValue.dataUuid] === currUuid}">
+                <div v-else>
                     <el-tooltip
                         effect="dark"
                         :content="row[column.key]"
@@ -46,7 +48,7 @@
                 </div>
             </template>
             <template v-slot:custom="{ row, index, column, colIdx }">
-                <div @click.stop :class="{'active-row1': row[propValue.dataUuid] === currUuid}">
+                <div @click.stop>
                     <el-checkbox 
                         v-if="column?.type === 'checkbox'" 
                         v-model="row[column.key]" 
@@ -119,7 +121,7 @@ export default {
                 reName: '',
                 newName: '',
                 currUuid: '',
-                dataUuid: '',
+                uuIdName: '',
             }),
         },
         element: {
@@ -273,21 +275,5 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-.active-row {
-    background-color: #dee2e6;
-    margin: -5px;
-    padding: 5px;
-    &:hover {
-        background-color: #e9ecef;
-    }
-}
-.active-row1 {
-    margin: -7px;
-    padding-left: 4px;
-    background-color: #dee2e6;
-    &:hover {
-        background-color: #e9ecef;
-    }
 }
 </style>

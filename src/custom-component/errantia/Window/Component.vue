@@ -256,12 +256,14 @@ function selectComponent(item, event) {
 // 关闭窗口
 const handleCloseBox = (uuid) => {
   const index = winDataList.value.findIndex(item => item.uuid === uuid);
-  if (index !== -1) {
-    winDataList.value.splice(index, 1);
+  if (index === -1) return;
+  if (winDataList.value.length === 1) {
+    winDataList.value = [];
+    curWinData.value = {};
+    return;
   }
-  if(winDataList.value.length === 0) {
-    curWinData.value = {}
-  }
+  winDataList.value.splice(index, 1);
+  // curWinData.value = winDataList.value[winDataList.value.length - 1];
 }
 
 const init = ()=>{
