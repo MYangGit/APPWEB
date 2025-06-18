@@ -57,6 +57,7 @@ export default {
     onNameBlur:'',
     onDbClickRow:'',
     onContextMenuRow:'',
-    onClickCheckbox:''
+    onClickCheckbox:'',
+    onClickSelectOption:''
   }
 }
