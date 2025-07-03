@@ -13,6 +13,8 @@ export const useConfirmBoxStore = defineStore('confirmBox', () => {
     cancelText: '',
     width: 400,
     height: 50,
+    autoClose: false,    // 是否开启自动关闭
+    autoCloseDelay: 1000 // 自动关闭时间(毫秒)
   });
   const openConfirmBox = async (options) => {
     deferred = defer();

@@ -17,10 +17,28 @@
 
 <script setup>
 import { rootStore } from '@/stores/rootStore';
-import { computed } from 'vue';
+import { computed, watch, ref, onBeforeUnmount } from 'vue';
 import { isEmpty } from '@/utils/utils'
 
 const confirmBoxState = computed(() => rootStore.confirmBox.confirmBoxState)
+
+// 自动关闭定时器
+const autoCloseTimer = ref(null)
+
+watch(() => confirmBoxState.value.isShow, (newVal) => {
+  if (newVal) {
+    // 如果开启了自动关闭，设置定时器
+    if (!confirmBoxState.value.autoClose) return;
+    autoCloseTimer.value = setTimeout(() => {
+      cancel()
+    }, confirmBoxState.value.autoCloseDelay);
+  } else {
+    // 清除定时器
+    if (autoCloseTimer.value) return;
+    clearTimeout(autoCloseTimer.value)
+    autoCloseTimer.value = null;
+  }
+})
 
 const sure = () => {
   rootStore.confirmBox.resolveConfirmBox()
@@ -29,6 +47,14 @@ const sure = () => {
 const cancel = () => {
   rootStore.confirmBox.rejectConfirmBox()
 }
+
+// 组件销毁时清除定时器
+onBeforeUnmount(() => {
+  if (autoCloseTimer.value) {
+    clearTimeout(autoCloseTimer.value);
+    autoCloseTimer.value = null;
+  }
+});
 
 </script>
 
