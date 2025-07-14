@@ -60,6 +60,7 @@ export default {
     backgroundColor: '',
   },
   actionBinds: {
-    clickTree: ''
+    clickTree: '',
+    mounted: ""
   }
 }

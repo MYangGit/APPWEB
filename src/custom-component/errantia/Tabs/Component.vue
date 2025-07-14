@@ -1,7 +1,7 @@
 <template>
     <div v-if="editMode == 'edit'">
         <el-tabs 
-            style="border: none;"
+            style="border: none"
             v-model="autoActiveName" 
             :tab-position="element.position" 
             type="border-card" 
@@ -26,7 +26,7 @@
     </div>
     <div v-else class="preview">
         <el-tabs 
-            style="border: none;"
+            style="border: none"
             v-model="autoActiveName" 
             :tab-position="element.position" 
             type="border-card"

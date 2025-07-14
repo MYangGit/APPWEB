@@ -9,6 +9,12 @@
                             type="textarea" 
                         />
                 </el-form-item>
+                <el-form-item label="是否裁剪覆盖：">
+                    <el-switch 
+                        v-model="curComponent.propValue.cutAndCover" 
+                        size="small" 
+                    />
+                </el-form-item>
             </el-form>
         </CommonAttr>
     </div>

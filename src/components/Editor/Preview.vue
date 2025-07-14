@@ -85,7 +85,7 @@ export default {
             })
         },
         initWatch () {
-            rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
+            rootStore.dataConfig.watchRegisters.forEach(({state, action, immediate}) => {
                 watch(() => {
                     return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
                 }, (value) => {
@@ -93,7 +93,7 @@ export default {
                         property: state,
                         value
                     })
-                }, { deep: true });
+                }, { immediate:immediate, deep: true });
            })
         },
         async initialize() {

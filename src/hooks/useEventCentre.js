@@ -75,6 +75,7 @@ export const useEventCentre = () => {
       let click = element.actionBinds[clickName];
       if (!click) return
       let fn = getFunction(click)
+      if (!fn) return;
       fn({dataCenter: rootStore.dataConfig.stateSet ,actionCenter: actionCenter.value, globalUtils: useGlobalUtils()}, {
             clickName,
             params: params,

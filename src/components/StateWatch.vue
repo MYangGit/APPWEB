@@ -13,7 +13,8 @@ const form = ref({
   index: -1,
   title: '',
   state: '',
-  action: ''
+  action: '',
+  immediate: false
 })
 
 const extractKeys = (obj) => {
@@ -61,12 +62,14 @@ const handleSubmit = () => {
       title: form.value.title,
       state: form.value.state,
       action: form.value.action,
+      immediate: form.value.immediate
     })
   } else {
     rootStore.dataConfig.watchRegisters.push({
       title: form.value.title,
       state: form.value.state,
       action: form.value.action,
+      immediate: form.value.immediate
     })
   }
 }
@@ -82,6 +85,7 @@ const editRow = (index) => {
     title: item.title,
     state: item.state,
     action: item.action,
+    immediate: item.immediate
   }
   dialogVisible.value = true
 }
@@ -137,6 +141,9 @@ const editRow = (index) => {
         <el-select v-model="form.action" placeholder="请选择动作">
           <el-option v-for="item in getActionOptions()" :key="item" :label="item" :value="item"></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="立即执行">
+        <el-switch v-model="form.immediate" />
       </el-form-item>
     </el-form>
       <template #footer>

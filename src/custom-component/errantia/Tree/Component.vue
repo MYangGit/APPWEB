@@ -119,10 +119,12 @@ export default {
                 return getComputedGet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
             },
             set(val) {
-                this.updateCheckedKeys(val)
                 getComputedSet('value', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
+    },
+    mounted() {
+        onClickOther({element: this.element, clickName: 'mounted', params: { activateText:this.activateText,  treeRef: this.$refs.treeRef }})
     },
 }
 </script>

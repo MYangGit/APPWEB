@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vitePluginString from 'vite-plugin-string'
-import { viteAwesomeSvgLoader } from "vite-awesome-svg-loader";
 
 const getOutputDir = (mode) => {
   switch (mode) {
@@ -28,9 +27,6 @@ export default defineConfig(({mode}) => {
           "**/*.md"
         ]
       }),
-      viteAwesomeSvgLoader({
-        defaultImport: "source-data-uri"
-      })
     ],
     resolve: {
       alias: {
