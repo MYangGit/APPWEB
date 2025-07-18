@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vitePluginString from 'vite-plugin-string'
-import { viteAwesomeSvgLoader } from "vite-awesome-svg-loader";
 import { createHtmlPlugin } from 'vite-plugin-html';
 
 
@@ -51,9 +50,6 @@ export default defineConfig(({mode}) => {
         include: [
           "**/*.md"
         ]
-      }),
-      viteAwesomeSvgLoader({
-        defaultImport: "source-data-uri"
       }),
       createHtmlPlugin({
         inject: {
