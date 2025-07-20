@@ -62,6 +62,8 @@ import ErIcon from "./errantia/Icon/Component.vue"
 import ErIconAttr from "./errantia/Icon/Attr.vue"
 import ErGantt from './errantia/Gantt/Component.vue'
 import ErGanttAttr from './errantia/Gantt/Attr.vue'
+import ErG6 from './errantia/G6/Component.vue'
+import ErG6Attr from './errantia/G6/Attr.vue'
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -109,8 +111,8 @@ const components = {
     ErFileSelection,
     ErForm,
     ErIcon,
-    ErGantt
-
+    ErGantt,
+    ErG6
 };
 const attrs = {
     VTextAttr,
@@ -148,7 +150,8 @@ const attrs = {
     ErFileSelectionAttr,
     ErFormAttr,
     ErIconAttr,
-    ErGanttAttr
+    ErGanttAttr,
+    ErG6Attr
 }
 
 export const install = function (app) {

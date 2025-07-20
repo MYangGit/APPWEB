@@ -30,6 +30,7 @@ import ErFileSelection from './errantia/FileSelection/meta';
 import ErForm from './errantia/Form/meta';
 import ErIcon from './errantia/Icon/meta';
 import ErGantt from './errantia/Gantt/meta';
+import ErG6 from './errantia/G6/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -76,7 +77,8 @@ const componentList = [
     ErFileSelection,
     ErForm,
     ErIcon,
-    ErGantt
+    ErGantt,
+    ErG6
 ];
 
 export const commonStyle = {
