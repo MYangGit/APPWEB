@@ -5,7 +5,7 @@
             :borders="propValue.showBorder"
             :activeClickRow="propValue.activeClickRow"
             :outStyleHeader="{position: 'sticky', zIndex: 99, top: '0px',  ...(propValue.overflowWrap ? { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'} : {})}" 
-            :columns="columns"
+            :columns="visibleColumns"
             :dataSource="dataSource"
             :uuIdOnly="currUuid"
             :uuIdName="propValue.uuIdName"
@@ -14,11 +14,12 @@
             @onClickRow="handleClickRow"
         >   <template v-if="showOperate" v-slot:operate="{ row, index, column }">
                 <erFlex justify="space-around" aligns="center" >
-                    <el-icon v-if="column['openOperate']?.includes('delete')"><Delete @click.stop="handleOperate(row, index, 'delete' )" /></el-icon>
-                    <el-icon v-if="column['openOperate']?.includes('edit')"><Edit @click.stop="handleOperate(row, index, 'edit')" /></el-icon>
-                    <el-icon v-if="column['openOperate']?.includes('pause')"><VideoPause @click.stop="handleOperate(row, index, 'pause')" /></el-icon>
-                    <el-icon v-if="column['openOperate']?.includes('download')"><Download @click.stop="handleOperate(row, index, 'download')" /></el-icon>
-                    <el-icon v-if="column['openOperate']?.includes('view')"><View @click.stop="handleOperate(row, index, 'view')" /></el-icon>
+                    <el-icon title="删除" v-if="column['openOperate']?.includes('delete')"><Delete @click.stop="handleOperate(row, index, 'delete' )" /></el-icon>
+                    <el-icon title="编辑" v-if="column['openOperate']?.includes('edit')"><Edit @click.stop="handleOperate(row, index, 'edit')" /></el-icon>
+                    <el-icon title="暂停" v-if="column['openOperate']?.includes('pause')"><VideoPause @click.stop="handleOperate(row, index, 'pause')" /></el-icon>
+                    <el-icon title="下载" v-if="column['openOperate']?.includes('download')"><Download @click.stop="handleOperate(row, index, 'download')" /></el-icon>
+                    <el-icon title="查看" v-if="column['openOperate']?.includes('view')"><View @click.stop="handleOperate(row, index, 'view')" /></el-icon>
+                    <el-icon title="保存" v-if="column['openOperate']?.includes('save')"><Folder @click.stop="handleOperate(row, index, 'save')" /></el-icon>
                 </erFlex>
             </template>
             <template v-if="serialNumber" v-slot:serialNumber="{ index }">
@@ -57,15 +58,34 @@
                     <el-input
                         v-else-if="column?.type === 'input'"
                         type="text"
-                        style="width: 100%;" 
+                        :style="{ width: `${column?.width}px` }"
                         v-model="row[column.key]"
                         @paste.stop="handlePaste($event, index, colIdx)"
                     />
+                    <el-select
+                        v-else-if="column?.type === 'select'"
+                        v-model="row[column.key]"
+                        :style="{ width: `${column?.width}px` }"
+                        @change="(newVal) => handleSelectChange(newVal, row, index, column)"
+                    >
+                        <template v-if="!isEmpty(column?.options)"  v-for="opt of column.options">
+                            <el-option 
+                                v-if="!isEmpty(opt.index)"
+                                :label="`${opt.label}${opt.index}`" 
+                                :value="opt.value" 
+                            />
+                            <el-option 
+                                v-else
+                                :label="opt.label" 
+                                :value="opt.value" 
+                            />
+                        </template>
+                    </el-select>
                     <div v-else-if="column?.type === 'table'" style="display: flex;">
                         <el-tooltip  
                             v-if="!isEmpty(row[column.key])"
                             effect="dark"
-                            :content="showTable(column, row[column.key])"
+                            :content="`[${showTable(column, row[column.key])}]`"
                             placement="bottom"
                         >
                           <div :style="{ width: `${column?.width}px` }">{{ showTable(column, row[column.key]) }}</div>
@@ -77,7 +97,7 @@
                         :content="row[column.key]"
                         placement="bottom"
                     >
-                       <div class="nameText" :style="{ width: `${column?.width}px` }"  >{{row[column.key]}}</div>
+                       <div class="nameText" :style="{ width: `${column?.width}px`, maxHeight: `300px` }"  >{{row[column.key]}}</div>
                    </el-tooltip>
                 </div>
             </template> 
@@ -199,6 +219,9 @@ export default {
         handleRowCheckbox(row, index, column) {
           onClickOther({element: this.element, clickName:'onClickCheckbox', params: { row, index, column, activateText: this.activateText }})
         },
+        handleSelectChange(newVal, row, index, column) {
+          onClickOther({element: this.element, clickName:'onClickSelectOption', params: { newVal, row, index, column, activateText: this.activateText }})
+        },
         handleOperate(row, index, operate) {
             onClickOther({element: this.element, clickName:'onClickOperate', params: { row, index, operate, activateText: this.activateText }})
         },
@@ -249,6 +272,9 @@ export default {
             set(val) {
                 getComputedSet('columns', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
+        },
+        visibleColumns () {
+            return this.columns.filter(col => col.visible !== false)
         },
         dataSource: {
             get() {

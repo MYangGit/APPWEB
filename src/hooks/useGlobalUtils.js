@@ -16,7 +16,7 @@ import { handlePythonCode } from '@/hooks/usePythonCentre'
 import { useAxios } from '@/hooks/useAxios'
 import { rootStore } from '@/stores/rootStore'
 import { useAllDrawCenter } from '@/hooks/useAllDrawCenter'
-import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
+import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy, parseJson } from '@/utils/utils'
 
 /**
  * @description 全局公共方法暴露中心
@@ -48,5 +48,6 @@ export const useGlobalUtils = () => {
     nameRepeat,
     copyChart,
     uploadPlotlyToBlob,
+    parseJson
   }
 }

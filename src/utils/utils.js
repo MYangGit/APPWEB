@@ -259,3 +259,13 @@ export function flattenImData(imData) {
   // 使用 flat 方法将嵌套的数组结构展平
   return imData.map(innerArray => innerArray.flat());
 }
+
+// parseJson
+export function parseJson(jsonString) {
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error('JSON 解析错误:', error);
+    return null; // 或者返回一个默认值
+  }
+}

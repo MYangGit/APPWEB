@@ -41,6 +41,7 @@ export default {
             type: Object,
             default: () => ({
                 srcPath: '',
+                cutAndCover: false,
             }),
         },
         element: {
@@ -81,12 +82,19 @@ export default {
         isEmpty,
         displaySrcUseCss(srcPath) {
             if (!isEmpty(srcPath)) {
+                if( this.propValue.cutAndCover){
+                    return {
+                        backgroundImage: `url(${srcPath})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center',
+                    }
+                }
                 return {
                     backgroundImage: `url(${srcPath})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    backgroundPosition: '50% center',
-                    width: '100%'
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center center',
                 }
             }
             return {}

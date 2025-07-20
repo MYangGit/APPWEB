@@ -42,8 +42,8 @@
                         @change="(newVal) => handleValueChange(newVal, item)"
                     />
                 </el-form-item>
-                <el-form-item v-show="item.type === 'table' && item.visible !== false" :label="item.label">
-                    <el-button @click.stop="handTable(item)">
+                <el-form-item v-show="['regular_map', 'table'].includes(item.type) && item.visible !== false" :label="item.label">
+                    <el-button :class="{ disabledbtn: item.disabled }" @click.stop="handTable(item)">
                         <el-icon :size="20"><Grid /></el-icon>
                     </el-button> 
                 </el-form-item>
@@ -137,4 +137,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.disabledbtn {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+}
 </style>
