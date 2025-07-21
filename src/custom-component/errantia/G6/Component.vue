@@ -12,22 +12,9 @@ import { ref, onMounted, toRaw, onBeforeUnmount, computed , watch} from "vue";
 import { isEmpty, deepCopy, getComputedGet, getComputedSet } from "@/utils/utils";
 import { rootStore } from "@/stores/rootStore";
 import { Graph , NodeEvent, GraphEvent, register, ExtensionCategory} from "@antv/g6";
-// import { Renderer } from '@antv/g-svg';
 import { useEventCentre } from '@/hooks/useEventCentre';
 import { breathNode, FlyMarkerCubic } from "./custom/index.js";
 
-const colors = [
-  'rgb(64, 174, 247)',
-  'rgb(108, 207, 169)',
-  'rgb(157, 223, 125)',
-  'rgb(240, 198, 74)',
-  'rgb(221, 158, 97)',
-  'rgb(141, 163, 112)',
-  'rgb(115, 136, 220)',
-  'rgb(133, 88, 219)',
-  'rgb(203, 135, 226)',
-  'rgb(227, 137, 163)',
-];
 
 
 const { onClickOther } = useEventCentre();
@@ -121,8 +108,6 @@ const edges = computed({
   },
 });
 // 注册自定义节点类型
-register(ExtensionCategory.NODE, 'dual-label-node', breathNode);
-register(ExtensionCategory.EDGE, 'fly-marker-cubic', FlyMarkerCubic);
 // 渲染容器
 const g6Container = ref(null);
 // 图形实例
@@ -131,10 +116,19 @@ let graph = null;
 // 初始化甘特图的函数
 const initG6 = () => {
   if (!g6Container.value) return;
+  // 销毁之前的图形实例
+  if (graph) {
+    graph.off(); // 移除所有事件监听
+    graph.destroy(); // 销毁图形实例
+    graph = null; // 清空引用
+  }
+  register(ExtensionCategory.NODE, 'dual-label-node', breathNode);
+  register(ExtensionCategory.EDGE, 'fly-marker-cubic', FlyMarkerCubic);
   // 创建图形实例
   graph = new Graph({
     container: g6Container.value,
     autoResize: true, // 自动调整大小
+    fitView: true, // 自动适应视图
     behaviors: ["drag-canvas", "zoom-canvas", "click-select"],
     data: {
       nodes: toRaw(nodes.value),
@@ -190,18 +184,18 @@ const initG6 = () => {
   // 渲染图形
   graph.render();
   // 设置节点的交互事件
-  graph.on(NodeEvent.CLICK, handleNodeClick);
+  // graph.on(NodeEvent.CLICK, handleNodeClick);
   // 设置画布的交互事件
-  graph.on(GraphEvent.AFTER_DRAW, () => {
-    onClickOther({
-        element: props.element, 
-        clickName: 'drawComplete', 
-        params: { 
-          graph: graph,
-          funParam: props.propValue.funParam,
-        }
-    })
-  });
+  // graph.on(GraphEvent.AFTER_DRAW, () => {
+  //   onClickOther({
+  //       element: props.element, 
+  //       clickName: 'drawComplete', 
+  //       params: { 
+  //         graph: graph,
+  //         funParam: props.propValue.funParam,
+  //       }
+  //   })
+  // });
 };
 
 onMounted(() => {

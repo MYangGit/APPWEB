@@ -1,5 +1,4 @@
-import { Circle, CubicHorizontal, subStyleProps, Rect, Graph, ExtensionCategory } from '@antv/g6';
-import { text } from 'body-parser';
+import { Circle, CubicHorizontal, subStyleProps, register, Rect, Graph, ExtensionCategory } from '@antv/g6';
 
 export class breathNode extends Circle {
     onCreate() {

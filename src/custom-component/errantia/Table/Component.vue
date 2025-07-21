@@ -274,7 +274,7 @@ export default {
             }
         },
         visibleColumns () {
-            return this.columns.filter(col => col.visible !== false)
+            return this.columns?.filter(col => col.visible !== false)
         },
         dataSource: {
             get() {

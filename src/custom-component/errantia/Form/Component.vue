@@ -6,7 +6,7 @@
             :size="size"
         >
             <template v-if="!isEmpty(formData)" v-for="item of formData">
-                <el-form-item v-if="item.type === 'input' || isEmpty(item.type)" :label="item.label">
+                <el-form-item v-if="item.type === 'input' && item.visible !== false" :label="item.label">
                     <el-input
                         v-model="item.value"
                         :disabled="item.disabled"

@@ -16,7 +16,7 @@ import add from './pulse/add.svg'
 import copy from './pulse/copy.svg'
 import deletes from './pulse/delete.svg'
 import uca from './sensor/UCA.svg'
-
+import reDraw from  './sensor/Concentric.svg'
 
 export const WIRELESS = {
     newSession,
@@ -33,7 +33,8 @@ export const WIRELESS = {
     add,
     copy,
     deletes,
-    uca
+    uca,
+    reDraw,
 }
 
 export const Radar = {
