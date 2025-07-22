@@ -140,10 +140,15 @@ const initG6 = () => {
       style: {
         halo: true,
         size: 50,
+        // 设置节点的标签样式
+        labelFill: "#fff",
+        labelFontSize: 14,
+        labelFontWeight: 600,
+        iconUrl: () => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix', // 这会变成 attributes.iconUrl
         labelText: (d) => d.data.label, // 节点标签内容
         subtitle: (d) => d.data.subtitle, // 副标题
       },
-      palette: ['#3875f6', '#efb041', '#ec5b56', '#72c240'],
+      palette: ['#3875f6', '#efb041', '#ec5b56', '#72c240', '#5c6bc0', '#ab47bc', '#ff7043', '#8d6e63', '#78909c', '#26a69a'],
       // state: {
       //   selected: {
       //     fill: "red",

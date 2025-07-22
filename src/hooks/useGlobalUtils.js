@@ -17,6 +17,7 @@ import { useAxios } from '@/hooks/useAxios'
 import { rootStore } from '@/stores/rootStore'
 import { useAllDrawCenter } from '@/hooks/useAllDrawCenter'
 import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy, parseJson } from '@/utils/utils'
+import { AIRPORT_DATA } from '@/constant/index'
 
 /**
  * @description 全局公共方法暴露中心
@@ -27,6 +28,7 @@ export const useGlobalUtils = () => {
   const { copyChart, uploadPlotlyToBlob } = useAllDrawCenter()
   return {
     axios,
+    AIRPORT_DATA,
     postQt,
     getObjValue,
     createUuid,

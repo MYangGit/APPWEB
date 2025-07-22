@@ -1,9 +1,8 @@
-import { Circle, CubicHorizontal, subStyleProps, register, Rect, Graph, ExtensionCategory } from '@antv/g6';
-
+import { Circle, CubicHorizontal, subStyleProps} from '@antv/g6';
 export class breathNode extends Circle {
     onCreate() {
         const halo = this.shapeMap.halo;
-        halo.animate([{ lineWidth: 0 }, { lineWidth: 20 }], {
+        halo.animate([{ lineWidth: 0 }, { lineWidth: 40 }], {
             duration: 1000,
             iterations: Infinity,
             direction: 'alternate',
@@ -38,11 +37,17 @@ export class breathNode extends Circle {
 export class FlyMarkerCubic extends CubicHorizontal {
 
   getMarkerStyle(attributes) {
-    return { r: 1, fill: '#c3d5f9', labelText: "飞机", offsetPath: this.shapeMap.key, ...subStyleProps(attributes, 'marker') };
+    return { 
+      r: 1, 
+      fill: '#c3d5f9', 
+      labelFill: "#fff",  
+      labelText: "飞机", 
+      offsetPath: this.shapeMap.key, 
+      ...subStyleProps(attributes, 'marker') 
+    };
   }
 
   onCreate() {
-    console.log('onCreate', this.getMarkerStyle(this.attributes));
     const marker = this.upsert('marker', Circle, this.getMarkerStyle(this.attributes), this);
     marker.animate(
     [
