@@ -10,26 +10,30 @@ import {
   generateReport,
   commonImportFile
 } from '@/services/request/connectBase'
+import { postQt } from '@/services/qtchannel/index'
 import { handleJuliaCode } from '@/hooks/useJuliaCentre'
 import { handlePythonCode } from '@/hooks/usePythonCentre'
+import { useAxios } from '@/hooks/useAxios'
 import { rootStore } from '@/stores/rootStore'
-import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy } from '@/utils/utils'
-import { returnData } from '@/constant'
+import { useAllDrawCenter } from '@/hooks/useAllDrawCenter'
+import { isEmpty, nameRepeat, createUuid, getObjValue, deepCopy, parseJson } from '@/utils/utils'
+import { AIRPORT_DATA } from '@/constant/index'
 
 /**
  * @description 全局公共方法暴露中心
  * @returns 
 */
 export const useGlobalUtils = () => {
+  const { axios } = useAxios()
+  const { copyChart, uploadPlotlyToBlob } = useAllDrawCenter()
   return {
-    returnData,
+    axios,
+    AIRPORT_DATA,
+    postQt,
     getObjValue,
     createUuid,
     deepCopy,
-    commonImportFile,
-    getObjValue,
     generateReport,
-    createUuid,
     closeApp,
     importDesignFile,
     exportDesignFile,
@@ -43,6 +47,9 @@ export const useGlobalUtils = () => {
     handleJuliaCode,
     handlePythonCode,
     isEmpty,
-    nameRepeat
+    nameRepeat,
+    copyChart,
+    uploadPlotlyToBlob,
+    parseJson
   }
 }

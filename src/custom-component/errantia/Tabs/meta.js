@@ -4,6 +4,9 @@ export default {
   icon: 'tabs',
   type: 'errantia',
   propValue: {
+    autoActiveName: "ErTabs1",
+    fixed: "",
+    activateText: "",
     tabsItem: [
       {
         name: 'ErTabs1',
@@ -21,6 +24,9 @@ export default {
     fixedHeight: '',
     display: 'block',
     backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#dcdfe6',
+    borderStyle: 'solid',
   },
   position: 'top',
   childs: [],

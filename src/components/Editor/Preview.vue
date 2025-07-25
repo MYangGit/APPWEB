@@ -3,9 +3,12 @@
         <ComponentWrapper 
             v-for="(item, index) in componentList.filter((i) => !i.pid)" 
             :key="index" 
-            :config="item" 
+            :config="item"
+            :isShow="item.propValue?.isShow"
+            :layoutType="layoutType" 
         />
-        <ConfirmBox></ConfirmBox>
+        <!--  代码调用弹窗 -->
+        <ConfirmBox/>
     </div>
 </template>
 
@@ -17,6 +20,7 @@ import { watch } from 'vue';
 import { getValueByDotKey } from '@/utils/utils'
 import { useGlobalUtils } from '@/hooks/useGlobalUtils';
 import { excuteJsAction } from '@/hooks/useEventCentre';
+import { isSyslabApp } from '@/utils/isPreviewOrApp'
 
 const { initFilePath } = useGlobalUtils();
 export default {
@@ -25,6 +29,10 @@ export default {
         isScreenshot: {
             type: Boolean,
             default: false,
+        },
+        layoutType: {
+            type: String,
+            default: 'normal',
         },
     },
     data() {
@@ -36,6 +44,9 @@ export default {
         },
         watchRegisters () {
             return rootStore.dataConfig.watchRegisters
+        },
+        actionSet () {
+            return rootStore.dataConfig.actionSet
         }
     },
     watch: {
@@ -46,6 +57,14 @@ export default {
             },
             deep: true,
             immediate: true
+        },
+        actionSet:{
+            handler(val) {
+                if (!val) return
+                this.initialize()
+            },
+            deep: true,
+            immediate: true
         }
     },
     created() {
@@ -53,6 +72,7 @@ export default {
         this.initialize();
     },
     methods: {
+        isSyslabApp,
         pageInitAction () {
             let initActionNames = []
             for (const key in rootStore.dataConfig.actionSet) {
@@ -65,7 +85,7 @@ export default {
             })
         },
         initWatch () {
-            rootStore.dataConfig.watchRegisters.forEach(({state, action}) => {
+            rootStore.dataConfig.watchRegisters.forEach(({state, action, immediate}) => {
                 watch(() => {
                     return getValueByDotKey(rootStore.dataConfig.stateSet, state.join('.'))
                 }, (value) => {
@@ -73,11 +93,13 @@ export default {
                         property: state,
                         value
                     })
-                }, { deep: true });
+                }, { immediate:immediate, deep: true });
            })
         },
         async initialize() {
-            await initFilePath();
+            if(isSyslabApp()){
+                await initFilePath();
+            }
             this.pageInitAction()
         },
     },
@@ -88,8 +110,8 @@ export default {
 .bg {
     width: 100%;
     height: 100%;
-    position: fixed;
-    z-index: 10;
+    // position: absolute;
+    // z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;

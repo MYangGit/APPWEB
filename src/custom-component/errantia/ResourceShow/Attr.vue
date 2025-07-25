@@ -1,5 +1,5 @@
 <template>
-    <div class="attr-list">
+    <div class="attr-list" >
         <CommonAttr>
             <el-form>
                 <el-form-item label="src地址">
@@ -13,6 +13,13 @@
                     <el-checkbox 
                         v-model="curComponent.propValue.base64" 
                         label="Base64" 
+                        size="small" 
+                    />
+                </el-form-item>
+                <el-form-item label="css植入">
+                    <el-checkbox 
+                        v-model="curComponent.propValue.cssBg" 
+                        label="css" 
                         size="small" 
                     />
                 </el-form-item>

@@ -7,6 +7,7 @@ export default {
     title: '标题',
     titleWidth: 100,
     disabled: false,
+    disabledText: '',
     activate: false,
     activateText: '',
     iconPath: 'https://img.icons8.com/ios/452/plus-math.png',

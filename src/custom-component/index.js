@@ -46,10 +46,26 @@ import ErCheckBox from './errantia/Checkbox/Component.vue'
 import ErCheckBoxAttr from './errantia/Checkbox/Attr.vue'
 import ErTabs from './errantia/Tabs/Component.vue'
 import ErTabsAttr from './errantia/Tabs/Attr.vue'
-import VInteractivePlot from './VInteractivePlot/Component.vue'
-import VInteractivePlotAttr from './VInteractivePlot/Attr.vue'
 import ErLine from './errantia/Line/Component.vue'
 import ErLineAttr from './errantia/Line/Attr.vue'
+import ErTreeSelect from './errantia/TreeSelect/Component.vue'
+import ErTreeSelectAttr from './errantia/TreeSelect/Attr.vue'
+import ErTree from './errantia/Tree/Component.vue'
+import ErTreeAttr from './errantia/Tree/Attr.vue'
+import ErWindow from './errantia/Window/Component.vue'
+import ErWindowAttr from './errantia/Window/Attr.vue'
+import ErFileSelection from './errantia/FileSelection/Component.vue'
+import ErFileSelectionAttr from './errantia/FileSelection/Attr.vue'
+import ErForm from './errantia/Form/Component.vue'
+import ErFormAttr from './errantia/Form/Attr.vue'
+import ErIcon from "./errantia/Icon/Component.vue"
+import ErIconAttr from "./errantia/Icon/Attr.vue"
+import ErGantt from './errantia/Gantt/Component.vue'
+import ErGanttAttr from './errantia/Gantt/Attr.vue'
+import ErG6 from './errantia/G6/Component.vue'
+import ErG6Attr from './errantia/G6/Attr.vue'
+import ErG6Demo from './errantia/G6Demo/Component.vue'
+import ErG6DemoAttr from './errantia/G6Demo/Attr.vue'
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/Component.vue'
@@ -60,6 +76,10 @@ import ErHandCoding from './errantia/HandCoding/Component.vue'
 import ErHandCodingAttr from './errantia/HandCoding/Attr.vue'
 import ErResourceShow from './errantia/ResourceShow/Component.vue'
 import ErResourceShowAttr from './errantia/ResourceShow/Attr.vue'
+import ErHYTitle from './errantia/hytitle/Component.vue'
+import ErHYTitleAttr from './errantia/hytitle/Attr.vue'
+import ErHYLeft from './errantia/hyleft/Component.vue'
+import ErHYLeftAttr from './errantia/hyleft/Attr.vue'
 
 const components = {
     VText,
@@ -87,11 +107,21 @@ const components = {
     ErCheckBox,
     ErTabs,
     VTableTemp,
-    VInteractivePlot,
     ErAutoDrop,
     ErHandCoding,
     ErResourceShow,
     ErLine,
+    ErTreeSelect,
+    ErTree,
+    ErWindow,
+    ErFileSelection,
+    ErForm,
+    ErIcon,
+    ErGantt,
+    ErG6,
+    ErG6Demo,
+    ErHYTitle,
+    ErHYLeft
 };
 const attrs = {
     VTextAttr,
@@ -119,11 +149,21 @@ const attrs = {
     ErCheckBoxAttr,
     ErTabsAttr,
     VTableTempAttr,
-    VInteractivePlotAttr,
     ErAutoDropAttr,
     ErHandCodingAttr,
     ErResourceShowAttr,
     ErLineAttr,
+    ErTreeSelectAttr,
+    ErTreeAttr,
+    ErWindowAttr,
+    ErFileSelectionAttr,
+    ErFormAttr,
+    ErIconAttr,
+    ErGanttAttr,
+    ErG6Attr,
+    ErG6DemoAttr,
+    ErHYTitleAttr,
+    ErHYLeftAttr
 }
 
 export const install = function (app) {

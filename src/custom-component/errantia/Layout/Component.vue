@@ -3,7 +3,7 @@
     <div :class="{'layout-css': editMode == 'edit' || !isEmpty(element.style.fixedHeight) }">
         <erLayout
             :outStyleHeader="{
-                height: propValue.showHeader ? `${propValue.heightHeader}px`: '0px',
+                height: showHeader ? `${propValue.heightHeader}px`: '0px',
                 backgroundColor: propValue.headerColor,
             }"
             :outStyleLeftSidebar="{
@@ -26,7 +26,7 @@
             }"
             :showLeftSidebar="propValue.showLeftSidebar"
             :showRightSidebar="propValue.showRightSidebar"
-            :showFooter="propValue.showFooter"
+            :showFooter="showFooter"
         >
             <template #header>
                 <div v-if="editMode == 'edit'" style="width: 100%; height: 100%;" class="v-tabs">
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { isEmpty } from '@/utils/utils';
+import { isEmpty, getComputedGet, getComputedSet  } from '@/utils/utils';
 import Container from '../../common/Container.vue';
 import PreviewContainer from '../../common/PreviewContainer.vue';
 import { rootStore } from '@/stores/rootStore';
@@ -164,6 +164,22 @@ export default {
         },
         childs() {
             return rootStore.dataCenter.componentData.filter((i) => i.pid === this.element.id);
+        },
+        showFooter: {
+            get() {
+                return getComputedGet('showFooter', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('showFooter', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        showHeader: {
+            get() {
+                return getComputedGet('showHeader', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('showHeader', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
         },
     },
     methods: {

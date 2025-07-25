@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';   
 
@@ -41,8 +41,16 @@ export default {
         },
     },
     methods: {
+        isEmpty,
         handleValueChange(newVal) {
-            onChange({element: this.element, newValue: newVal})
+            let params = {}
+            if(this.options.length > 0){
+                const findItem = this.options.find(item => item.value === newVal)
+                if(findItem){
+                    params = findItem
+                }
+            }
+            onChange({element: this.element, newValue: newVal, params})
         },
     },
     computed: {
@@ -72,7 +80,12 @@ export default {
         },
         disabled: {
             get() {
-                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                const disVal = getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                // 判断是否为布尔
+                if(typeof disVal === "boolean"){
+                    return disVal
+                }
+                return this.isEmpty(disVal)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

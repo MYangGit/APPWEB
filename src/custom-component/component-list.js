@@ -22,8 +22,18 @@ import ErDialog from './errantia/Dialog/meta';
 import ErGrid from './errantia/Grid/meta';
 import ErCheckBox from './errantia/Checkbox/meta';
 import ErTabs from './errantia/Tabs/meta';
-import VInteractivePlot from './VInteractivePlot/meta';
 import ErLine from './errantia/Line/meta';
+import ErTreeSelect from './errantia/TreeSelect/meta';
+import ErTree from './errantia/Tree/meta';
+import ErWindow from './errantia/Window/meta';
+import ErFileSelection from './errantia/FileSelection/meta';
+import ErForm from './errantia/Form/meta';
+import ErIcon from './errantia/Icon/meta';
+import ErGantt from './errantia/Gantt/meta';
+import ErG6 from './errantia/G6/meta';
+import ErG6Demo from './errantia/G6Demo/meta';
+import HYtITLE from './errantia/hytitle/meta';
+import HYleft from './errantia/hyleft/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -58,13 +68,23 @@ const componentList = [
     ErGrid,
     ErCheckBox,
     ErTabs,
-    VInteractivePlot,
     // 临时业务组件
     VTableTemp,
     ErAutoDrop,
     ErForList,
     ErResourceShow,
     ErLine,
+    ErTreeSelect,
+    ErTree,
+    ErWindow,
+    ErFileSelection,
+    ErForm,
+    ErIcon,
+    ErGantt,
+    ErG6,
+    ErG6Demo,
+    HYtITLE,
+    HYleft,
 ];
 
 export const commonStyle = {

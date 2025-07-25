@@ -6,11 +6,22 @@ const isSyslabApp = () => {
   return import.meta.env.VITE_NODE_ENV === 'SyslabApp'
 }
 
-const isUseVInteractPlot = () => {
-  return false
+const isWebApp = () => {
+  return import.meta.env.VITE_NODE_ENV === 'WebApp'
 }
+
+const isQt = () => {
+  return import.meta.env.VITE_NODE_ENV === 'qt'
+}
+
+const isDesktop = () => {
+  return import.meta.env.VITE_NODE_ENV === 'DesktopApp'
+}
+
 export {
+  isWebApp,
   isPreview,
   isSyslabApp,
-  isUseVInteractPlot,
+  isQt,
+  isDesktop,
 }

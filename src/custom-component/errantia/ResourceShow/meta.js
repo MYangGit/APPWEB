@@ -4,6 +4,7 @@ export default {
   propValue: {
     srcPath: '',
     base64: false,
+    cssBg: false
   },
   icon: 'VPanel',
   type: 'errantia',

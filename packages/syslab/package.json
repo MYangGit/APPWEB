@@ -1,15 +1,15 @@
 {
-  "name": "antennaArrayDesigner",
-  "displayName": "antennaArrayDesigner",
-  "description": "这是一个天线阵列设计器",
+  "name": "CNOOC",
+  "displayName": "CNOOC",
+  "description": "这是一个中海油demo应用",
   "activationEvents": [
-    "onCommand:antennaArrayDesigner"
+    "onCommand:CNOOC"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "antennaArrayDesigner",
-        "title": "antennaArrayDesigner"
+        "command": "CNOOC",
+        "title": "CNOOC"
       }
     ],
     "configuration": [

@@ -12,7 +12,7 @@
                         :hasSubscript="propValue.hasSubscript"
                         :horizontal="propValue.horizontal"
                         :iconPath="useIcon(propValue.iconPath)"
-                        :title="propValue.title"
+                        :title="title"
                         @onAction="handleAction"
                         @onContextMenu="onContextMenu"
                     />
@@ -56,11 +56,13 @@ import { erPicText } from 'errantia';
 import { getComputedGet, getComputedSet, isEmpty } from '@/utils/utils';
 import { useEventCentre } from '@/hooks/useEventCentre';
 import { WIRELESS, Radar  } from '@/assets/AppResources/index.js';
+import { useUtilsCentre } from '@/hooks/useUtilsCentre';
 const useIconS = {
     wireless: WIRELESS,
     radar: Radar
 }
 const { onClickOther } = useEventCentre();
+const { disablePro } = useUtilsCentre();
 export default {
     components: {
         Container,
@@ -71,6 +73,7 @@ export default {
         propValue: {
             type: Object,
             default: () => ({
+                disabledText: '',
                 title: '标题',
                 titleWidth: 100,
                 disabled: false,
@@ -94,9 +97,18 @@ export default {
         return {};
     },
     computed: {
+        title: {
+            get() {
+                return getComputedGet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
         disabled: {
             get() {
-                return getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                return disablePro(disVal, this.propValue?.disabledText)
             },
             set(val) {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)

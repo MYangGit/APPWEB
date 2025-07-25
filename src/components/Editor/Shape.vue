@@ -1,6 +1,7 @@
 <template>
     <div 
         class="shape" 
+        v-show="getShowState(element)"
         :class="{ active }" 
         @click="selectCurComponent" 
         @mousedown="handleMouseDownOnShape"
@@ -24,7 +25,7 @@ import runAnimation from '@/utils/runAnimation';
 import { mapState } from 'pinia';
 import calculateComponentPositonAndSize from '@/utils/calculateComponentPositonAndSize';
 import { mod360 } from '@/utils/translate';
-import { isPreventDrop } from '@/utils/utils';
+import { isPreventDrop, isEmpty, getValueByDotKey } from '@/utils/utils';
 import { rootStore } from '@/stores/rootStore';
 
 export default {
@@ -101,7 +102,27 @@ export default {
         getPointList() {
             return this.element.component === 'line-shape' ? this.pointList2 : this.pointList;
         },
-
+        getShowState(config){
+           if (!config?.visiable) return true
+            if (!config?.visiable.key) return true
+            let value = getValueByDotKey(rootStore.dataConfig.stateSet, config.visiable.key.join('.'))
+            if(isEmpty(config.visiable.value)) {
+                return value
+            }
+            // 如果第一个字符是！，则取反
+            if (config.visiable.value.startsWith('!')) {
+                let userValues = config.visiable.value.slice(1)
+                if (userValues.includes(',')) {
+                    return !userValues.split(',').includes(value)
+                }
+                return value !== userValues
+            }
+            // 如果是,则是多个值
+            if (config.visiable.value.includes(',')) {
+                return config.visiable.value.split(',').includes(value)
+            }
+            return value === config.visiable.value
+        },
         isActive() {
             return this.active && !this.element.isLock;
         },

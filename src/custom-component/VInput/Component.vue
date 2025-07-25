@@ -5,6 +5,7 @@
             v-model.lazy="value" 
             size="small"
             :disabled="disabled"
+            :show-password="showPassword"
             @focus="handleFocus"
             @change="handleValueChange"
             @blur="handleValublur"
@@ -26,6 +27,7 @@ export default {
                 label: '',
                 value: '',
                 disabled: false,
+                showPassword: false
             }),
         },
         element: {
@@ -69,6 +71,14 @@ export default {
                 getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
+        showPassword: {
+            get() {
+                return getComputedGet('showPassword', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('showPassword', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        }
     },
 }
 </script>

@@ -18,7 +18,7 @@
             :class="{
                 lock: item.isLock,
             }"
-        >
+        > 
             <component
                 :is="item.component"
                 v-if="item.component.startsWith('SVG')"
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { deepCopy } from '@/utils/utils';
+import { deepCopy } from '@/utils/utils'
 import { mapState } from 'pinia';
 import generateID from '@/utils/generateID';
 import componentList from '@/custom-component/component-list'; // 左侧列表数据

@@ -3,30 +3,35 @@
         <label v-show="label">{{ label }}：</label>
         <el-checkbox-group  
           v-model="value"
+          :disabled="disabled"
           @change="handleValueChange"
         >
             <el-checkbox 
                 v-for="item, index in options"
                 :key="index"
-                :value="item.value"
                 :label="item.label"
+                :value="item.value"
             ></el-checkbox>
         </el-checkbox-group>
     </div>
 </template>
 
 <script>
-import { getComputedGet, getComputedSet } from '../../utils/utils'
+import { getComputedGet, getComputedSet, isEmpty } from '../../utils/utils'
 import { rootStore } from '@/stores/rootStore';
 import { useEventCentre } from '@/hooks/useEventCentre';
+import { useUtilsCentre } from '@/hooks/useUtilsCentre';
 
 const { onChange } = useEventCentre();
+const { disablePro } = useUtilsCentre();
 export default {
     props: {
         propValue: {
             type: Object,
             default: () => ({
+                disabledText: "",
                 label: '',
+                disabled: false,
                 value: [],
                 options: [],
             }),
@@ -37,6 +42,7 @@ export default {
         },
     },
     methods: {
+        isEmpty,
         handleValueChange(newVal) {
             onChange({element: this.element, newValue: newVal})
         },
@@ -64,6 +70,15 @@ export default {
             },
             set(val) {
                 getComputedSet('options', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        disabled: {
+            get() {
+                let disVal =  getComputedGet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+                return disablePro(disVal, this.propValue?.disabledText)
+            },
+            set(val) {
+                getComputedSet('disabled', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         },
     },

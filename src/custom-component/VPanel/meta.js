@@ -3,7 +3,9 @@ export default {
   label: '面板',
   icon: 'VPanel',
   type: 'box',
-  propValue: {},
+  propValue: {
+    srcPath: ''
+  },
   style: {
     width: 400,
     height: 400,
@@ -12,8 +14,10 @@ export default {
     borderWidth: 0,
     borderColor: '#ffffff',
     borderStyle: 'solid',
+    borderRadius: 0,
     fixedWidth: '',
     fixedHeight: '',
+    padding: 0,
   },
   childs: [],
   position: 'top',

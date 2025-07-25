@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import defer from 'defer-promise'
 
@@ -10,7 +10,11 @@ export const useConfirmBoxStore = defineStore('confirmBox', () => {
     title: '',
     message: '',
     sureText: '',
-    cancelText: ''
+    cancelText: '',
+    width: 400,
+    height: 50,
+    autoClose: false,    // 是否开启自动关闭
+    autoCloseDelay: 1000 // 自动关闭时间(毫秒)
   });
   const openConfirmBox = async (options) => {
     deferred = defer();
@@ -23,10 +27,14 @@ export const useConfirmBoxStore = defineStore('confirmBox', () => {
   }
   const rejectConfirmBox = () => {
     confirmBoxState.value.isShow = false
+    confirmBoxState.value.height = 50;
+    confirmBoxState.value.width = 400;
     deferred.reject();
   }
   const resolveConfirmBox = () => {
     confirmBoxState.value.isShow = false
+    confirmBoxState.value.height = 50;
+    confirmBoxState.value.width = 400;
     deferred.resolve();
   }
   return {

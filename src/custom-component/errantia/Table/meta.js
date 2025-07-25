@@ -2,15 +2,19 @@ export default {
   component: 'ErTable',
   label: '表格',
   propValue: {
+    noDataHints: false,
+    activateText: "",
+    overflowWrap: false,
     showBorder: false,
     activeClickRow: false,
     showOperate: false,
     serialNumber: false,
     textAlign: 'left',
     currUuid: '',
+    uuIdName: '',
     columns: [
         { 
-          type: 'selection',
+          type: 'select',
           title: '姓名',
           key: 'name',
         },
@@ -44,12 +48,16 @@ export default {
     fixedWidth: '',
     fixedHeight: '',
     backgroundColor: '#fff',
+    padding: 0
   },
   actionBinds: {
+    onClickTable: '',
     onClickRow: '',
-    onClickDelete: '',
+    onClickOperate:'',
     onNameBlur:'',
     onDbClickRow:'',
     onContextMenuRow:'',
+    onClickCheckbox:'',
+    onClickSelectOption:''
   }
 }

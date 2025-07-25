@@ -161,6 +161,10 @@ export const getComputedSet = (key, dataBinds, stateSet, propValue, val) => {
  * @returns {boolean}
  */
 export const isEmpty = (key) => {
+  // 处理 File 对象（判断 size）
+  if (key instanceof File) {
+    return key.size === 0;
+  }
   switch (typeof key) {
     case 'string':
       return key.trim().length === 0;
@@ -174,6 +178,11 @@ export const isEmpty = (key) => {
       return true;
   }
 };
+
+// 数组扁平化，默认全部扁平化，传入数字表示扁平化层数
+export function flattenArray(arr = [], depth = Infinity) {
+  return arr.flat(depth);
+}
 
 /**
  * @description: 命名判重
@@ -249,4 +258,14 @@ export function extractReIm(defaultTimeYR) {
 export function flattenImData(imData) {
   // 使用 flat 方法将嵌套的数组结构展平
   return imData.map(innerArray => innerArray.flat());
+}
+
+// parseJson
+export function parseJson(jsonString) {
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error('JSON 解析错误:', error);
+    return null; // 或者返回一个默认值
+  }
 }

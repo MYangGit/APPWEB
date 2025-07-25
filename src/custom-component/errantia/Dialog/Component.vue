@@ -2,9 +2,10 @@
 <template>
     <div v-show="isShowVisible || propValue.showVisible" :class="{'erdialog-header': propValue.showDialogHeader, 'erdialog-footer': true}">
         <erDialog 
-            :title="propValue.title"
+            :title="title"
+            style="color: #000;"
             :width="propValue.width + 'px'"
-            :outStyleBody="{height: propValue.height + 'px', flex: 'none'}"
+            :outStyleBody="{height: propValue.height + 'px', flex: 'none', color: '#000'}"
             :isVisible="isShowVisible || propValue.showVisible"
             @close="isShowVisible = false"
         >
@@ -16,7 +17,7 @@
                 >
                 </Container>
             </div>
-            <div v-else style="width: 100%; height: 100%;" class="v-tabs preview">
+            <div v-else style="width: 100%; height: 100%; color: #000" class="v-tabs preview">
                 <PreviewContainer
                     :element="element"
                     :name="element.id"
@@ -75,6 +76,14 @@ export default {
             },
             set(val) {
                 getComputedSet('isShowVisible', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
+            }
+        },
+        title: {
+            get() {
+                return getComputedGet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue)
+            },
+            set(val) {
+                getComputedSet('title', this.element.dataBinds, rootStore.dataConfig.stateSet, this.propValue, val)
             }
         }
     },

@@ -5,14 +5,23 @@
                 <el-form-item label="label">
                     <el-input v-model="curComponent.propValue.label" size="small" />
                 </el-form-item>
+                <el-form-item label="全部禁用：">
+                    <el-checkbox v-model="curComponent.propValue.disabled" size="small" />
+                </el-form-item>
+                <el-form-item label="禁用文本：">
+                    <el-input v-model="curComponent.propValue.disabledText" size="small" />
+                </el-form-item>
                 <el-form-item label="多选框列表">
                     <el-button size="small" @click="add">+</el-button>
-                    <el-form v-for="item, index in options" :key="index" :inline="true" label-width="40px" size="small" style="padding: 10px 0">
+                    <el-form v-for="item, index in options" :key="index" :inline="true" size="small" style="padding: 10px 0">
                         <el-form-item label="label" style="margin-bottom: 0;">
                             <el-input v-model="item.label" style="width: 50px" />
                         </el-form-item>
                         <el-form-item label="value" style="margin-bottom: 0;">
                             <el-input v-model="item.value" style="width: 50px" />
+                        </el-form-item>
+                        <el-form-item label="禁用：">
+                            <el-checkbox v-model="item.disabled" size="small" />
                         </el-form-item>
                         <el-form-item label="" style="margin-bottom: 0; margin-right: 0;">
                             <el-button @click="deleteRow(index)">-</el-button>
@@ -43,6 +52,7 @@ export default {
             this.options.push({
                 label: '',
                 value: '',
+                disabled: false,
             })
         },
         deleteRow(index) {

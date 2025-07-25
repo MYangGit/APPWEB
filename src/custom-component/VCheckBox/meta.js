@@ -2,6 +2,8 @@ export default {
   component: 'VCheckBox',
   label: '多选框',
   propValue: {
+    disabledText: "",
+    disabled: false,
     value: [],
     label: '字段名',
     options: [
@@ -17,6 +19,8 @@ export default {
     width: 200,
     height: 34,
     fontSize: '',
+    fixedWidth: '',
+    fixedHeight: '',
     fontWeight: 400,
     lineHeight: '',
     letterSpacing: 0,

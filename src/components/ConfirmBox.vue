@@ -1,7 +1,7 @@
 <template>
   <erDialog 
     :title="confirmBoxState.title"
-    width="400px"
+    :width="confirmBoxState.width + 'px'"
     :isVisible="confirmBoxState.isShow"
     :okBtn="confirmBoxState.sureText"
     :cancelBtn="confirmBoxState.cancelText"
@@ -10,15 +10,35 @@
     @cancel="cancel"
     @confirm="sure"
   >
-    <p>{{ confirmBoxState.message }}</p>
+    <div v-if="isEmpty(confirmBoxState.message)" :style="{ height: confirmBoxState.height + 'px' }">暂无数据</div>
+    <div v-else :style="{ height: confirmBoxState.height + 'px' }" class="custom-content">{{confirmBoxState.message}}</div>
   </erDialog>
 </template>
 
 <script setup>
 import { rootStore } from '@/stores/rootStore';
-import { computed } from 'vue';
+import { computed, watch, ref, onBeforeUnmount } from 'vue';
+import { isEmpty } from '@/utils/utils'
 
 const confirmBoxState = computed(() => rootStore.confirmBox.confirmBoxState)
+
+// 自动关闭定时器
+const autoCloseTimer = ref(null)
+
+watch(() => confirmBoxState.value.isShow, (newVal) => {
+  if (newVal) {
+    // 如果开启了自动关闭，设置定时器
+    if (!confirmBoxState.value.autoClose) return;
+    autoCloseTimer.value = setTimeout(() => {
+      cancel()
+    }, confirmBoxState.value.autoCloseDelay);
+  } else {
+    // 清除定时器
+    if (autoCloseTimer.value) return;
+    clearTimeout(autoCloseTimer.value)
+    autoCloseTimer.value = null;
+  }
+})
 
 const sure = () => {
   rootStore.confirmBox.resolveConfirmBox()
@@ -27,6 +47,14 @@ const sure = () => {
 const cancel = () => {
   rootStore.confirmBox.rejectConfirmBox()
 }
+
+// 组件销毁时清除定时器
+onBeforeUnmount(() => {
+  if (autoCloseTimer.value) {
+    clearTimeout(autoCloseTimer.value);
+    autoCloseTimer.value = null;
+  }
+});
 
 </script>
 
@@ -109,5 +137,16 @@ const cancel = () => {
   .btn:hover {
     background-color: #F7FCFF;
   }
+}
+
+.custom-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  overflow-y: scroll;
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
 }
 </style>

@@ -2,13 +2,13 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import localforage from 'localforage';
-import { isPreview, isSyslabApp } from '@/utils/isPreviewOrApp';
+import { isPreview, isSyslabApp, isWebApp } from '@/utils/isPreviewOrApp';
 
 export const useDataConfigStore = defineStore('dataConfig', () => {
   const stateSet = ref({})
   const actionSet = ref({})
   const watchRegisters = ref([])
-  if (!isSyslabApp()) {
+  if (!isSyslabApp() && !isWebApp()) {
     localforage.getItem('stateSet').then(cp => {
       if (!cp) return
       if (Object.keys(stateSet.value).length === 0) stateSet.value = JSON.parse(cp)
