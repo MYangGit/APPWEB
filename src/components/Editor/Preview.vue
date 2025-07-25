@@ -110,8 +110,8 @@ export default {
 .bg {
     width: 100%;
     height: 100%;
-    position: fixed;
-    z-index: 10;
+    // position: absolute;
+    // z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;

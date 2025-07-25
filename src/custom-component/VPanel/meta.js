@@ -14,9 +14,10 @@ export default {
     borderWidth: 0,
     borderColor: '#ffffff',
     borderStyle: 'solid',
+    borderRadius: 0,
     fixedWidth: '',
     fixedHeight: '',
-    padding: 0
+    padding: 0,
   },
   childs: [],
   position: 'top',

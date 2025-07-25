@@ -3,6 +3,7 @@
         <el-tree
             ref="treeRef"
             style="width: 100%; height: 100%;"
+            :style="{ backgroundColor: element.style?.backgroundColor || 'transparent', color: `${element.style?.color} !important` || '#000' }"
             show-checkbox
             check-on-click-node
             :expand-on-click-node = "false"
@@ -167,5 +168,11 @@ export default {
         white-space: nowrap;
         margin-bottom: 0;
     }
+}
+</style>
+
+<style>
+.el-text {
+    color: #fff !important;
 }
 </style>

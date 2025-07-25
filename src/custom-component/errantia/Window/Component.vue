@@ -35,7 +35,7 @@
           />
           <erTable
             v-else-if="item.contentType === 'table'"
-            style="width: 100%; height: 100%; background-color: #fff;"
+            style="width: 100%; height: 100%; background-color: #fff; color: black;"
             :prop-value="item.propValue"
             :element="{
               dataBinds: {},
@@ -120,12 +120,12 @@ const props = defineProps({
 
 // 计算属性，最小化项
 const getMinItems = computed(()=>{
-  return winDataList?.value.filter(item => item.isMinimized) || []
+  return winDataList?.value?.filter(item => item.isMinimized) || []
 })
 
 // 计算属性，最小化项
 const getfilterMinItems = computed(()=>{
-  return winDataList?.value.filter(item => !item.isMinimized) || []
+  return winDataList?.value?.filter(item => !item.isMinimized) || []
 })
 
 const getUuid = computed(()=>{
@@ -267,7 +267,7 @@ const handleCloseBox = (uuid) => {
 }
 
 const init = ()=>{
-   if(winDataList.value.length === 1) {
+   if(winDataList.value?.length === 1) {
       curWinData.value = winDataList.value[0]
    }
  }

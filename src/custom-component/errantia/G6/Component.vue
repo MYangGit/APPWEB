@@ -188,6 +188,7 @@ const initG6 = () => {
   });
   // 渲染图形
   graph.render();
+  // 添加地图
   // 设置节点的交互事件
   // graph.on(NodeEvent.CLICK, handleNodeClick);
   // 设置画布的交互事件

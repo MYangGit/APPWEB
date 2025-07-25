@@ -151,7 +151,7 @@ module.exports = require("vscode");
 /* 5 */
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"appName":"CNOOC","displayName":"CNOOC","startCommand":"CNOOC","startTitle":"CNOOC","publishMoHub":false,"MoHubPort":47736,"icon":"app-icon.png","version":"1.0.0","description":"这是一个中海油demo应用","appTitle":"中海油demo","appTitleEn":"CNOOC","appHeight":750,"appWidth":1200,"appType":"julia"}');
+module.exports = /*#__PURE__*/JSON.parse('{"appName":"CNOOC","displayName":"CNOOC","startCommand":"CNOOC","startTitle":"CNOOC","publishMoHub":false,"MoHubPort":47736,"icon":"app-icon.png","version":"1.0.0","description":"这是一个中海油demo应用","appTitle":"中海油demo","appTitleEn":"CNOOC","appHeight":1200,"appWidth":1700,"appType":"julia"}');
 
 /***/ })
 /******/ 	]);

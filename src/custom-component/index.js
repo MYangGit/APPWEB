@@ -76,6 +76,10 @@ import ErHandCoding from './errantia/HandCoding/Component.vue'
 import ErHandCodingAttr from './errantia/HandCoding/Attr.vue'
 import ErResourceShow from './errantia/ResourceShow/Component.vue'
 import ErResourceShowAttr from './errantia/ResourceShow/Attr.vue'
+import ErHYTitle from './errantia/hytitle/Component.vue'
+import ErHYTitleAttr from './errantia/hytitle/Attr.vue'
+import ErHYLeft from './errantia/hyleft/Component.vue'
+import ErHYLeftAttr from './errantia/hyleft/Attr.vue'
 
 const components = {
     VText,
@@ -115,7 +119,9 @@ const components = {
     ErIcon,
     ErGantt,
     ErG6,
-    ErG6Demo
+    ErG6Demo,
+    ErHYTitle,
+    ErHYLeft
 };
 const attrs = {
     VTextAttr,
@@ -155,7 +161,9 @@ const attrs = {
     ErIconAttr,
     ErGanttAttr,
     ErG6Attr,
-    ErG6DemoAttr
+    ErG6DemoAttr,
+    ErHYTitleAttr,
+    ErHYLeftAttr
 }
 
 export const install = function (app) {

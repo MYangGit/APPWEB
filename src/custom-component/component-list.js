@@ -32,6 +32,8 @@ import ErIcon from './errantia/Icon/meta';
 import ErGantt from './errantia/Gantt/meta';
 import ErG6 from './errantia/G6/meta';
 import ErG6Demo from './errantia/G6Demo/meta';
+import HYtITLE from './errantia/hytitle/meta';
+import HYleft from './errantia/hyleft/meta';
 
 // 临时业务组件
 import VTableTemp from './VTableTemp/meta';
@@ -81,6 +83,8 @@ const componentList = [
     ErGantt,
     ErG6,
     ErG6Demo,
+    HYtITLE,
+    HYleft,
 ];
 
 export const commonStyle = {

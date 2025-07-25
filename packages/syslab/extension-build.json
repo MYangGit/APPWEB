@@ -10,7 +10,7 @@
   "description": "这是一个中海油demo应用",
   "appTitle": "中海油demo",
   "appTitleEn": "CNOOC",
-  "appHeight": 750,
-  "appWidth": 1200,
+  "appHeight": 1200,
+  "appWidth": 1700,
   "appType": "julia"
 }

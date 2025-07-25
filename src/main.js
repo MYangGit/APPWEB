@@ -18,6 +18,7 @@ import router from './router/index.js'
 import { sizeDirect } from './directives/index.js'
 import { isSyslabApp, isWebApp, isDesktop, isQt } from '@/utils/isPreviewOrApp'
 
+
 const EnterApp = (isSyslabApp() || isWebApp() || isQt() || isDesktop()) ? AppSyslab : App
 const app = createApp(EnterApp);
 

@@ -1,3 +1,5 @@
+import { pad } from "lodash";
+
 export default {
   component: 'ErGrid',
   label: 'Grid容器',
@@ -33,6 +35,7 @@ export default {
     borderWidth: 0,
     borderColor: '#ffffff',
     borderStyle: 'solid',
+    padding: 0,
   },
   childs: [],
   items: [],

@@ -18,8 +18,10 @@ import deletes from './pulse/delete.svg'
 import uca from './sensor/UCA.svg'
 import reDraw from  './sensor/Concentric.svg'
 import air from './wireless/OIP-C.webp'
+import zhyl from './wireless/ZHYl.png'
 
 export const WIRELESS = {
+    zhyl,
     newSession,
     loadSession,
     savesSession,

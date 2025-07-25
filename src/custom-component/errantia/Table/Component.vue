@@ -303,3 +303,10 @@ export default {
     white-space: nowrap;
 }
 </style>
+<style>
+  tr , td, th {
+  border-color: #ccc !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+}
+</style>
